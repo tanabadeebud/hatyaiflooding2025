@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HatYai Flood 2025 - Flood Mapping Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #map { z-index: 1; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+                <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                    <span>1. Homepage</span>
+                </a>
+                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
+                    <span>2. Animation Radar Rainfall</span>
+                </a>
+                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
+                    <span>3. Rainfall Stations</span>
+                </a>
+                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
+                    <span>4. Water Level Situations</span>
+                </a>
+                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
+                    <span>5. District Accumulation</span>
+                </a>
+                <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
+                    <i data-lucide="map" class="w-5 h-5 text-blue-600"></i>
+                    <span>6. Flood Mapping</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
+            <p>Local HTML Project v1.0</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
+        <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Satellite-Derived Flood Mapping Dashboard</h2>
+                <p class="text-sm text-slate-500">ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่</p>
+            </div>
+            
+            <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner">
+                <button onclick="toggleFloodMode('daily')" id="btn-mode-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm">
+                    ขอบเขตรายวัน (Daily Imagery)
+                </button>
+                <button onclick="toggleFloodMode('maximum')" id="btn-mode-max" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900">
+                    พื้นที่ท่วมสูงสุด (Maximum Flood Extent)
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">จุดสํารวจคราบน้ำ (Flood Marks)</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="toggle-flood-marks" checked onchange="toggleFloodMarksLayer()" class="sr-only peer">
+                    <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+            </div>
+
+            <div id="date-stepper-container" class="lg:col-span-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 shrink-0">
+                    <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">เลือกวันที่สำรวจ (Observation Date)</span>
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                    <button onclick="adjustDateStep(-1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <select id="flood-date-dropdown" onchange="onDateDropdownChange(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-mono font-medium outline-none focus:border-blue-500 shadow-sm w-56">
+                    </select>
+                    <button onclick="adjustDateStep(1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1">
+            <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[550px]">
+                <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="map" class="w-3.5 h-3.5"></i> Satellite Inundation GIS Viewer</span>
+                    <div class="flex items-center gap-4 tracking-normal font-medium text-[11px] text-slate-600">
+                        <span class="flex items-center gap-1.5"><span class="w-4 h-3 bg-blue-500/40 rounded border border-blue-600 block"></span> ขอบเขตน้ำท่วม</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-red-500 rounded-full block"></span> จุด Flood Mark</span>
+                    </div>
+                </div>
+                <div id="map" class="w-full flex-1 bg-slate-100"></div>
+            </div>
+
+            <div class="xl:col-span-2 flex flex-col gap-6">
+                <div class="bg-white p-4 border border-slate-200 rounded-xl shadow-sm flex flex-col min-h-[220px]">
+                    <div class="mb-2">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Inundation Trend Analysis</h4>
+                        <h3 class="text-base font-black text-slate-900 leading-tight">แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)</h3>
+                    </div>
+                    <div class="relative flex-1">
+                        <canvas id="flood-trend-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[290px]">
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
+                        <span class="flex items-center gap-2"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Subdistrict Flood Ranking</span>
+                        <span id="flood-badge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase">DAILY EXTENT</span>
+                    </div>
+                    <div class="overflow-y-auto flex-1 max-h-[320px]">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
+                                    <th class="px-4 py-3 text-center w-12">Rank</th>
+                                    <th class="px-4 py-3">ตำบลในพื้นที่หาดใหญ่</th>
+                                    <th class="px-4 py-3 text-right w-36">พื้นที่น้ำท่วม (ไร่)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="flood-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Updated Timeline: ขยายให้เริ่มตั้งแต่ 22 พ.ย. 2025 ตามโครงสร้างข้อมูลจริงที่คุณทดสอบ
+        const floodTimeline = [
+            { "id": "20251122", "label": "22 พ.ย. 2025", "total_sqkm": 2.1,  "file": "data/flood_mapping/flood_20251122.geojson" },
+            { "id": "20251123", "label": "23 พ.ย. 2025", "total_sqkm": 5.4,  "file": "data/flood_mapping/flood_20251123.geojson" },
+            { "id": "20251124", "label": "24 พ.ย. 2025", "total_sqkm": 12.4, "file": "data/flood_mapping/flood_20251124.geojson" },
+            { "id": "20251125", "label": "25 พ.ย. 2025", "total_sqkm": 35.8, "file": "data/flood_mapping/flood_20251125.geojson" },
+            { "id": "20251126", "label": "26 พ.ย. 2025", "total_sqkm": 56.2, "file": "data/flood_mapping/flood_20251126.geojson" },
+            { "id": "20251127", "label": "27 พ.ย. 2025", "total_sqkm": 78.4, "file": "data/flood_mapping/flood_20251127.geojson" },
+            { "id": "20251128", "label": "28 พ.ย. 2025", "total_sqkm": 92.1, "file": "data/flood_mapping/flood_20251128.geojson" },
+            { "id": "20251129", "label": "29 พ.ย. 2025", "total_sqkm": 64.5, "file": "data/flood_mapping/flood_20251129.geojson" },
+            { "id": "20251130", "label": "30 พ.ย. 2025", "total_sqkm": 42.1, "file": "data/flood_mapping/flood_20251130.geojson" },
+            { "id": "20251201", "label": "1 ธ.ค. 2025",  "total_sqkm": 21.3, "file": "data/flood_mapping/flood_20251201.geojson" },
+            { "id": "20251202", "label": "2 ธ.ค. 2025",  "total_sqkm": 8.7,  "file": "data/flood_mapping/flood_20251202.geojson" }
+        ];
+
+        const subdistrictFloodDB = {
+            "default": [
+                { "name": "ต.หาดใหญ่", "area_rai": 1250 },
+                { "name": "ต.ควนลัง", "area_rai": 980 },
+                { "name": "ต.คอหงส์", "area_rai": 740 },
+                { "name": "ต.บ้านพรุ", "area_rai": 420 }
+            ],
+            "maximum": [
+                { "name": "ต.หาดใหญ่", "area_rai": 1890 },
+                { "name": "ต.ควนลัง", "area_rai": 1420 },
+                { "name": "ต.คอหงส์", "area_rai": 1150 },
+                { "name": "ต.บ้านพรุ", "area_rai": 680 }
+            ]
+        };
+
+        const floodMarksDB = [
+            { "station": "FM-01 หน้าตลาดกิมหยง", "depth_m": 0.85, "lat": 6.993, "lon": 100.471 },
+            { "station": "FM-02 มหาวิทยาลัยสงขลานครินทร์", "depth_m": 0.45, "lat": 6.998, "lon": 100.498 },
+            { "station": "FM-03 แยกควนลัง", "depth_m": 1.20, "lat": 6.965, "lon": 100.435 },
+            { "station": "FM-04 หน้าที่ว่าการอำเภอหาดใหญ่", "depth_m": 0.60, "lat": 7.002, "lon": 100.476 }
+        ];
+
+        let map, floodGeoJsonLayer, floodMarksLayerGroup, trendChartInstance = null;
+        let currentFloodMode = 'daily'; 
+        let currentDateStepIndex = 6; // เริ่มต้นโฟกัสที่จุดยอดน้ำสูงสุด (28 พ.ย. 2025)
+
+        function initFloodDashboard() {
+            map = L.map('map').setView([6.98, 100.46], 11);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            }).addTo(map);
+
+            floodMarksLayerGroup = L.layerGroup().addTo(map);
+
+            buildDropdownUI();
+            renderFloodGISLayers();
+            renderTrendLineChart();
+        }
+
+        function buildDropdownUI() {
+            const dropdown = document.getElementById('flood-date-dropdown');
+            dropdown.innerHTML = "";
+            floodTimeline.forEach((item, index) => {
+                const opt = document.createElement('option');
+                opt.value = index;
+                opt.innerText = item.label;
+                if (index === currentDateStepIndex) opt.selected = true;
+                dropdown.appendChild(opt);
+            });
+        }
+
+        // FIX FIX FIX: เพิ่มการ return ตัวแปรให้กับระบบ Promise ดึงข้อมูล
+        function renderFloodGISLayers() {
+            if (floodGeoJsonLayer) { map.removeLayer(floodGeoJsonLayer); }
+
+            let currentPath = currentFloodMode === 'maximum' ? 
+                'data/flood_mapping/flood_max.geojson' : 
+                floodTimeline[currentDateStepIndex].file;
+
+            fetch(currentPath + '?t=' + Date.now())
+                .then(res => { 
+                    if (res.ok) {
+                        return res.json(); // บรรทัดแก้ไข: ตรวจสอบและส่งผลลัพธ์ออกไปแปลง
+                    } else {
+                        throw new Error("File missing on server paths");
+                    }
+                })
+                .then(geoJsonData => {
+                    if (geoJsonData && geoJsonData.features) {
+                        drawFloodExtents(geoJsonData);
+                    } else {
+                        drawFallbackFloodCircle();
+                    }
+                })
+                .catch(err => { 
+                    console.warn("CORS/Fetch notification - ใช้กลไกวงกลมจำลองชั่วคราว:", err);
+                    drawFallbackFloodCircle(); 
+                });
+
+            renderFloodMarks();
+            updateTableStats();
+        }
+
+        function drawFloodExtents(geoJsonData) {
+            floodGeoJsonLayer = L.geoJSON(geoJsonData, {
+                style: function() {
+                    return { fillColor: '#3b82f6', color: '#1d4ed8', weight: 1.2, fillOpacity: 0.5 };
+                }
+            }).addTo(map);
+            
+            // ปรับกล้องแผนที่ให้ซูมเข้าหากึ่งกลางของขอบเขตเวกเตอร์ดาวเทียมจริงอัตโนมัติ
+            try {
+                map.fitBounds(floodGeoJsonLayer.getBounds(), { padding: [20, 20] });
+            } catch(e) {}
+        }
+
+        function drawFallbackFloodCircle() {
+            if (floodGeoJsonLayer) { map.removeLayer(floodGeoJsonLayer); }
+            let radius = currentFloodMode === 'maximum' ? 6500 : (floodTimeline[currentDateStepIndex].total_sqkm * 75);
+            floodGeoJsonLayer = L.circle([6.98, 100.46], {
+                radius: radius, color: '#1d4ed8', fillColor: '#3b82f6', fillOpacity: 0.4
+            }).addTo(map);
+        }
+
+        function renderFloodMarks() {
+            floodMarksLayerGroup.clearLayers();
+            const checkbox = document.getElementById('toggle-flood-marks');
+            if (!checkbox.checked) return;
+
+            floodMarksDB.forEach(mark => {
+                const marker = L.circleMarker([mark.lat, mark.lon], {
+                    radius: 7, fillColor: '#ef4444', color: '#ffffff', weight: 1.5, opacity: 1, fillOpacity: 0.9
+                });
+                marker.bindPopup(`
+                    <div class="text-xs font-sans">
+                        <b class="text-slate-900">${mark.station}</b><br>
+                        <div class="pt-1 mt-1 border-t border-slate-100 font-medium">
+                            ระดับน้ำสูงสุด: <span class="text-red-600 font-bold">${mark.depth_m.toFixed(2)} เมตร</span>
+                        </div>
+                    </div>
+                `);
+                floodMarksLayerGroup.addLayer(marker);
+            });
+        }
+
+        function updateTableStats() {
+            const badge = document.getElementById('flood-badge');
+            badge.innerText = currentFloodMode === 'maximum' ? "MAX FLOOD EXTENT" : "DAILY EXTENT";
+
+            const tableData = currentFloodMode === 'maximum' ? subdistrictFloodDB.maximum : subdistrictFloodDB.default;
+            const tbody = document.getElementById('flood-table-body');
+            tbody.innerHTML = "";
+
+            tableData.forEach((item, idx) => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-slate-50 transition-colors";
+                row.innerHTML = `
+                    <td class="px-4 py-3 text-center font-mono text-xs font-bold text-slate-400">${idx + 1}</td>
+                    <td class="px-4 py-3 font-bold text-slate-900">${item.name}</td>
+                    <td class="px-4 py-3 text-right">
+                        <span class="inline-block px-2.5 py-1 text-xs font-bold rounded-lg font-mono text-blue-700 bg-blue-50">
+                            ${item.area_rai.toLocaleString()} ไร่
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderTrendLineChart() {
+            const ctx = document.getElementById('flood-trend-canvas').getContext('2d');
+            if (trendChartInstance) trendChartInstance.destroy();
+
+            trendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: floodTimeline.map(t => t.label.split(" ")[0]),
+                    datasets: [{
+                        label: 'พื้นที่น้ำท่วม (ตร.กม.)',
+                        data: floodTimeline.map(t => t.total_sqkm),
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        window.toggleFloodMode = function(modeKey) {
+            currentFloodMode = modeKey;
+            const container = document.getElementById('date-stepper-container');
+            
+            document.getElementById('btn-mode-daily').className = modeKey === 'daily' ? 
+                "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm" : 
+                "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
+            
+            document.getElementById('btn-mode-max').className = modeKey === 'maximum' ? 
+                "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm" : 
+                "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
+
+            container.style.opacity = modeKey === 'maximum' ? '0.4' : '1';
+            container.style.pointerEvents = modeKey === 'maximum' ? 'none' : 'auto';
+
+            renderFloodGISLayers();
+        };
+
+        window.adjustDateStep = function(direction) {
+            let newIdx = currentDateStepIndex + direction;
+            if (newIdx >= 0 && newIdx < floodTimeline.length) {
+                currentDateStepIndex = newIdx;
+                document.getElementById('flood-date-dropdown').value = newIdx;
+                renderFloodGISLayers();
+            }
+        };
+
+        window.onDateDropdownChange = function(value) {
+            currentDateStepIndex = parseInt(value);
+            renderFloodGISLayers();
+        };
+
+        window.toggleFloodMarksLayer = function() {
+            renderFloodMarks();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initFloodDashboard();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

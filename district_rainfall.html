@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HatYai Flood 2025 - Spatial Rainfall Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #map { z-index: 1; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+                <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                    <span>1. Homepage</span>
+                </a>
+                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
+                    <span>2. Animation Radar Rainfall</span>
+                </a>
+                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
+                    <span>3. Rainfall Stations</span>
+                </a>
+                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
+                    <span>4. Water Level Situations</span>
+                </a>
+                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-blue-600"></i>
+                    <span>5. District Accumulation</span>
+                </a>
+                <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                    <span>6. Flood Mapping</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
+            <p>Local HTML Project v1.0</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
+        <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Spatial Accumulated Rainfall Dashboard</h2>
+                <p class="text-sm text-slate-500">ข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่จำแนกตามขอบเขตการปกครองรายอำเภอและรายตำบลในลุ่มน้ำอู่ตะเภา</p>
+            </div>
+            
+            <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner">
+                <button onclick="switchTimeScale('hourly')" id="btn-hourly" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm">
+                    รายชั่วโมง (Hourly)
+                </button>
+                <button onclick="switchTimeScale('daily')" id="btn-daily" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900">
+                    รายวัน (Daily)
+                </button>
+                <button onclick="switchTimeScale('event')" id="btn-event" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900">
+                    ภาพรวมเหตุการณ์ (Total Event)
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between lg:justify-start gap-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">ขอบเขตพื้นที่ (Spatial Layer)</span>
+                </div>
+                <div class="inline-flex p-0.5 bg-slate-100 rounded-lg border border-slate-200">
+                    <button onclick="switchSpatialLayer('district')" id="btn-layer-district" class="px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition-all">ระดับอำเภอ</button>
+                    <button onclick="switchSpatialLayer('sub_district')" id="btn-layer-subdistrict" class="px-3 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition-all">ระดับตำบล</button>
+                </div>
+            </div>
+
+            <div id="time-stepping-container" class="lg:col-span-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2 shrink-0">
+                    <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">เลือกเวลา (Time Selection)</span>
+                </div>
+                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                    <button onclick="adjustTimeStep(-1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                    </button>
+                    <select id="time-step-dropdown" onchange="onTimeDropdownChange(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-mono font-medium outline-none focus:border-blue-500 shadow-sm w-48 sm:w-56">
+                        </select>
+                    <button onclick="adjustTimeStep(1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1">
+            <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[520px]">
+                <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <span class="flex items-center gap-2"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Rainfall GIS Layer</span>
+                    <div class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 5 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 5 - 25 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 25 - 50 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 50 มม.</span>
+                    </div>
+                </div>
+                <div id="map" class="w-full flex-1 bg-slate-100"></div>
+            </div>
+
+            <div class="xl:col-span-2 flex flex-col gap-6">
+                <div class="bg-white p-4 border border-slate-200 rounded-xl shadow-sm grid grid-cols-1 sm:grid-cols-2 items-center gap-4">
+                    <div class="relative max-h-[160px] flex justify-center">
+                        <canvas id="rainfall-pie-canvas"></canvas>
+                    </div>
+                    <div class="space-y-1.5 text-center sm:text-left">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Spatial Distribution</h4>
+                        <h3 class="text-base font-black text-slate-900 leading-tight">สัดส่วนพื้นที่ความเข้มฝน</h3>
+                        <p class="text-xs text-slate-500 font-medium">สัดส่วนจำนวนพื้นที่ที่ตรวจพบความเช้มฝนในแต่ละเกณฑ์ความรุนแรง ณ เวลาที่เลือก</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[350px]">
+                    <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
+                        <span class="flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Area Accumulation Ranking</span>
+                        <span id="timeframe-badge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase">HOURLY</span>
+                    </div>
+                    <div class="overflow-y-auto flex-1 max-h-[400px]">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
+                                    <th class="px-4 py-3 text-center w-12">Rank</th>
+                                    <th class="px-4 py-3">พื้นที่ศึกษา (Area Name)</th>
+                                    <th class="px-4 py-3 text-right w-36">ปริมาณฝน (Rainfall)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="district-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // TIME LOOKUP ENGINE KEYS
+        let rainfallTelemetryDB = {
+    		district: [],
+    		sub_district: []
+	};
+
+	let timeControlTimeline = {
+    		hourly_steps: [],
+    		daily_steps: []
+	};
+
+        let map, geoJsonLayer, pieChartInstance = null;
+        let currentTimeScale = 'hourly';
+        let currentSpatialLayer = 'district'; // 'district' or 'sub_district'
+        let currentTimeStepIndex = 3; // Defaults to index 3 ("11/25 10:00")
+
+        function getThresholdColor(val, scale) {
+            if (val <= 0) return "#e2e8f0";
+            if (scale === 'daily') {
+                if (val < 10) return "#10b981";
+                if (val < 35) return "#f59e0b";
+                if (val < 90) return "#ef4444";
+                return "#9333ea";
+            } else {
+                if (val < 5) return "#10b981";
+                if (val < 25) return "#f59e0b";
+                if (val < 50) return "#ef4444";
+                return "#9333ea";
+            }
+        }
+
+        function getRainfallValue(item) {
+            if (currentTimeScale === 'event') return item.event;
+            return currentTimeScale === 'daily' ? (item.daily[currentTimeStepIndex] || 0) : (item.hourly[currentTimeStepIndex] || 0);
+        }
+
+        async function loadDashboardData() {
+            try { 
+                const [telemetryResponse, timelineResponse] =
+                    await Promise.all([
+                        fetch(`data/radar_telemetry.json?t=${Date.now()}`),
+                        fetch(`data/time_control.json?t=${Date.now()}`)
+                    ]);
+                if (!telemetryResponse.ok) {
+                    throw new Error("radar_telemetry.json not found");
+                }
+                if (!timelineResponse.ok) {
+                    throw new Error("time_control.json not found");
+                }
+        
+                rainfallTelemetryDB =
+                    await telemetryResponse.json();
+        
+                timeControlTimeline =
+                    await timelineResponse.json();
+        
+                console.log(
+                    "Dashboard data loaded successfully"
+                );
+        
+            }
+            catch (error) {
+        
+                console.error(
+                    "Data loading error:",
+                    error
+                );
+        
+            }
+        
+        }
+        function initSpatialMap() {
+            map = L.map('map').setView([6.93, 100.45], 10);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO'
+            }).addTo(map);
+            renderSpatialLayers();
+        }
+
+        // 💡 FETCH IMPLEMENTATION PIPELINE FOR REAL LOCAL PRODUCTION FILES
+        function renderSpatialLayers() {
+            if (geoJsonLayer) { map.removeLayer(geoJsonLayer); }
+
+            // Dynamic Asset Path Routing
+            const geoJsonPath =
+    		currentSpatialLayer === "district"
+        		? "data/district_boundary.geojson"
+       			: "data/subdistrict_boundary.geojson";
+
+            fetch(geoJsonPath)
+                .then(response => { if (response.ok) return response.json(); })
+                .then(realGeoJson => {
+                    if (realGeoJson) {
+                        drawGeoJsonToMap(realGeoJson);
+                    } else {
+                        // Fallback Generator if Local File Asset Parsing Fails
+                        drawGeoJsonToMap(generateSpatialMockFeatures(rainfallTelemetryDB[currentSpatialLayer]));
+                    }
+                }).catch(err => {
+                    drawGeoJsonToMap(generateSpatialMockFeatures(rainfallTelemetryDB[currentSpatialLayer]));
+                });
+        }
+
+        function drawGeoJsonToMap(geoJsonData) {
+            if (geoJsonLayer) map.removeLayer(geoJsonLayer);
+            geoJsonLayer = L.geoJSON(geoJsonData, {
+                style: function (feature) {
+                    const featureCode = currentSpatialLayer === 'district' ? feature.properties.adm2_pcode : feature.properties.adm3_pcode;
+                    const dataRow = rainfallTelemetryDB[currentSpatialLayer].find(d => d.code === String(featureCode));
+                    const value = dataRow ? getRainfallValue(dataRow) : 0;
+                    
+                    return { 
+                        fillColor: getThresholdColor(value, currentTimeScale), // แก้ไขตรงนี้
+                        weight: 1.5, opacity: 1, color: '#ffffff', fillOpacity: 0.75 
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    const featureCode = currentSpatialLayer === 'district' ? 
+                                        feature.properties.adm2_pcode : 
+                                        feature.properties.adm3_pcode;
+                    
+                    const dataRow = rainfallTelemetryDB[currentSpatialLayer].find(d => d.code === String(featureCode));
+                    const val = dataRow ? getRainfallValue(dataRow) : 0;
+                    
+                    // 💡 ดึงชื่อภาษาไทย (adm3_name1 หรือ adm2_name1) จากไฟล์ GeoJSON ของคุณมาโชว์ใน Popup
+                    const name = currentSpatialLayer === 'district' ? 
+                                 feature.properties.adm2_name1 : 
+                                 (feature.properties.adm3_name1 ? 'ต.' + feature.properties.adm3_name1 : "ไม่ทราบชื่อ");
+        
+                    layer.bindPopup(`
+                        <div class="text-xs font-sans">
+                            <b>${name}</b> (${featureCode})<br>
+                            <div class="pt-1 mt-1 border-t border-slate-100 font-medium">
+                                ฝนสะสม: <span class="text-blue-600 font-bold">${val.toFixed(2)} มม.</span>
+                            </div>
+                        </div>
+                    `);
+                    
+                    layer.on({
+                        mouseover: function (e) { e.target.setStyle({ fillOpacity: 0.9, weight: 2.5 }); },
+                        mouseout: function (e) { e.target.setStyle({ fillOpacity: 0.75, weight: 1.5 }); }
+                    });
+                }
+            }).addTo(map);
+        }
+
+        function syncDropdownTimelineUI() {
+            const dropdown = document.getElementById('time-step-dropdown');
+            const steppingContainer = document.getElementById('time-stepping-container');
+            dropdown.innerHTML = "";
+
+            if (currentTimeScale === 'event') {
+                steppingContainer.style.display = 'none';
+                return;
+            }
+            steppingContainer.style.display = 'flex';
+
+            const steps = currentTimeScale === 'daily' ? timeControlTimeline.daily_steps : timeControlTimeline.hourly_steps;
+            if (currentTimeStepIndex >= steps.length) { currentTimeStepIndex = steps.length - 1; }
+
+            steps.forEach((stepLabel, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.innerText = stepLabel;
+                if (idx === currentTimeStepIndex) opt.selected = true;
+                dropdown.appendChild(opt);
+            });
+        }
+
+        window.adjustTimeStep = function(direction) {
+            const steps = currentTimeScale === 'daily' ? timeControlTimeline.daily_steps : timeControlTimeline.hourly_steps;
+            let newIndex = currentTimeStepIndex + direction;
+            if (newIndex >= 0 && newIndex < steps.length) {
+                currentTimeStepIndex = newIndex;
+                document.getElementById('time-step-dropdown').value = newIndex;
+                updateDashboardTelemetryEngine();
+            }
+        };
+
+        window.onTimeDropdownChange = function(selectedIndex) {
+            currentTimeStepIndex = parseInt(selectedIndex);
+            updateDashboardTelemetryEngine();
+        };
+
+        window.switchTimeScale = function(scaleKey) {
+            currentTimeScale = scaleKey;
+            ['hourly', 'daily', 'event'].forEach(s => {
+                document.getElementById(`btn-${s}`).className = s === scaleKey ? 
+                "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm" :
+                "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
+            });
+            syncDropdownTimelineUI();
+            updateDashboardTelemetryEngine();
+        };
+
+        // 💡 SPATIAL LAYER INTERFACE TOGGLE CONTROL KEY 
+        window.switchSpatialLayer = function(layerKey) {
+            currentSpatialLayer = layerKey;
+            document.getElementById('btn-layer-district').className = layerKey === 'district' ? 
+                "px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition-all" : 
+                "px-3 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition-all";
+            document.getElementById('btn-layer-subdistrict').className = layerKey === 'sub_district' ? 
+                "px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition-all" : 
+                "px-3 py-1.5 text-xs font-semibold rounded-md text-slate-500 hover:text-slate-900 transition-all";
+            
+            updateDashboardTelemetryEngine();
+        };
+
+        function updateDashboardTelemetryEngine() {
+            const list = rainfallTelemetryDB[currentSpatialLayer].sort((a, b) => getRainfallValue(b) - getRainfallValue(a));
+            const tbody = document.getElementById('district-table-body');
+            tbody.innerHTML = "";
+        
+            // ตัวแปรสำหรับเก็บค่าที่จะส่งไปให้ Pie Chart
+            let counts = { grey: 0, green: 0, yellow: 0, red: 0, purple: 0 };
+        
+            list.forEach((item, index) => {
+                const val = getRainfallValue(item);
+                const colorHex = getThresholdColor(val, currentTimeScale);
+        
+                // นำค่าไปนับรวมใน counts ตามสีที่ได้จาก Threshold
+                if (val <= 0) counts.grey++;
+                else if (colorHex === "#10b981") counts.green++;
+                else if (colorHex === "#f59e0b") counts.yellow++;
+                else if (colorHex === "#ef4444") counts.red++;
+                else counts.purple++;
+        
+                const row = document.createElement('tr');
+                row.className = "hover:bg-slate-50 transition-colors border-b";
+                row.innerHTML = `
+                    <td class="px-4 py-3 text-center font-mono text-xs font-bold text-slate-400">${index + 1}</td>
+                    <td class="px-4 py-3 font-bold text-slate-900">${item.name_th}</td>
+                    <td class="px-4 py-3 text-right text-xs font-bold" style="color:${colorHex}">
+                        ${val.toFixed(2)} มม.
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        
+            // เรียกฟังก์ชันวาดกราฟหลังจากได้ค่า counts แล้ว
+            renderDistributionPieChart(counts);
+            renderSpatialLayers();
+        }
+
+        function renderDistributionPieChart(counts) {
+            const canvas = document.getElementById('rainfall-pie-canvas');
+            if (!canvas) return; // กัน Error ถ้าหา Canvas ไม่เจอ
+            
+            const ctx = canvas.getContext('2d');
+            if (pieChartInstance !== null) {
+                pieChartInstance.destroy();
+            }
+        
+            pieChartInstance = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['ไม่มีฝน', 'ฝนเล็กน้อย', 'ฝนปานกลาง', 'ฝนหนัก', 'ฝนหนักมาก'],
+                    datasets: [{
+                        data: [counts.grey, counts.green, counts.yellow, counts.red, counts.purple],
+                        backgroundColor: ['#e2e8f0', '#10b981', '#f59e0b', '#ef4444', '#9333ea'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } } 
+                }
+            });
+        }
+
+        function generateSpatialMockFeatures(sourceArray) {
+            return {
+                "type": "FeatureCollection",
+                "features": sourceArray.map(item => {
+                    const r = currentSpatialLayer === 'district' ? 0.05 : 0.025;
+                    return {
+                        "type": "Feature",
+                        "properties": { "code": item.code, "name": item.name_th },
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [[
+                                [item.lon - r, item.lat - r], [item.lon + r, item.lat - r],
+                                [item.lon + r, item.lat + r], [item.lon - r, item.lat + r],
+                                [item.lon - r, item.lat - r]
+                            ]]
+                        }
+                    };
+                })
+            };
+        }
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            async () => {
+        
+                await loadDashboardData();
+        
+                initSpatialMap();
+        
+                syncDropdownTimelineUI();
+        
+                updateDashboardTelemetryEngine();
+        
+                lucide.createIcons();
+        
+            }
+        );
+    </script>
+</body>
+</html>

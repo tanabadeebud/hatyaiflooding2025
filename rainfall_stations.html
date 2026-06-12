@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HatYai Flood 2025 - Radar Rainfall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+                <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                </div>
+            </div>
+
+            <nav class="space-y-1">
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                    <span>1. Homepage</span>
+                </a>
+
+                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-blue-600"></i>
+                    <span>2. Animation Radar Rainfall</span>
+                </a>
+
+                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
+                    <span>3. Rainfall Stations</span>
+                </a>
+
+                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
+                    <span>4. Water Level Situations</span>
+                </a>
+
+                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
+                    <span>5. District Accumulation</span>
+                </a>
+
+                <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                    <span>6. Flood Mapping</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
+            <p>Local HTML Project v1.0</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
+        
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Radar Rainfall Analysis</h2>
+                <p class="text-sm text-slate-500">Hourly intensity paired with total system running cumulative outputs.</p>
+            </div>
+            <div class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-xs font-mono text-slate-700 shadow-sm" id="live-indicator">
+                INDEX: 0 / 0
+            </div>
+        </header>
+
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+            
+            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                
+                <div class="flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                    <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase">Jump to Time:</label>
+                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-3 py-1.5 text-sm font-medium text-slate-700 focus:border-blue-500 outline-none shadow-sm max-w-xs">
+                        </select>
+                </div>
+
+                <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
+                    <i data-lucide="gauge" class="w-4 h-4 text-slate-400"></i>
+                    <span>Playback Speed:</span>
+                    <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-1 text-slate-700 shadow-sm outline-none">
+                        <option value="1000">1.0s / step</option>
+                        <option value="400" selected>0.4s / step</option>
+                        <option value="150">0.15s / step</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="bg-slate-100 relative p-2 flex items-center justify-center min-h-[400px]">
+                <img id="radar-frame" src="" alt="Radar Sequence Map Frame" class="max-w-full h-auto rounded shadow-sm border border-slate-200/60">
+                
+                <div id="loading-overlay" class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center gap-2 z-20 transition-opacity duration-300">
+                    <i data-lucide="loader-2" class="w-8 h-8 text-blue-600 animate-spin"></i>
+                    <span class="text-xs font-bold text-slate-600">Loading Radar Sequence Map Matrix...</span>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-slate-200 space-y-4 bg-white">
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-mono font-bold text-slate-400">START</span>
+                    <input type="range" id="timeline-slider" min="0" max="0" value="0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    <span class="text-xs font-mono font-bold text-slate-400">END</span>
+                </div>
+
+                <div class="flex items-center justify-center gap-2">
+                    <button id="btn-first" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="First Frame">
+                        <i data-lucide="chevrons-left" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-prev" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Previous Frame">
+                        <i data-lucide="skip-back" class="w-4 h-4"></i>
+                    </button>
+                    
+                    <button id="btn-play" class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow transition min-w-[100px] justify-center">
+                        <i data-lucide="play" class="w-4 h-4" id="play-icon"></i>
+                        <span id="play-text">Play</span>
+                    </button>
+                    
+                    <button id="btn-next" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Next Frame">
+                        <i data-lucide="skip-forward" class="w-4 h-4"></i>
+                    </button>
+                    <button id="btn-last" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Last Frame">
+                        <i data-lucide="chevrons-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const IMAGE_FOLDER_PATH = "web_frames/";
+
+        function generateTimeSteps(startStr, endStr) {
+            let steps = [];
+            let current = new Date(startStr);
+            const end = new Date(endStr);
+            
+            while(current <= end) {
+                steps.push(new Date(current));
+                current.setHours(current.getHours() + 1);
+            }
+            return steps;
+        }
+
+        const timeSteps = generateTimeSteps("2025-11-19T08:00:00", "2025-11-28T07:00:00");
+
+        function formatTimestampToFilename(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            const h = String(dateObj.getHours()).padStart(2, '0');
+            return `${y}${m}${d}${h}00`;
+        }
+
+        function formatToHumanReadable(dateObj) {
+            return dateObj.toLocaleString('en-US', { 
+                year: 'numeric', month: 'short', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit', hour12: false 
+            }) + " ICT";
+        }
+
+        const frameSequence = timeSteps.map((dt, index) => {
+            return {
+                index: index,
+                filename: `${IMAGE_FOLDER_PATH}frame_${formatTimestampToFilename(dt)}.png`,
+                label: formatToHumanReadable(dt)
+            };
+        });
+
+        let currentFrameIndex = 0;
+        let isPlaying = false;
+        let playIntervalTimer = null;
+        let playSpeedMs = 400;
+
+        const frameImg = document.getElementById('radar-frame');
+        const slider = document.getElementById('timeline-slider');
+        const selector = document.getElementById('datetime-selector');
+        const speedSelector = document.getElementById('speed-selector');
+        const indicator = document.getElementById('live-indicator');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        const btnPlay = document.getElementById('btn-play');
+        const playIcon = document.getElementById('play-icon');
+        const playText = document.getElementById('play-text');
+
+        frameSequence.forEach(frm => {
+            const opt = document.createElement('option');
+            opt.value = frm.index;
+            opt.innerText = frm.label;
+            selector.appendChild(opt);
+        });
+
+        slider.max = frameSequence.length - 1;
+
+        function renderActiveFrame(index) {
+            if(index < 0 || index >= frameSequence.length) return;
+            currentFrameIndex = index;
+            
+            const activeFrame = frameSequence[currentFrameIndex];
+            frameImg.src = activeFrame.filename;
+            
+            slider.value = currentFrameIndex;
+            selector.value = currentFrameIndex;
+            indicator.innerText = `FRAME: ${currentFrameIndex + 1} / ${frameSequence.length}`;
+        }
+
+        frameImg.onload = () => {
+            loadingOverlay.classList.add('opacity-0');
+            setTimeout(() => loadingOverlay.style.display = 'none', 300);
+        };
+
+        function startPlaybackAnimationLoop() {
+            isPlaying = true;
+            playText.innerText = "Pause";
+            playIcon.setAttribute('data-lucide', 'pause');
+            lucide.createIcons();
+
+            playIntervalTimer = setInterval(() => {
+                let nextFrame = currentFrameIndex + 1;
+                if(nextFrame >= frameSequence.length) {
+                    nextFrame = 0;
+                }
+                renderActiveFrame(nextFrame);
+            }, playSpeedMs);
+        }
+
+        function stopPlaybackAnimationLoop() {
+            isPlaying = false;
+            playText.innerText = "Play";
+            playIcon.setAttribute('data-lucide', 'play');
+            lucide.createIcons();
+            clearInterval(playIntervalTimer);
+        }
+
+        btnPlay.addEventListener('click', () => {
+            if(isPlaying) stopPlaybackAnimationLoop();
+            else startPlaybackAnimationLoop();
+        });
+
+        document.getElementById('btn-next').addEventListener('click', () => {
+            stopPlaybackAnimationLoop();
+            if(currentFrameIndex < frameSequence.length - 1) renderActiveFrame(currentFrameIndex + 1);
+        });
+
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            stopPlaybackAnimationLoop();
+            if(currentFrameIndex > 0) renderActiveFrame(currentFrameIndex - 1);
+        });
+
+        document.getElementById('btn-first').addEventListener('click', () => {
+            stopPlaybackAnimationLoop();
+            renderActiveFrame(0);
+        });
+
+        document.getElementById('btn-last').addEventListener('click', () => {
+            stopPlaybackAnimationLoop();
+            renderActiveFrame(frameSequence.length - 1);
+        });
+
+        slider.addEventListener('input', (e) => {
+            stopPlaybackAnimationLoop();
+            renderActiveFrame(parseInt(e.target.value));
+        });
+
+        selector.addEventListener('change', (e) => {
+            stopPlaybackAnimationLoop();
+            renderActiveFrame(parseInt(e.target.value));
+        });
+
+        speedSelector.addEventListener('change', (e) => {
+            playSpeedMs = parseInt(e.target.value);
+            if(isPlaying) {
+                stopPlaybackAnimationLoop();
+                startPlaybackAnimationLoop();
+            }
+        });
+
+        lucide.createIcons();
+        renderActiveFrame(0);
+    </script>
+</body>
+</html>
