@@ -98,7 +98,7 @@
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                     </button>
                     <select id="time-step-dropdown" onchange="onTimeDropdownChange(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-mono font-medium outline-none focus:border-blue-500 shadow-sm w-48 sm:w-56">
-                        </select>
+                    </select>
                     <button onclick="adjustTimeStep(1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
                         <i data-lucide="chevron-right" class="w-4 h-4"></i>
                     </button>
@@ -110,12 +110,12 @@
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[520px]">
                 <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span class="flex items-center gap-2"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Rainfall GIS Layer</span>
-                    <div class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
+                    <div id="map-legend-labels" class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 5 มม.</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 5 - 25 มม.</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 25 - 50 มม.</span>
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 50 มม.</span>
+                        <span id="legend-green" class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 5 มม.</span>
+                        <span id="legend-yellow" class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 5 - 25 มม.</span>
+                        <span id="legend-red" class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 25 - 50 มม.</span>
+                        <span id="legend-purple" class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 50 มม.</span>
                     </div>
                 </div>
                 <div id="map" class="w-full flex-1 bg-slate-100"></div>
@@ -143,12 +143,12 @@
                             <thead>
                                 <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
                                     <th class="px-4 py-3 text-center w-12">Rank</th>
-                                    <th class="px-4 py-3">พื้นที่ศึกษา (Area Name)</th>
+                                    <th class="px-4 py-3">ตำบล (Sub-District)</th>
                                     <th class="px-4 py-3 text-right w-36">ปริมาณฝน (Rainfall)</th>
                                 </tr>
                             </thead>
                             <tbody id="district-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -159,28 +159,35 @@
     <script>
         // TIME LOOKUP ENGINE KEYS
         let rainfallTelemetryDB = {
-    		district: [],
-    		sub_district: []
-	};
+            district: [],
+            sub_district: []
+        };
 
-	let timeControlTimeline = {
-    		hourly_steps: [],
-    		daily_steps: []
-	};
+        let timeControlTimeline = {
+            hourly_steps: [],
+            daily_steps: []
+        };
 
         let map, geoJsonLayer, pieChartInstance = null;
         let currentTimeScale = 'hourly';
         let currentSpatialLayer = 'district'; // 'district' or 'sub_district'
         let currentTimeStepIndex = 3; // Defaults to index 3 ("11/25 10:00")
 
-        function getThresholdColor(val, scale) {
+	function getThresholdColor(val, scale) {
             if (val <= 0) return "#e2e8f0";
             if (scale === 'daily') {
                 if (val < 10) return "#10b981";
                 if (val < 35) return "#f59e0b";
                 if (val < 90) return "#ef4444";
                 return "#9333ea";
+            } else if (scale === 'event') {
+                // FIX: Updated Total Event thresholds to: light 0.2-50, moderate 50-150, heavy 150-300, extremely heavy 300+
+                if (val < 50) return "#10b981";
+                if (val < 150) return "#f59e0b";
+                if (val < 300) return "#ef4444";
+                return "#9333ea";
             } else {
+                // Hourly scale thresholds
                 if (val < 5) return "#10b981";
                 if (val < 25) return "#f59e0b";
                 if (val < 50) return "#ef4444";
@@ -193,6 +200,31 @@
             return currentTimeScale === 'daily' ? (item.daily[currentTimeStepIndex] || 0) : (item.hourly[currentTimeStepIndex] || 0);
         }
 
+	function updateLegendUI() {
+            const green = document.getElementById('legend-green');
+            const yellow = document.getElementById('legend-yellow');
+            const red = document.getElementById('legend-red');
+            const purple = document.getElementById('legend-purple');
+            
+            if (currentTimeScale === 'daily') {
+                green.innerHTML = '<span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 10 มม.';
+                yellow.innerHTML = '<span class="w-3 h-3 bg-amber-500 rounded block"></span> 10 - 35 มม.';
+                red.innerHTML = '<span class="w-3 h-3 bg-red-500 rounded block"></span> 35 - 90 มม.';
+                purple.innerHTML = '<span class="w-3 h-3 bg-purple-600 rounded block"></span> > 90 มม.';
+            } else if (currentTimeScale === 'event') {
+                // FIX: Synchronized map legend text formatting for Total Event mode
+                green.innerHTML = '<span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 50 มม.';
+                yellow.innerHTML = '<span class="w-3 h-3 bg-amber-500 rounded block"></span> 50 - 150 มม.';
+                red.innerHTML = '<span class="w-3 h-3 bg-red-500 rounded block"></span> 150 - 300 มม.';
+                purple.innerHTML = '<span class="w-3 h-3 bg-purple-600 rounded block"></span> > 300 มม.';
+            } else {
+                green.innerHTML = '<span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 5 มม.';
+                yellow.innerHTML = '<span class="w-3 h-3 bg-amber-500 rounded block"></span> 5 - 25 มม.';
+                red.innerHTML = '<span class="w-3 h-3 bg-red-500 rounded block"></span> 25 - 50 มม.';
+                purple.innerHTML = '<span class="w-3 h-3 bg-purple-600 rounded block"></span> > 50 มม.';
+            }
+        }
+
         async function loadDashboardData() {
             try { 
                 const [telemetryResponse, timelineResponse] =
@@ -200,51 +232,55 @@
                         fetch(`data/radar_telemetry.json?t=${Date.now()}`),
                         fetch(`data/time_control.json?t=${Date.now()}`)
                     ]);
-                if (!telemetryResponse.ok) {
-                    throw new Error("radar_telemetry.json not found");
-                }
-                if (!timelineResponse.ok) {
-                    throw new Error("time_control.json not found");
-                }
+                if (!telemetryResponse.ok) throw new Error("radar_telemetry.json not found");
+                if (!timelineResponse.ok) throw new Error("time_control.json not found");
         
-                rainfallTelemetryDB =
-                    await telemetryResponse.json();
-        
-                timeControlTimeline =
-                    await timelineResponse.json();
-        
-                console.log(
-                    "Dashboard data loaded successfully"
-                );
-        
+                rainfallTelemetryDB = await telemetryResponse.json();
+                timeControlTimeline = await timelineResponse.json();
+                console.log("Dashboard data loaded successfully");
             }
             catch (error) {
-        
-                console.error(
-                    "Data loading error:",
-                    error
-                );
-        
+                console.error("Data loading error:", error);
             }
-        
         }
+
+        function convertStringToRadarTimeFormat(rawLabel) {
+            if (!rawLabel) return '';
+            const parts = rawLabel.split(' ');
+            if (parts.length !== 2) return rawLabel;
+            const dateParts = parts[0].split('/');
+            const timeParts = parts[1].split(':');
+            const d = new Date(2025, dateParts[0] - 1, dateParts[1], timeParts[0], timeParts[1]);
+            return d.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }) + " ICT";
+        }
+
         function initSpatialMap() {
             map = L.map('map').setView([6.93, 100.45], 10);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap &copy; CARTO'
             }).addTo(map);
+
+            // FIX: Render background basin boundary line vector path exactly like previous dashboard
+            fetch('data/basin_boundary.geojson')
+                .then(res => { if (res.ok) return res.json(); })
+                .then(basinJson => {
+                    if (basinJson) {
+                        L.geoJSON(basinJson, {
+                            interactive: false,
+                            style: { color: '#000000', weight: 2.5, fillColor: 'transparent', fillOpacity: 0 }
+                        }).addTo(map);
+                    }
+                }).catch(err => console.warn("Basin boundary failed to load"));
+
             renderSpatialLayers();
         }
 
-        // 💡 FETCH IMPLEMENTATION PIPELINE FOR REAL LOCAL PRODUCTION FILES
         function renderSpatialLayers() {
             if (geoJsonLayer) { map.removeLayer(geoJsonLayer); }
 
-            // Dynamic Asset Path Routing
-            const geoJsonPath =
-    		currentSpatialLayer === "district"
-        		? "data/district_boundary.geojson"
-       			: "data/subdistrict_boundary.geojson";
+            const geoJsonPath = currentSpatialLayer === "district"
+                ? "data/district_boundary.geojson"
+                : "data/subdistrict_boundary.geojson";
 
             fetch(geoJsonPath)
                 .then(response => { if (response.ok) return response.json(); })
@@ -252,7 +288,6 @@
                     if (realGeoJson) {
                         drawGeoJsonToMap(realGeoJson);
                     } else {
-                        // Fallback Generator if Local File Asset Parsing Fails
                         drawGeoJsonToMap(generateSpatialMockFeatures(rainfallTelemetryDB[currentSpatialLayer]));
                     }
                 }).catch(err => {
@@ -269,19 +304,15 @@
                     const value = dataRow ? getRainfallValue(dataRow) : 0;
                     
                     return { 
-                        fillColor: getThresholdColor(value, currentTimeScale), // แก้ไขตรงนี้
+                        fillColor: getThresholdColor(value, currentTimeScale),
                         weight: 1.5, opacity: 1, color: '#ffffff', fillOpacity: 0.75 
                     };
                 },
                 onEachFeature: function (feature, layer) {
-                    const featureCode = currentSpatialLayer === 'district' ? 
-                                        feature.properties.adm2_pcode : 
-                                        feature.properties.adm3_pcode;
-                    
+                    const featureCode = currentSpatialLayer === 'district' ? feature.properties.adm2_pcode : feature.properties.adm3_pcode;
                     const dataRow = rainfallTelemetryDB[currentSpatialLayer].find(d => d.code === String(featureCode));
                     const val = dataRow ? getRainfallValue(dataRow) : 0;
                     
-                    // 💡 ดึงชื่อภาษาไทย (adm3_name1 หรือ adm2_name1) จากไฟล์ GeoJSON ของคุณมาโชว์ใน Popup
                     const name = currentSpatialLayer === 'district' ? 
                                  feature.properties.adm2_name1 : 
                                  (feature.properties.adm3_name1 ? 'ต.' + feature.properties.adm3_name1 : "ไม่ทราบชื่อ");
@@ -303,7 +334,7 @@
             }).addTo(map);
         }
 
-        function syncDropdownTimelineUI() {
+	function syncDropdownTimelineUI() {
             const dropdown = document.getElementById('time-step-dropdown');
             const steppingContainer = document.getElementById('time-stepping-container');
             dropdown.innerHTML = "";
@@ -320,7 +351,8 @@
             steps.forEach((stepLabel, idx) => {
                 const opt = document.createElement('option');
                 opt.value = idx;
-                opt.innerText = stepLabel;
+                // FIX: Removed conditional bypass so both daily and hourly steps are formatted identically
+                opt.innerText = convertStringToRadarTimeFormat(stepLabel);
                 if (idx === currentTimeStepIndex) opt.selected = true;
                 dropdown.appendChild(opt);
             });
@@ -348,11 +380,15 @@
                 "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm" :
                 "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
             });
+
+            const timeframeBadge = document.getElementById('timeframe-badge');
+            timeframeBadge.innerText = scaleKey === 'event' ? 'TOTAL EVENT' : scaleKey.toUpperCase();
+
+            updateLegendUI();
             syncDropdownTimelineUI();
             updateDashboardTelemetryEngine();
         };
 
-        // 💡 SPATIAL LAYER INTERFACE TOGGLE CONTROL KEY 
         window.switchSpatialLayer = function(layerKey) {
             currentSpatialLayer = layerKey;
             document.getElementById('btn-layer-district').className = layerKey === 'district' ? 
@@ -370,24 +406,26 @@
             const tbody = document.getElementById('district-table-body');
             tbody.innerHTML = "";
         
-            // ตัวแปรสำหรับเก็บค่าที่จะส่งไปให้ Pie Chart
             let counts = { grey: 0, green: 0, yellow: 0, red: 0, purple: 0 };
+            let rankCounter = 1;
         
-            list.forEach((item, index) => {
+            list.forEach((item) => {
                 const val = getRainfallValue(item);
                 const colorHex = getThresholdColor(val, currentTimeScale);
         
-                // นำค่าไปนับรวมใน counts ตามสีที่ได้จาก Threshold
                 if (val <= 0) counts.grey++;
                 else if (colorHex === "#10b981") counts.green++;
                 else if (colorHex === "#f59e0b") counts.yellow++;
                 else if (colorHex === "#ef4444") counts.red++;
                 else counts.purple++;
         
+                // FIX: Skip and filter out rows with accumulated rainfall less than 0.2 mm
+                if (val < 0.2) return;
+        
                 const row = document.createElement('tr');
                 row.className = "hover:bg-slate-50 transition-colors border-b";
                 row.innerHTML = `
-                    <td class="px-4 py-3 text-center font-mono text-xs font-bold text-slate-400">${index + 1}</td>
+                    <td class="px-4 py-3 text-center font-mono text-xs font-bold text-slate-400">${rankCounter++}</td>
                     <td class="px-4 py-3 font-bold text-slate-900">${item.name_th}</td>
                     <td class="px-4 py-3 text-right text-xs font-bold" style="color:${colorHex}">
                         ${val.toFixed(2)} มม.
@@ -396,14 +434,13 @@
                 tbody.appendChild(row);
             });
         
-            // เรียกฟังก์ชันวาดกราฟหลังจากได้ค่า counts แล้ว
             renderDistributionPieChart(counts);
             renderSpatialLayers();
         }
 
         function renderDistributionPieChart(counts) {
             const canvas = document.getElementById('rainfall-pie-canvas');
-            if (!canvas) return; // กัน Error ถ้าหา Canvas ไม่เจอ
+            if (!canvas) return;
             
             const ctx = canvas.getContext('2d');
             if (pieChartInstance !== null) {
@@ -450,22 +487,13 @@
             };
         }
 
-        document.addEventListener(
-            'DOMContentLoaded',
-            async () => {
-        
-                await loadDashboardData();
-        
-                initSpatialMap();
-        
-                syncDropdownTimelineUI();
-        
-                updateDashboardTelemetryEngine();
-        
-                lucide.createIcons();
-        
-            }
-        );
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadDashboardData();
+            initSpatialMap();
+            syncDropdownTimelineUI();
+            updateDashboardTelemetryEngine();
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
