@@ -58,7 +58,7 @@
     </aside>
 
     <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
-        
+         
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-slate-900">Event Summary & Damage Report</h2>
@@ -66,54 +66,101 @@
             </div>
             <div class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-xs self-start sm:self-center shadow-sm">
                 <span class="text-slate-500 font-medium">Analysis Scope:</span> 
-                <span class="text-blue-600 font-bold ml-1">Nov 23 - Dec 05, 2025</span>
+                <span class="text-blue-600 font-bold ml-1">Nov 19 - Nov 27, 2025</span>
             </div>
         </header>
 
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-            
+             
             <section class="xl:col-span-2 space-y-6">
                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
-                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <i data-lucide="calendar" class="text-blue-600 w-5 h-5"></i>
-                        Chronological Event Timeline
-                    </h3>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="calendar" class="text-blue-600 w-5 h-5"></i>
+                            Chronological Event Timeline
+                        </h3>
+                        <div class="flex gap-2">
+                            <span class="text-[11px] font-semibold px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-full flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Wave 1 (~27h)
+                            </span>
+                            <span class="text-[11px] font-semibold px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> Wave 2 (~3d 10h)
+                            </span>
+                        </div>
+                    </div>
 
                     <div class="relative border-l-2 border-slate-200 ml-3 space-y-8">
-                        
+                         
+                        <!-- Initial Soil Saturation Phase -->
                         <div class="relative pl-6">
-                            <span class="absolute -left-[11px] top-1 bg-blue-600 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
-                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">Nov 23, 2025</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Onset of Heavy Downpour</h4>
-                            <p class="text-xs text-slate-500 mt-1">
-                                Intense rainfall initiated over the upper basin watershed area. Early warning systems activated monitoring sub-basins.
+                            <span class="absolute -left-[11px] top-1 bg-slate-400 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
+                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">Nov 19, 2025 • 17:00</span>
+                            <h4 class="text-sm font-bold text-slate-900 mt-1">Storm Ingress & Antecedent Saturation</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Continuous rain pounded the basin for 16 hours straight, tracking from Khao Kho Hong in the east directly through inner Hat Yai, then progressing downstream into the western headwaters of Khlong Wat and Khlong Tam. Being early-season rain, channel levels stayed below warning thresholds, but it critically primed and fully saturated the soil profile across the entire catchment area.
                             </p>
                         </div>
 
+                        <!-- Heavy Rain Main City -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-amber-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
-                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Nov 25, 2025</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Peak Precipitation & Soil Saturation</h4>
-                            <p class="text-xs text-slate-500 mt-1">
-                                Rain gauges registered critical record daily thresholds. Basin storage and soil infiltration capacities completely saturated, initiating extensive surface runoff.
+                            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Nov 21, 2025 • 05:00</span>
+                            <h4 class="text-sm font-bold text-slate-900 mt-1">Secondary Heavy Downpour Block</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Another massive 22-hour continuous downpour hammered the core Hat Yai municipality area, with scattered bands extending upstream into the Sadao district for about 4–5 hours. The weather systems completely exhausted remaining catchment absorption before taking a temporary 9-hour operational break.
                             </p>
                         </div>
 
+                        <!-- Wave 1 Inundation -->
+                        <div class="relative pl-6">
+                            <span class="absolute -left-[11px] top-1 bg-amber-600 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
+                            <span class="text-xs font-bold text-white bg-amber-600 px-2 py-0.5 rounded-md">Nov 22, 2025 • 13:00</span>
+                            <h4 class="text-sm font-bold text-amber-900 mt-1">🎯 Wave 1 Flooding Inundation Activated</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                The combined hyper-concentrated runoff from the previous storms forced the initial urban flash flood wave, lasting approximately 27 hours through the following afternoon.
+                            </p>
+                        </div>
+
+                        <!-- False Security Window -->
+                        <div class="relative pl-6">
+                            <span class="absolute -left-[11px] top-1 bg-blue-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
+                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">Nov 23, 2025 • 02:00</span>
+                            <h4 class="text-sm font-bold text-slate-900 mt-1 flex items-center gap-1.5">
+                                Catchment Lag Window & False End Summary
+                                <span class="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.2 rounded font-mono">Critical Insight</span>
+                            </h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Heavy downpours reignited far upstream in the mid-to-upper basin zones around Sadao District. However, because of the 9-hour local pause in the city and the natural physical travel time (lag window) required for upstream runoff to arrive downstream, river levels inside the city briefly dropped below banks. This caused a dangerous public misunderstanding that the event had entirely resolved.
+                            </p>
+                        </div>
+
+                        <!-- Wave 2 Launch -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-red-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
-                            <span class="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-md">Nov 26 - 28, 2025</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Peak Hydrograph & Peak Urban Inundation</h4>
-                            <p class="text-xs text-slate-500 mt-1">
-                                Runoff peaked at major water level monitoring stations. Major overflows occurred along key canals, causing inundation zones throughout inner Hat Yai municipal sectors.
+                            <span class="text-xs font-bold text-white bg-red-600 px-2 py-0.5 rounded-md">Nov 23, 2025 • 23:00</span>
+                            <h4 class="text-sm font-bold text-red-900 mt-1">🚨 Wave 2 Hydrograph Peak Surge</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                The upstream volume arrived in full force. By 20:00, the main river monitoring indicator at **Station X.44** breached its critical bank limits again. By 23:00, the town line officially transitioned into a secondary, more extreme flood state lasting over 3 days.
                             </p>
                         </div>
 
+                        <!-- Extreme Basin Overload -->
+                        <div class="relative pl-6">
+                            <span class="absolute -left-[11px] top-1 bg-red-700 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
+                            <span class="text-xs font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded-md">Nov 24, 2025</span>
+                            <h4 class="text-sm font-bold text-slate-900 mt-1">Basin-Wide Tributary Overload</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                Compounding the incoming upstream surge, an 18-hour continuous rainfall system locked across the entire Khlong U-Tapao river basin. Operating on 100% saturated ground, all regional tributaries hit maximum runoff discharge at the exact same time, creating massive channel overflow across municipal sectors.
+                            </p>
+                        </div>
+
+                        <!-- Recedence and Drainage -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-emerald-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
-                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Dec 02, 2025</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Recedence & Drainage Phase</h4>
-                            <p class="text-xs text-slate-500 mt-1">
-                                Rainfall ceased. Water levels back within channel margins as flood discharge moved outwards into Songkhla Lake.
+                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Nov 25 (08:00) - Nov 27 (09:00)</span>
+                            <h4 class="text-sm font-bold text-emerald-900 mt-1">System Stabilization & Outflow</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                The storm cells finally cleared on the morning of Nov 25. Channel flows began a steady recession path over the subsequent 48 hours, fully restoring normal channel capacity parameters by 09:00 on Nov 27 as floodwater emptied out into Songkhla Lake.
                             </p>
                         </div>
 
@@ -122,10 +169,10 @@
             </section>
 
             <section class="space-y-6">
-                
+                 
                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
                     <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Impact Assessment Indicators</h3>
-                    
+                     
                     <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
                         <div class="p-3 bg-blue-100 text-blue-700 rounded-lg">
                             <i data-lucide="home" class="w-6 h-6"></i>
@@ -151,7 +198,7 @@
                             <i data-lucide="sprout" class="w-4 h-4 text-emerald-600"></i>
                             <span>Agricultural Sector Loss</span>
                         </div>
-                        
+                         
                         <div class="text-xs space-y-0.5 pl-1">
                             <span class="font-bold text-slate-700 block">Crop Sector (16 Districts)</span>
                             <p class="text-slate-600">Farmers: <span class="font-semibold text-slate-900">8,923</span> | Damaged Area: <span class="font-semibold text-slate-900">33,429.21 Rai</span></p>
@@ -185,7 +232,7 @@
 
                 <div class="bg-white p-5 border border-slate-200 rounded-xl space-y-4 shadow-sm">
                     <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Made By</h3>
-                    
+                     
                     <div class="space-y-3">
                         <div>
                             <span class="text-xs font-bold text-blue-600 tracking-wide uppercase block">Platform Initiative</span>
@@ -194,10 +241,10 @@
 
                         <div class="flex items-start gap-2 pt-1">
                             <i data-lucide="user" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
-                            <p class="text-xs text-slate-700 font-medium">
+                            <div class="text-xs text-slate-700 font-medium">
                                 <span class="block font-bold text-slate-900">Assoc.Prof. Dr. Punpim Puttaraksa Mapiam</span>
                                 Principal Investigator / Project Leader
-                            </p>
+                            </div>
                         </div>
 
                         <div class="flex items-start gap-2">
