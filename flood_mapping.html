@@ -152,17 +152,14 @@
     <script>
         // Updated Timeline: ขยายให้เริ่มตั้งแต่ 22 พ.ย. 2025 ตามโครงสร้างข้อมูลจริงที่คุณทดสอบ
         const floodTimeline = [
-            { "id": "20251122", "label": "22 พ.ย. 2025", "total_sqkm": 2.1,  "file": "data/flood_mapping/flood_20251122.geojson" },
-            { "id": "20251123", "label": "23 พ.ย. 2025", "total_sqkm": 5.4,  "file": "data/flood_mapping/flood_20251123.geojson" },
-            { "id": "20251124", "label": "24 พ.ย. 2025", "total_sqkm": 12.4, "file": "data/flood_mapping/flood_20251124.geojson" },
-            { "id": "20251125", "label": "25 พ.ย. 2025", "total_sqkm": 35.8, "file": "data/flood_mapping/flood_20251125.geojson" },
-            { "id": "20251126", "label": "26 พ.ย. 2025", "total_sqkm": 56.2, "file": "data/flood_mapping/flood_20251126.geojson" },
-            { "id": "20251127", "label": "27 พ.ย. 2025", "total_sqkm": 78.4, "file": "data/flood_mapping/flood_20251127.geojson" },
-            { "id": "20251128", "label": "28 พ.ย. 2025", "total_sqkm": 92.1, "file": "data/flood_mapping/flood_20251128.geojson" },
-            { "id": "20251129", "label": "29 พ.ย. 2025", "total_sqkm": 64.5, "file": "data/flood_mapping/flood_20251129.geojson" },
-            { "id": "20251130", "label": "30 พ.ย. 2025", "total_sqkm": 42.1, "file": "data/flood_mapping/flood_20251130.geojson" },
-            { "id": "20251201", "label": "1 ธ.ค. 2025",  "total_sqkm": 21.3, "file": "data/flood_mapping/flood_20251201.geojson" },
-            { "id": "20251202", "label": "2 ธ.ค. 2025",  "total_sqkm": 8.7,  "file": "data/flood_mapping/flood_20251202.geojson" }
+            { "id": "20251122", "label": "22 พ.ย. 2025", "total_sqkm": 12.64,  "file": "data/flood_mapping/flood_20251122.geojson" },
+            { "id": "20251124", "label": "24 พ.ย. 2025", "total_sqkm": 163.24, "file": "data/flood_mapping/flood_20251124.geojson" },
+            { "id": "20251125", "label": "25 พ.ย. 2025", "total_sqkm": 229.95, "file": "data/flood_mapping/flood_20251125.geojson" },
+            { "id": "20251126", "label": "26 พ.ย. 2025", "total_sqkm": 228.16, "file": "data/flood_mapping/flood_20251126.geojson" },
+            { "id": "20251127", "label": "27 พ.ย. 2025", "total_sqkm": 27.74, "file": "data/flood_mapping/flood_20251127.geojson" },
+            { "id": "20251129", "label": "29 พ.ย. 2025", "total_sqkm": 26.31, "file": "data/flood_mapping/flood_20251129.geojson" },
+            { "id": "20251130", "label": "30 พ.ย. 2025", "total_sqkm": 16.53, "file": "data/flood_mapping/flood_20251130.geojson" },
+            { "id": "20251202", "label": "2 ธ.ค. 2025",  "total_sqkm": 12.62,  "file": "data/flood_mapping/flood_20251202.geojson" }
         ];
 
         const subdistrictFloodDB = {
@@ -189,7 +186,7 @@
 
         let map, floodGeoJsonLayer, floodMarksLayerGroup, trendChartInstance = null;
         let currentFloodMode = 'daily'; 
-        let currentDateStepIndex = 6; // เริ่มต้นโฟกัสที่จุดยอดน้ำสูงสุด (28 พ.ย. 2025)
+        let currentDateStepIndex = 2; // เริ่มต้นโฟกัสที่จุดยอดน้ำสูงสุด (28 พ.ย. 2025)
 
         function initFloodDashboard() {
             map = L.map('map').setView([6.98, 100.46], 11);
