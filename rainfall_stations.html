@@ -8,8 +8,12 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map-hourly, #map-accumulated { z-index: 1; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans h-screen max-h-screen overflow-hidden flex flex-col md:flex-row">
+<!-- FIX: Replaced mandatory h-screen overflow-hidden with desktop-only screen locks so mobile can roll and scroll touch fields naturally -->
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen md:h-screen md:max-h-screen md:overflow-hidden flex flex-col md:flex-row">
 
     <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
         <div>
@@ -42,19 +46,20 @@
                 </a>
             </nav>
         </div>
-        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
             <p>Local HTML Project v1.0</p>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4 h-full max-h-full overflow-hidden">
+    <!-- FIX: Configured flexible height boundaries that transition seamlessly between touch screen stacks and unified grid maps -->
+    <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4 h-full md:max-h-full md:overflow-hidden">
         
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
             <div>
                 <h2 class="text-xl font-bold tracking-tight text-slate-900">Interactive Spatial Radar Matrix</h2>
                 <p class="text-xs text-slate-500">Dual display system running optimized data grid arrays from Singhanakhon Radar.</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
                 <div class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
                     <i data-lucide="clock" class="w-3.5 h-3.5"></i>
                     <span>ACCUMULATED TIME: <span id="accum-hours-counter" class="font-mono text-sm ml-0.5">0</span> HOURS</span>
@@ -66,14 +71,16 @@
         </header>
 
         <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 space-y-3 shrink-0">
-            <div class="flex flex-wrap items-center justify-between gap-4">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
-                    <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase">Target Matrix Frame:</label>
-                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm max-w-xs"></select>
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
+                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap">Target Matrix Frame:</label>
+                    </div>
+                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm w-full sm:w-auto sm:max-w-xs"></select>
                 </div>
 
-                <div class="flex items-center gap-1 text-slate-600 font-sans text-xs">
+                <div class="flex items-center gap-2 text-slate-600 font-sans text-xs">
                     <i data-lucide="gauge" class="w-4 h-4 text-slate-400"></i>
                     <span>Speed:</span>
                     <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none text-xs">
@@ -101,14 +108,15 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 overflow-hidden min-h-0 pb-2">
-            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-full min-h-0">
+        <!-- FIX: Set explicit fallback min-height targets (h-[400px] md:h-full) so map layouts do not collapse into 0px elements on smartphones -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 md:overflow-hidden md:min-h-0 pb-2">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
                 <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
                     1. Hourly Intensity Grid (mm/hr)
                 </div>
-                <div id="map-hourly" class="w-full flex-1 z-10 relative min-h-0"></div>
+                <div id="map-hourly" class="w-full flex-1 relative min-h-0"></div>
                 
-                <div class="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 w-72">
+                <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-72">
                     <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Rainfall Intensity (mm/hr)</span>
                     <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
                         <div class="flex-1" style="background-color: #5293F8;"></div>
@@ -133,13 +141,13 @@
                 </div>
             </div>
 
-            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-full min-h-0">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
                 <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
                     2. Accumulated Total Spatial Map (mm)
                 </div>
-                <div id="map-accumulated" class="w-full flex-1 z-10 relative min-h-0"></div>
+                <div id="map-accumulated" class="w-full flex-1 relative min-h-0"></div>
                 
-                <div class="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 w-80">
+                <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-80">
                     <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Total Accumulated (mm)</span>
                     <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
                         <div class="flex-1" style="background-color: #00008F;" title="101-200"></div>
@@ -153,18 +161,13 @@
                         <div class="flex-1" style="background-color: #FFD600;" title="901-1000"></div>
                         <div class="flex-1" style="background-color: #FF7000;" title="1001-1100"></div>
                         <div class="flex-1" style="background-color: #FF3D00;" title="1101-1200"></div>
-                        <div class="flex-1" style="background-color: #FF0000;" title="1201-1300 (Bright Red)"></div>
+                        <div class="flex-1" style="background-color: #FF0000;" title="1201-1300"></div>
                         <div class="flex-1" style="background-color: #D60000;" title="1301-1400"></div>
-                        <div class="flex-1" style="background-color: #A30000;" title="1401-1500 (Deep Red)"></div>
-                        <div class="flex-1" style="background-color: #660000;" title="1500+ (Dark Red)"></div>
+                        <div class="flex-1" style="background-color: #A30000;" title="1401-1500"></div>
+                        <div class="flex-1" style="background-color: #660000;" title="1500+"></div>
                     </div>
                     <div class="flex justify-between text-[8px] font-mono font-bold text-slate-500 px-0.5">
-                        <span>100</span>
-                        <span>400</span>
-                        <span>700</span>
-                        <span>1000</span>
-                        <span class="text-red-600 font-extrabold">1200</span>
-                        <span class="text-red-900 font-extrabold">1500+</span>
+                        <span>100</span><span>400</span><span>700</span><span>1000</span><span class="text-red-600 font-extrabold">1200</span><span class="text-red-900 font-extrabold">1500+</span>
                     </div>
                 </div>
             </div>
@@ -185,6 +188,14 @@
         mapH.on('move', () => mapA.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
         mapA.on('move', () => mapH.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
 
+        // FIX: Added map invalidateSize listeners to automatically re-center layouts when moving between portrait and landscape viewports
+        const resizeObserver = new ResizeObserver(() => {
+            mapH.invalidateSize();
+            mapA.invalidateSize();
+        });
+        resizeObserver.observe(document.getElementById('map-hourly'));
+        resizeObserver.observe(document.getElementById('map-accumulated'));
+
         fetch('data/basin_boundary.geojson')
             .then(res => res.json())
             .then(geoJsonData => {
@@ -195,51 +206,44 @@
             })
             .catch(err => console.error("Basin boundary shape file layer omitted:", err));
 
-        // --- Precise Discrete Step Color Mapping Functions ---
         function getHourlyColor(val) {
             if (val <= 0.2) return 'transparent';
-            if (val <= 2)   return 'rgba(82, 147, 248, 0.6)';  // #5293F8
-            if (val <= 5)   return 'rgba(44, 81, 242, 0.6)';   // #2C51F2
-            if (val <= 10)  return 'rgba(37, 68, 180, 0.6)';   // #2544B4
-            if (val <= 15)  return 'rgba(101, 200, 89, 0.6)';  // #65C859
-            if (val <= 20)  return 'rgba(143, 255, 56, 0.6)';  // #8FFF38
-            if (val <= 25)  return 'rgba(200, 255, 30, 0.6)';  // #C8FF1E
-            if (val <= 30)  return 'rgba(255, 255, 10, 0.6)';  // #FFFF0A
-            if (val <= 40)  return 'rgba(248, 220, 55, 0.6)';  // #F8DC37
-            if (val <= 50)  return 'rgba(255, 153, 0, 0.6)';   // #FF9900
-            if (val <= 60)  return 'rgba(255, 0, 0, 0.6)';     // #FF0000
-            if (val <= 80)  return 'rgba(236, 0, 80, 0.6)';    // #EC0050
-            if (val <= 100) return 'rgba(171, 4, 82, 0.6)';    // #AB0452
-            if (val <= 150) return 'rgba(255, 50, 255, 0.6)';  // #FF32FF
-            if (val <= 200) return 'rgba(211, 14, 250, 0.6)';  // #D30EFA
-            return 'rgba(187, 54, 243, 0.6)';                 // #BB36F3
+            if (val <= 2)   return 'rgba(82, 147, 248, 0.6)';  
+            if (val <= 5)   return 'rgba(44, 81, 242, 0.6)';   
+            if (val <= 10)  return 'rgba(37, 68, 180, 0.6)';   
+            if (val <= 15)  return 'rgba(101, 200, 89, 0.6)';  
+            if (val <= 20)  return 'rgba(143, 255, 56, 0.6)';  
+            if (val <= 25)  return 'rgba(200, 255, 30, 0.6)';  
+            if (val <= 30)  return 'rgba(255, 255, 10, 0.6)';  
+            if (val <= 40)  return 'rgba(248, 220, 55, 0.6)';  
+            if (val <= 50)  return 'rgba(255, 153, 0, 0.6)';   
+            if (val <= 60)  return 'rgba(255, 0, 0, 0.6)';     
+            if (val <= 80)  return 'rgba(236, 0, 80, 0.6)';    
+            if (val <= 100) return 'rgba(171, 4, 82, 0.6)';    
+            if (val <= 150) return 'rgba(255, 50, 255, 0.6)';  
+            if (val <= 200) return 'rgba(211, 14, 250, 0.6)';  
+            return 'rgba(187, 54, 243, 0.6)';                 
         }
 
         function getAccumColor(val) {
-            if (val <= 100) return 'transparent'; // Below 100 mm is transparent
-            
-            // --- 100 mm Interval Sequence Steps ---
-            if (val <= 200)  return 'rgba(0, 0, 143, 0.6)';    // Deep Blue
-            if (val <= 300)  return 'rgba(0, 0, 245, 0.6)';    // Blue
-            if (val <= 400)  return 'rgba(0, 92, 255, 0.6)';   // Light Blue
-            if (val <= 500)  return 'rgba(0, 194, 255, 0.6)';  // Cyan
-            if (val <= 600)  return 'rgba(41, 255, 214, 0.6)';  // Turquoise
-            if (val <= 700)  return 'rgba(92, 255, 171, 0.6)';  // Light Green
-            if (val <= 800)  return 'rgba(143, 255, 127, 0.6)'; // Green
-            if (val <= 900)  return 'rgba(214, 255, 51, 0.6)';  // Yellow-Green
-            if (val <= 1000) return 'rgba(255, 214, 0, 0.6)';   // Yellow
-            
-            // --- High-Intensity Rainfall Transitions (Red / Dark Red Shift) ---
-            if (val <= 1100) return 'rgba(255, 112, 0, 0.6)';   // Orange
-            if (val <= 1200) return 'rgba(255, 61, 0, 0.6)';    // Light Red / Coral
-            if (val <= 1300) return 'rgba(255, 0, 0, 0.6)';     // Bright Red (1200 Threshold)
-            if (val <= 1400) return 'rgba(214, 0, 0, 0.6)';     // Crimson Red
-            if (val <= 1500) return 'rgba(163, 0, 0, 0.6)';     // Deep Red
-            
-            return 'rgba(102, 0, 0, 0.6)';                      // Dark Red / Maroon (1500+ Threshold)
+            if (val <= 100) return 'transparent'; 
+            if (val <= 200)  return 'rgba(0, 0, 143, 0.6)';    
+            if (val <= 300)  return 'rgba(0, 0, 245, 0.6)';    
+            if (val <= 400)  return 'rgba(0, 92, 255, 0.6)';   
+            if (val <= 500)  return 'rgba(0, 194, 255, 0.6)';  
+            if (val <= 600)  return 'rgba(41, 255, 214, 0.6)';  
+            if (val <= 700)  return 'rgba(92, 255, 171, 0.6)';  
+            if (val <= 800)  return 'rgba(143, 255, 127, 0.6)'; 
+            if (val <= 900)  return 'rgba(214, 255, 51, 0.6)';  
+            if (val <= 1000) return 'rgba(255, 214, 0, 0.6)';   
+            if (val <= 1100) return 'rgba(255, 112, 0, 0.6)';   
+            if (val <= 1200) return 'rgba(255, 61, 0, 0.6)';    
+            if (val <= 1300) return 'rgba(255, 0, 0, 0.6)';     
+            if (val <= 1400) return 'rgba(214, 0, 0, 0.6)';     
+            if (val <= 1500) return 'rgba(163, 0, 0, 0.6)';     
+            return 'rgba(102, 0, 0, 0.6)';                      
         }
 
-        // --- Sequence Timeline Setup ---
         function createSequence(start, end) {
             let res = [];
             let curr = new Date(start);
@@ -261,7 +265,6 @@
         }
         const frameSequence = createSequence("2025-11-19T08:00:00", "2025-11-28T07:00:00");
 
-        // --- Scale-Locked Canvas Overlay Engine ---
         let currentHourlyLayer = null;
         let currentAccumLayer = null;
         let loadedMatrixCache = {}; 
@@ -360,7 +363,6 @@
             currentAccumLayer = new L.PixelPerfectRadarLayer(data, getAccumColor).addTo(mapA);
         }
 
-        // --- Interactive Popups Interrogation Controls ---
         const popupH = L.popup({ closeButton: false, autoPan: false });
         const popupA = L.popup({ closeButton: false, autoPan: false });
 
@@ -399,7 +401,6 @@
         mapH.on('mouseout', () => mapH.closePopup(popupH));
         mapA.on('mouseout', () => mapA.closePopup(popupA));
 
-        // --- State Control Playback Elements ---
         let currentFrameIndex = 0;
         let isPlaying = false;
         let playbackTimer = null;
