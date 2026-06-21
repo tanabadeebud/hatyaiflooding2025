@@ -6,10 +6,12 @@
     <title>HatYai Flood 2025 - Radar Rainfall</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+<body class="bg-slate-50 text-slate-800 font-sans h-screen max-h-screen overflow-hidden flex flex-col md:flex-row">
 
-    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
         <div>
             <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
                 <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
@@ -21,33 +23,22 @@
 
             <nav class="space-y-1">
                 <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
-                    <span>1. Homepage</span>
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i><span>1. Homepage</span>
                 </a>
-
                 <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
-                    <i data-lucide="play-circle" class="w-5 h-5 text-blue-600"></i>
-                    <span>2. Animation Radar Rainfall</span>
+                    <i data-lucide="play-circle" class="w-5 h-5 text-blue-600"></i><span>2. Animation Radar Rainfall</span>
                 </a>
-
                 <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
-                    <span>3. Rainfall Stations</span>
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i><span>3. Rainfall Stations</span>
                 </a>
-
                 <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
-                    <span>4. Water Level Situations</span>
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i><span>4. Water Level Situations</span>
                 </a>
-
                 <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span>5. District Accumulation</span>
+                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i><span>5. District Accumulation</span>
                 </a>
-
                 <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
-                    <span>6. Flood Mapping</span>
+                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i><span>6. Flood Mapping</span>
                 </a>
             </nav>
         </div>
@@ -56,33 +47,36 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
+    <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4 h-full max-h-full overflow-hidden">
         
-        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Radar Rainfall Analysis</h2>
-                <p class="text-sm text-slate-500">Hourly intensity paired with total system running cumulative outputs.</p>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900">Interactive Spatial Radar Matrix</h2>
+                <p class="text-xs text-slate-500">Dual display system running optimized data grid arrays from Singhanakhon Radar.</p>
             </div>
-            <div class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-xs font-mono text-slate-700 shadow-sm" id="live-indicator">
-                INDEX: 0 / 0
+            <div class="flex items-center gap-2">
+                <div class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                    <span>ACCUMULATED TIME: <span id="accum-hours-counter" class="font-mono text-sm ml-0.5">0</span> HOURS</span>
+                </div>
+                <div class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-700 shadow-sm" id="live-indicator">
+                    FRAME: Loading...
+                </div>
             </div>
         </header>
 
-        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-            
-            <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
-                
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-3 space-y-3 shrink-0">
+            <div class="flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-2">
-                    <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
-                    <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase">Jump to Time:</label>
-                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-3 py-1.5 text-sm font-medium text-slate-700 focus:border-blue-500 outline-none shadow-sm max-w-xs">
-                        </select>
+                    <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
+                    <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase">Target Matrix Frame:</label>
+                    <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm max-w-xs"></select>
                 </div>
 
-                <div class="flex items-center gap-2 text-xs font-medium text-slate-600">
+                <div class="flex items-center gap-1 text-slate-600 font-sans text-xs">
                     <i data-lucide="gauge" class="w-4 h-4 text-slate-400"></i>
-                    <span>Playback Speed:</span>
-                    <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-1 text-slate-700 shadow-sm outline-none">
+                    <span>Speed:</span>
+                    <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none text-xs">
                         <option value="1000">1.0s / step</option>
                         <option value="400" selected>0.4s / step</option>
                         <option value="150">0.15s / step</option>
@@ -90,196 +84,367 @@
                 </div>
             </div>
 
-            <div class="bg-slate-100 relative p-2 flex items-center justify-center min-h-[400px]">
-                <img id="radar-frame" src="" alt="Radar Sequence Map Frame" class="max-w-full h-auto rounded shadow-sm border border-slate-200/60">
+            <div class="flex items-center gap-4">
+                <span class="text-xs font-mono font-bold text-slate-400">START</span>
+                <input type="range" id="timeline-slider" min="0" max="0" value="0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                <span class="text-xs font-mono font-bold text-slate-400">END</span>
+            </div>
+
+            <div class="flex items-center justify-center gap-2">
+                <button id="btn-first" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-left" class="w-4 h-4"></i></button>
+                <button id="btn-prev" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-back" class="w-4 h-4"></i></button>
+                <button id="btn-play" class="flex items-center gap-2 px-5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition min-w-[110px] justify-center">
+                    <i data-lucide="play" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text">Play Loop</span>
+                </button>
+                <button id="btn-next" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-forward" class="w-4 h-4"></i></button>
+                <button id="btn-last" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-right" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 overflow-hidden min-h-0 pb-2">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-full min-h-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
+                    1. Hourly Intensity Grid (mm/hr)
+                </div>
+                <div id="map-hourly" class="w-full flex-1 z-10 relative min-h-0"></div>
                 
-                <div id="loading-overlay" class="absolute inset-0 bg-white/80 flex flex-col items-center justify-center gap-2 z-20 transition-opacity duration-300">
-                    <i data-lucide="loader-2" class="w-8 h-8 text-blue-600 animate-spin"></i>
-                    <span class="text-xs font-bold text-slate-600">Loading Radar Sequence Map Matrix...</span>
+                <div class="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 w-72">
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Rainfall Intensity (mm/hr)</span>
+                    <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
+                        <div class="flex-1" style="background-color: #5293F8;"></div>
+                        <div class="flex-1" style="background-color: #2C51F2;"></div>
+                        <div class="flex-1" style="background-color: #2544B4;"></div>
+                        <div class="flex-1" style="background-color: #65C859;"></div>
+                        <div class="flex-1" style="background-color: #8FFF38;"></div>
+                        <div class="flex-1" style="background-color: #C8FF1E;"></div>
+                        <div class="flex-1" style="background-color: #FFFF0A;"></div>
+                        <div class="flex-1" style="background-color: #F8DC37;"></div>
+                        <div class="flex-1" style="background-color: #FF9900;"></div>
+                        <div class="flex-1" style="background-color: #FF0000;"></div>
+                        <div class="flex-1" style="background-color: #EC0050;"></div>
+                        <div class="flex-1" style="background-color: #AB0452;"></div>
+                        <div class="flex-1" style="background-color: #FF32FF;"></div>
+                        <div class="flex-1" style="background-color: #D30EFA;"></div>
+                        <div class="flex-1" style="background-color: #BB36F3;"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-mono font-bold text-slate-500 px-0.5">
+                        <span>0.2</span><span>5</span><span>15</span><span>25</span><span>40</span><span>60</span><span>100</span><span>200+</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-slate-200 space-y-4 bg-white">
-                <div class="flex items-center gap-4">
-                    <span class="text-xs font-mono font-bold text-slate-400">START</span>
-                    <input type="range" id="timeline-slider" min="0" max="0" value="0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
-                    <span class="text-xs font-mono font-bold text-slate-400">END</span>
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-full min-h-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
+                    2. Accumulated Total Spatial Map (mm)
                 </div>
-
-                <div class="flex items-center justify-center gap-2">
-                    <button id="btn-first" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="First Frame">
-                        <i data-lucide="chevrons-left" class="w-4 h-4"></i>
-                    </button>
-                    <button id="btn-prev" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Previous Frame">
-                        <i data-lucide="skip-back" class="w-4 h-4"></i>
-                    </button>
-                    
-                    <button id="btn-play" class="flex items-center gap-2 px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow transition min-w-[100px] justify-center">
-                        <i data-lucide="play" class="w-4 h-4" id="play-icon"></i>
-                        <span id="play-text">Play</span>
-                    </button>
-                    
-                    <button id="btn-next" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Next Frame">
-                        <i data-lucide="skip-forward" class="w-4 h-4"></i>
-                    </button>
-                    <button id="btn-last" class="p-2 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 transition shadow-sm" title="Last Frame">
-                        <i data-lucide="chevrons-right" class="w-4 h-4"></i>
-                    </button>
+                <div id="map-accumulated" class="w-full flex-1 z-10 relative min-h-0"></div>
+                
+                <div class="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 w-80">
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Total Accumulated (mm)</span>
+                    <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
+                        <div class="flex-1" style="background-color: #00008F;" title="101-200"></div>
+                        <div class="flex-1" style="background-color: #0000F5;" title="201-300"></div>
+                        <div class="flex-1" style="background-color: #0092FF;" title="301-400"></div>
+                        <div class="flex-1" style="background-color: #00C2FF;" title="401-500"></div>
+                        <div class="flex-1" style="background-color: #29FFD6;" title="501-600"></div>
+                        <div class="flex-1" style="background-color: #5CFFAB;" title="601-700"></div>
+                        <div class="flex-1" style="background-color: #8FFF7F;" title="701-800"></div>
+                        <div class="flex-1" style="background-color: #21FF33;" title="801-900"></div>
+                        <div class="flex-1" style="background-color: #FFD600;" title="901-1000"></div>
+                        <div class="flex-1" style="background-color: #FF7000;" title="1001-1100"></div>
+                        <div class="flex-1" style="background-color: #FF3D00;" title="1101-1200"></div>
+                        <div class="flex-1" style="background-color: #FF0000;" title="1201-1300 (Bright Red)"></div>
+                        <div class="flex-1" style="background-color: #D60000;" title="1301-1400"></div>
+                        <div class="flex-1" style="background-color: #A30000;" title="1401-1500 (Deep Red)"></div>
+                        <div class="flex-1" style="background-color: #660000;" title="1500+ (Dark Red)"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-mono font-bold text-slate-500 px-0.5">
+                        <span>100</span>
+                        <span>400</span>
+                        <span>700</span>
+                        <span>1000</span>
+                        <span class="text-red-600 font-extrabold">1200</span>
+                        <span class="text-red-900 font-extrabold">1500+</span>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        const IMAGE_FOLDER_PATH = "web_frames/";
+        const INITIAL_CENTER = [6.95, 100.48];
+        const mapH = L.map('map-hourly').setView(INITIAL_CENTER, 11);
+        const mapA = L.map('map-accumulated').setView(INITIAL_CENTER, 11);
 
-        function generateTimeSteps(startStr, endStr) {
-            let steps = [];
-            let current = new Date(startStr);
-            const end = new Date(endStr);
+        const baseTiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        const attribution = '&copy; OpenStreetMap contributors &copy; CARTO';
+
+        L.tileLayer(baseTiles, { attribution }).addTo(mapH);
+        L.tileLayer(baseTiles, { attribution }).addTo(mapA);
+
+        mapH.on('move', () => mapA.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
+        mapA.on('move', () => mapH.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
+
+        fetch('data/basin_boundary.geojson')
+            .then(res => res.json())
+            .then(geoJsonData => {
+                const boundaryStyle = { color: "#000000", weight: 2.5, fillColor: "transparent", fillOpacity: 0 };
+                const layerH = L.geoJSON(geoJsonData, { style: boundaryStyle }).addTo(mapH);
+                L.geoJSON(geoJsonData, { style: boundaryStyle }).addTo(mapA);
+                mapH.fitBounds(layerH.getBounds(), { padding: [10, 10] });
+            })
+            .catch(err => console.error("Basin boundary shape file layer omitted:", err));
+
+        // --- Precise Discrete Step Color Mapping Functions ---
+        function getHourlyColor(val) {
+            if (val <= 0.2) return 'transparent';
+            if (val <= 2)   return 'rgba(82, 147, 248, 0.6)';  // #5293F8
+            if (val <= 5)   return 'rgba(44, 81, 242, 0.6)';   // #2C51F2
+            if (val <= 10)  return 'rgba(37, 68, 180, 0.6)';   // #2544B4
+            if (val <= 15)  return 'rgba(101, 200, 89, 0.6)';  // #65C859
+            if (val <= 20)  return 'rgba(143, 255, 56, 0.6)';  // #8FFF38
+            if (val <= 25)  return 'rgba(200, 255, 30, 0.6)';  // #C8FF1E
+            if (val <= 30)  return 'rgba(255, 255, 10, 0.6)';  // #FFFF0A
+            if (val <= 40)  return 'rgba(248, 220, 55, 0.6)';  // #F8DC37
+            if (val <= 50)  return 'rgba(255, 153, 0, 0.6)';   // #FF9900
+            if (val <= 60)  return 'rgba(255, 0, 0, 0.6)';     // #FF0000
+            if (val <= 80)  return 'rgba(236, 0, 80, 0.6)';    // #EC0050
+            if (val <= 100) return 'rgba(171, 4, 82, 0.6)';    // #AB0452
+            if (val <= 150) return 'rgba(255, 50, 255, 0.6)';  // #FF32FF
+            if (val <= 200) return 'rgba(211, 14, 250, 0.6)';  // #D30EFA
+            return 'rgba(187, 54, 243, 0.6)';                 // #BB36F3
+        }
+
+        function getAccumColor(val) {
+            if (val <= 100) return 'transparent'; // Below 100 mm is transparent
             
-            while(current <= end) {
-                steps.push(new Date(current));
-                current.setHours(current.getHours() + 1);
+            // --- 100 mm Interval Sequence Steps ---
+            if (val <= 200)  return 'rgba(0, 0, 143, 0.6)';    // Deep Blue
+            if (val <= 300)  return 'rgba(0, 0, 245, 0.6)';    // Blue
+            if (val <= 400)  return 'rgba(0, 92, 255, 0.6)';   // Light Blue
+            if (val <= 500)  return 'rgba(0, 194, 255, 0.6)';  // Cyan
+            if (val <= 600)  return 'rgba(41, 255, 214, 0.6)';  // Turquoise
+            if (val <= 700)  return 'rgba(92, 255, 171, 0.6)';  // Light Green
+            if (val <= 800)  return 'rgba(143, 255, 127, 0.6)'; // Green
+            if (val <= 900)  return 'rgba(214, 255, 51, 0.6)';  // Yellow-Green
+            if (val <= 1000) return 'rgba(255, 214, 0, 0.6)';   // Yellow
+            
+            // --- High-Intensity Rainfall Transitions (Red / Dark Red Shift) ---
+            if (val <= 1100) return 'rgba(255, 112, 0, 0.6)';   // Orange
+            if (val <= 1200) return 'rgba(255, 61, 0, 0.6)';    // Light Red / Coral
+            if (val <= 1300) return 'rgba(255, 0, 0, 0.6)';     // Bright Red (1200 Threshold)
+            if (val <= 1400) return 'rgba(214, 0, 0, 0.6)';     // Crimson Red
+            if (val <= 1500) return 'rgba(163, 0, 0, 0.6)';     // Deep Red
+            
+            return 'rgba(102, 0, 0, 0.6)';                      // Dark Red / Maroon (1500+ Threshold)
+        }
+
+        // --- Sequence Timeline Setup ---
+        function createSequence(start, end) {
+            let res = [];
+            let curr = new Date(start);
+            const stop = new Date(end);
+            let idx = 0;
+            while (curr <= stop) {
+                const y = curr.getFullYear();
+                const m = String(curr.getMonth() + 1).padStart(2, '0');
+                const d = String(curr.getDate()).padStart(2, '0');
+                const h = String(curr.getHours()).padStart(2, '0');
+                
+                const idString = `${y}${m}${d}${h}0000`;
+                const labelString = curr.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', hour12: false }) + ":00 ICT";
+                
+                res.push({ index: idx++, id: idString, label: labelString });
+                curr.setHours(curr.getHours() + 1);
             }
-            return steps;
+            return res;
         }
+        const frameSequence = createSequence("2025-11-19T08:00:00", "2025-11-28T07:00:00");
 
-        const timeSteps = generateTimeSteps("2025-11-19T08:00:00", "2025-11-28T07:00:00");
+        // --- Scale-Locked Canvas Overlay Engine ---
+        let currentHourlyLayer = null;
+        let currentAccumLayer = null;
+        let loadedMatrixCache = {}; 
+        let currentDataPayload = null;
 
-        function formatTimestampToFilename(dateObj) {
-            const y = dateObj.getFullYear();
-            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const d = String(dateObj.getDate()).padStart(2, '0');
-            const h = String(dateObj.getHours()).padStart(2, '0');
-            return `${y}${m}${d}${h}00`;
-        }
+        L.PixelPerfectRadarLayer = L.Layer.extend({
+            initialize: function (data, colorFn) {
+                this.data = data;
+                this.colorFn = colorFn;
+            },
+            onAdd: function (map) {
+                this._map = map;
+                this._canvas = L.DomUtil.create('canvas', 'leaflet-layer pixel-radar-layer');
+                this._canvas.style.pointerEvents = 'none'; 
+                map.getPanes().overlayPane.appendChild(this._canvas);
+                map.on('moveend viewreset zoomanim', this._render, this);
+                this._render();
+            },
+            onRemove: function (map) {
+                map.getPanes().overlayPane.removeChild(this._canvas);
+                map.off('moveend viewreset zoomanim', this._render, this);
+            },
+            _render: function () {
+                if (!this._map || !this.data) return;
 
-        function formatToHumanReadable(dateObj) {
-            return dateObj.toLocaleString('en-US', { 
-                year: 'numeric', month: 'short', day: '2-digit', 
-                hour: '2-digit', minute: '2-digit', hour12: false 
-            }) + " ICT";
-        }
+                const mapSize = this._map.getSize();
+                this._canvas.width = mapSize.x;
+                this._canvas.height = mapSize.y;
 
-        const frameSequence = timeSteps.map((dt, index) => {
-            return {
-                index: index,
-                filename: `${IMAGE_FOLDER_PATH}frame_${formatTimestampToFilename(dt)}.png`,
-                label: formatToHumanReadable(dt)
-            };
+                const topLeft = this._map.containerPointToLayerPoint([0, 0]);
+                L.DomUtil.setPosition(this._canvas, topLeft);
+
+                const ctx = this._canvas.getContext('2d');
+                ctx.clearRect(0, 0, mapSize.x, mapSize.y);
+
+                const b = this.data.bounds; 
+                const rows = this.data.rows;
+                const cols = this.data.cols;
+
+                const matrix = this.colorFn === getHourlyColor ? this.data.hourly_matrix : this.data.accum_matrix;
+
+                const pNW = this._map.latLngToContainerPoint([b[1][0], b[0][1]]);
+                const pSE = this._map.latLngToContainerPoint([b[0][0], b[1][1]]);
+
+                const extentWidth = pSE.x - pNW.x;
+                const extentHeight = pSE.y - pNW.y;
+
+                const cellW = extentWidth / cols;
+                const cellH = extentHeight / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const val = matrix[r][c];
+                        if (val <= 0.2) continue;
+
+                        const xPos = pNW.x + (c * cellW);
+                        const yPos = pNW.y + (r * cellH);
+
+                        ctx.fillStyle = this.colorFn(val);
+                        ctx.fillRect(Math.floor(xPos), Math.floor(yPos), Math.ceil(cellW) + 0.6, Math.ceil(cellH) + 0.6);
+                    }
+                }
+            }
         });
 
+        function loadAndRenderFrame(frameIndex) {
+            const frame = frameSequence[frameIndex];
+            currentFrameIndex = frameIndex;
+
+            slider.value = frameIndex;
+            selector.value = frameIndex;
+            indicator.innerText = `FRAME: ${frameIndex + 1} / ${frameSequence.length}`;
+            document.getElementById('accum-hours-counter').innerText = frameIndex; 
+
+            if (loadedMatrixCache[frame.id]) {
+                currentDataPayload = loadedMatrixCache[frame.id];
+                applyPerfectCanvasLayers(currentDataPayload);
+                return;
+            }
+
+            fetch(`data_json/data_${frame.id}.json`)
+                .then(res => res.json())
+                .then(data => {
+                    loadedMatrixCache[frame.id] = data;
+                    currentDataPayload = data;
+                    applyPerfectCanvasLayers(data);
+                })
+                .catch(err => console.warn(`Missing JSON data for: data_${frame.id}.json`));
+        }
+
+        function applyPerfectCanvasLayers(data) {
+            if (currentHourlyLayer) mapH.removeLayer(currentHourlyLayer);
+            if (currentAccumLayer) mapA.removeLayer(currentAccumLayer);
+
+            currentHourlyLayer = new L.PixelPerfectRadarLayer(data, getHourlyColor).addTo(mapH);
+            currentAccumLayer = new L.PixelPerfectRadarLayer(data, getAccumColor).addTo(mapA);
+        }
+
+        // --- Interactive Popups Interrogation Controls ---
+        const popupH = L.popup({ closeButton: false, autoPan: false });
+        const popupA = L.popup({ closeButton: false, autoPan: false });
+
+        function handleMapGridInterrogation(e, activeMap, isAccum) {
+            if (!currentDataPayload) return;
+            
+            const b = currentDataPayload.bounds;
+            const lat = e.latlng.lat; 
+            const lng = e.latlng.lng;
+            const targetPopup = isAccum ? popupA : popupH;
+
+            if (lat >= b[0][0] && lat <= b[1][0] && lng >= b[0][1] && lng <= b[1][1]) {
+                const pctX = (lng - b[0][1]) / (b[1][1] - b[0][1]);
+                const pctY = (b[1][0] - lat) / (b[1][0] - b[0][0]);
+                
+                const c = Math.floor(pctX * currentDataPayload.cols);
+                const r = Math.floor(pctY * currentDataPayload.rows);
+
+                if (r >= 0 && r < currentDataPayload.rows && c >= 0 && c < currentDataPayload.cols) {
+                    const hVal = currentDataPayload.hourly_matrix[r][c];
+                    const aVal = currentDataPayload.accum_matrix[r][c];
+                    
+                    const contentString = isAccum 
+                        ? `<div class="p-1 font-mono text-xs text-amber-900 font-bold">Accumulated: ${aVal.toFixed(1)} mm</div>`
+                        : `<div class="p-1 font-mono text-xs text-blue-900 font-bold">Hourly: ${hVal.toFixed(1)} mm/hr</div>`;
+                    
+                    targetPopup.setLatLng(e.latlng).setContent(contentString).openOn(activeMap);
+                    return;
+                }
+            }
+            activeMap.closePopup(targetPopup);
+        }
+
+        mapH.on('mousemove', (e) => handleMapGridInterrogation(e, mapH, false));
+        mapA.on('mousemove', (e) => handleMapGridInterrogation(e, mapA, true));
+        mapH.on('mouseout', () => mapH.closePopup(popupH));
+        mapA.on('mouseout', () => mapA.closePopup(popupA));
+
+        // --- State Control Playback Elements ---
         let currentFrameIndex = 0;
         let isPlaying = false;
-        let playIntervalTimer = null;
+        let playbackTimer = null;
         let playSpeedMs = 400;
 
-        const frameImg = document.getElementById('radar-frame');
         const slider = document.getElementById('timeline-slider');
         const selector = document.getElementById('datetime-selector');
         const speedSelector = document.getElementById('speed-selector');
-        const indicator = document.getElementById('live-indicator');
-        const loadingOverlay = document.getElementById('loading-overlay');
-
         const btnPlay = document.getElementById('btn-play');
-        const playIcon = document.getElementById('play-icon');
-        const playText = document.getElementById('play-text');
+        const indicator = document.getElementById('live-indicator');
 
-        frameSequence.forEach(frm => {
-            const opt = document.createElement('option');
-            opt.value = frm.index;
-            opt.innerText = frm.label;
+        frameSequence.forEach(f => {
+            const opt = document.createElement('option'); opt.value = f.index; opt.innerText = f.label;
             selector.appendChild(opt);
         });
-
         slider.max = frameSequence.length - 1;
 
-        function renderActiveFrame(index) {
-            if(index < 0 || index >= frameSequence.length) return;
-            currentFrameIndex = index;
-            
-            const activeFrame = frameSequence[currentFrameIndex];
-            frameImg.src = activeFrame.filename;
-            
-            slider.value = currentFrameIndex;
-            selector.value = currentFrameIndex;
-            indicator.innerText = `FRAME: ${currentFrameIndex + 1} / ${frameSequence.length}`;
-        }
-
-        frameImg.onload = () => {
-            loadingOverlay.classList.add('opacity-0');
-            setTimeout(() => loadingOverlay.style.display = 'none', 300);
-        };
-
-        function startPlaybackAnimationLoop() {
-            isPlaying = true;
-            playText.innerText = "Pause";
-            playIcon.setAttribute('data-lucide', 'pause');
+        function startAnimation() {
+            isPlaying = true; btnPlay.classList.replace('bg-blue-600', 'bg-slate-700');
+            document.getElementById('play-text').innerText = "Pause Loop";
+            document.getElementById('play-icon').setAttribute('data-lucide', 'pause');
             lucide.createIcons();
-
-            playIntervalTimer = setInterval(() => {
-                let nextFrame = currentFrameIndex + 1;
-                if(nextFrame >= frameSequence.length) {
-                    nextFrame = 0;
-                }
-                renderActiveFrame(nextFrame);
+            playbackTimer = setInterval(() => {
+                loadAndRenderFrame((currentFrameIndex + 1) % frameSequence.length);
             }, playSpeedMs);
         }
 
-        function stopPlaybackAnimationLoop() {
-            isPlaying = false;
-            playText.innerText = "Play";
-            playIcon.setAttribute('data-lucide', 'play');
-            lucide.createIcons();
-            clearInterval(playIntervalTimer);
+        function stopAnimation() {
+            isPlaying = false; btnPlay.classList.replace('bg-slate-700', 'bg-blue-600');
+            document.getElementById('play-text').innerText = "Play Loop";
+            document.getElementById('play-icon').setAttribute('data-lucide', 'play');
+            lucide.createIcons(); clearInterval(playbackTimer);
         }
 
-        btnPlay.addEventListener('click', () => {
-            if(isPlaying) stopPlaybackAnimationLoop();
-            else startPlaybackAnimationLoop();
-        });
-
-        document.getElementById('btn-next').addEventListener('click', () => {
-            stopPlaybackAnimationLoop();
-            if(currentFrameIndex < frameSequence.length - 1) renderActiveFrame(currentFrameIndex + 1);
-        });
-
-        document.getElementById('btn-prev').addEventListener('click', () => {
-            stopPlaybackAnimationLoop();
-            if(currentFrameIndex > 0) renderActiveFrame(currentFrameIndex - 1);
-        });
-
-        document.getElementById('btn-first').addEventListener('click', () => {
-            stopPlaybackAnimationLoop();
-            renderActiveFrame(0);
-        });
-
-        document.getElementById('btn-last').addEventListener('click', () => {
-            stopPlaybackAnimationLoop();
-            renderActiveFrame(frameSequence.length - 1);
-        });
-
-        slider.addEventListener('input', (e) => {
-            stopPlaybackAnimationLoop();
-            renderActiveFrame(parseInt(e.target.value));
-        });
-
-        selector.addEventListener('change', (e) => {
-            stopPlaybackAnimationLoop();
-            renderActiveFrame(parseInt(e.target.value));
-        });
-
-        speedSelector.addEventListener('change', (e) => {
-            playSpeedMs = parseInt(e.target.value);
-            if(isPlaying) {
-                stopPlaybackAnimationLoop();
-                startPlaybackAnimationLoop();
-            }
-        });
+        btnPlay.addEventListener('click', () => isPlaying ? stopAnimation() : startAnimation());
+        document.getElementById('btn-next').addEventListener('click', () => { stopAnimation(); if(currentFrameIndex < frameSequence.length - 1) loadAndRenderFrame(currentFrameIndex + 1); });
+        document.getElementById('btn-prev').addEventListener('click', () => { stopAnimation(); if(currentFrameIndex > 0) loadAndRenderFrame(currentFrameIndex - 1); });
+        document.getElementById('btn-first').addEventListener('click', () => { stopAnimation(); loadAndRenderFrame(0); });
+        document.getElementById('btn-last').addEventListener('click', () => { stopAnimation(); loadAndRenderFrame(frameSequence.length - 1); });
+        slider.addEventListener('input', (e) => { stopAnimation(); loadAndRenderFrame(parseInt(e.target.value)); });
+        selector.addEventListener('change', (e) => { stopAnimation(); loadAndRenderFrame(parseInt(e.target.value)); });
+        speedSelector.addEventListener('change', (e) => { playSpeedMs = parseInt(e.target.value); if(isPlaying) { stopAnimation(); startAnimation(); }});
 
         lucide.createIcons();
-        renderActiveFrame(0);
+        loadAndRenderFrame(0);
     </script>
 </body>
 </html>
