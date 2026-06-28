@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HatYai 2025 Flood Event - Executive Summary</title>
+    <title>HatYai & Songkhla 2025 Flood Event - Executive Summary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -11,49 +11,56 @@
 
     <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
         <div>
-            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
-                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 data-lang" data-en="Songkhla Flood 2025" data-th="น้ำท่วมสงขลา 2025">Songkhla Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="Event Analysis Dashboard" data-th="แดชบอร์ดวิเคราะห์สถานการณ์">Event Analysis Dashboard</p>
                 </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
             </div>
 
             <nav class="space-y-1">
                 <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
                     <i data-lucide="file-text" class="w-5 h-5 text-blue-600"></i>
-                    <span>1. Homepage</span>
+                    <span class="data-lang" data-en="1. Homepage" data-th="1. หน้าแรก">1. Homepage</span>
                 </a>
 
                 <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
-                    <span>2. Animation Radar Rainfall</span>
+                    <span class="data-lang" data-en="2. Animation Radar Rainfall" data-th="2. แอนิเมชันเรดาร์น้ำฝน">2. Animation Radar Rainfall</span>
                 </a>
 
                 <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
-                    <span>3. Rainfall Stations</span>
+                    <span class="data-lang" data-en="3. Rainfall Stations" data-th="3. สถานีวัดน้ำฝน">3. Rainfall Stations</span>
                 </a>
 
                 <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
-                    <span>4. Water Level Situations</span>
+                    <span class="data-lang" data-en="4. Water Level Situations" data-th="4. สถานการณ์ระดับน้ำ">4. Water Level Situations</span>
                 </a>
 
                 <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span>5. District Accumulation</span>
+                    <span class="data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายอำเภอ">5. District Accumulation</span>
                 </a>
 
                 <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
-                    <span>6. Flood Mapping</span>
+                    <span class="data-lang" data-en="6. Flood Mapping" data-th="6. แผนที่พื้นที่น้ำท่วม">6. Flood Mapping</span>
                 </a>
             </nav>
         </div>
 
         <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium">
-            <p>Local HTML Project v1.0</p>
+            <p>Local HTML Project v2.2</p>
         </div>
     </aside>
 
@@ -61,213 +68,398 @@
          
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Event Summary & Damage Report</h2>
-                <p class="text-sm text-slate-500">Comprehensive overview of the late 2025 flash flood event in Hat Yai District.</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Event Summary & Damage Report" data-th="สรุปสถานการณ์และรายงานความเสียหาย">Event Summary & Damage Report</h2>
+                <p class="text-sm text-slate-500 data-lang" data-en="Comprehensive data verified by DDPM Songkhla on May 6, 2026." data-th="ข้อมูลสรุปสถานการณ์อย่างเป็นทางการโดย ปภ. จังหวัดสงขลา ณ วันที่ 6 พ.ค. 2569">Comprehensive data verified by DDPM Songkhla on May 6, 2026.</p>
             </div>
             <div class="bg-white border border-slate-200 px-4 py-2 rounded-lg text-xs self-start sm:self-center shadow-sm">
-                <span class="text-slate-500 font-medium">Analysis Scope:</span> 
-                <span class="text-blue-600 font-bold ml-1">Nov 19 - Nov 27, 2025</span>
+                <span class="text-slate-500 font-medium data-lang" data-en="Event Period:" data-th="ช่วงเวลาเกิดภัย:">Event Period:</span> 
+                <span class="text-blue-600 font-bold ml-1">Nov 19 - Nov 28, 2025</span>
             </div>
         </header>
 
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
              
+            <!-- LEFT + CENTER COLUMN: Timeline and Financial Modules -->
             <section class="xl:col-span-2 space-y-6">
+                
+                <!-- Chronological Event Timeline -->
                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                            <i data-lucide="calendar" class="text-blue-600 w-5 h-5"></i>
-                            Chronological Event Timeline
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2 data-lang" data-en="Chronological Event Timeline" data-th="ลำดับเหตุการณ์ตามเวลา">
+                            <i data-lucide="calendar" class="text-blue-600 w-5 h-5"></i> Chronological Event Timeline
                         </h3>
                         <div class="flex gap-2">
                             <span class="text-[11px] font-semibold px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-full flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Wave 1 (~27h)
+                                <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> <span class="data-lang" data-en="Wave 1 (~27h)" data-th="ระลอกที่ 1 (~27 ชม.)">Wave 1 (~27h)</span>
                             </span>
                             <span class="text-[11px] font-semibold px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> Wave 2 (~3d 10h)
+                                <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> <span class="data-lang" data-en="Wave 2 (~3d 10h)" data-th="ระลอกที่ 2 (~3 วัน 10 ชม.)">Wave 2 (~3d 10h)</span>
                             </span>
                         </div>
                     </div>
 
                     <div class="relative border-l-2 border-slate-200 ml-3 space-y-8">
                          
-                        <!-- Initial Soil Saturation Phase -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-slate-400 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">Nov 19, 2025 • 17:00</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Storm Ingress & Antecedent Saturation</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-slate-900 mt-1 data-lang" data-en="Storm Ingress & Antecedent Saturation" data-th="พายุเริ่มเข้าและดินอิ่มตัวล่วงหน้า">Storm Ingress & Antecedent Saturation</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="Continuous rain pounded the basin for 16 hours straight, tracking from Khao Kho Hong in the east directly through inner Hat Yai, then progressing downstream into the western headwaters of Khlong Wat and Khlong Tam. Being early-season rain, channel levels stayed below warning thresholds, but it critically primed and fully saturated the soil profile across the entire catchment area." 
+                               data-th="ฝนตกต่อเนื่องซัดกระหน่ำลุ่มน้ำเป็นเวลา 16 ชั่วโมงติดต่อกัน โดยเคลื่อนตัวจากเขาคอหงส์ทางทิศตะวันออกเข้าสู่ใจกลางเมืองหาดใหญ่โดยตรง ก่อนจะหลากลงสู่พื้นที่ต้นน้ำทางทิศตะวันตกของคลองหวะและคลองต่ำ เนื่องจากเป็นฝนต้นฤดู ระดับน้ำในทางน้ำจึงยังต่ำกว่าเกณฑ์แจ้งเตือน แต่ส่งผลให้ดินเกิดการอิ่มตัวน้ำอย่างเต็มที่ทั่วทั้งพื้นที่รับน้ำ">
                                 Continuous rain pounded the basin for 16 hours straight, tracking from Khao Kho Hong in the east directly through inner Hat Yai, then progressing downstream into the western headwaters of Khlong Wat and Khlong Tam. Being early-season rain, channel levels stayed below warning thresholds, but it critically primed and fully saturated the soil profile across the entire catchment area.
                             </p>
                         </div>
 
-                        <!-- Heavy Rain Main City -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-amber-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">Nov 21, 2025 • 05:00</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Secondary Heavy Downpour Block</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-slate-900 mt-1 data-lang" data-en="Secondary Heavy Downpour Block" data-th="กลุ่มฝนตกหนักรุนแรงระลอกสอง">Secondary Heavy Downpour Block</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="Another massive 22-hour continuous downpour hammered the core Hat Yai municipality area, with scattered bands extending upstream into the Sadao district for about 4–5 hours. The weather systems completely exhausted remaining catchment absorption before taking a temporary 9-hour operational break." 
+                               data-th="ฝนตกหนักต่อเนื่องยาวนานอีก 22 ชั่วโมงซัดกระหน่ำพื้นที่เทศบาลนครหาดใหญ่ โดยมีกลุ่มฝนกระจายตัวขยายไปถึงบริเวณต้นน้ำในอำเภอสะเดาประมาณ 4-5 ชั่วโมง ระบบสภาพอากาศทำให้ขีดความสามารถในการดูดซับน้ำของพื้นที่รับน้ำหมดไปโดยสิ้นเชิง ก่อนที่ฝนจะหยุดพักชั่วคราวเป็นเวลา 9 ชั่วโมง">
                                 Another massive 22-hour continuous downpour hammered the core Hat Yai municipality area, with scattered bands extending upstream into the Sadao district for about 4–5 hours. The weather systems completely exhausted remaining catchment absorption before taking a temporary 9-hour operational break.
                             </p>
                         </div>
 
-                        <!-- Wave 1 Inundation -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-amber-600 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-white bg-amber-600 px-2 py-0.5 rounded-md">Nov 22, 2025 • 13:00</span>
-                            <h4 class="text-sm font-bold text-amber-900 mt-1">🎯 Wave 1 Flooding Inundation Activated</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-amber-900 mt-1 data-lang" data-en="🎯 Wave 1 Flooding Inundation Activated" data-th="🎯 เริ่มเกิดน้ำท่วมระลอกที่ 1">🎯 Wave 1 Flooding Inundation Activated</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="The combined hyper-concentrated runoff from the previous storms forced the initial urban flash flood wave, lasting approximately 27 hours through the following afternoon." 
+                               data-th="มวลน้ำท่าที่สะสมตัวอย่างหนาแน่นจากพายุก่อนหน้า ส่งผลให้เกิดมวลน้ำท่วมหลากในเขตเมืองระลอกแรก โดยกินเวลายาวนานประมาณ 27 ชั่วโมงไปจนถึงบ่ายของวันถัดไป">
                                 The combined hyper-concentrated runoff from the previous storms forced the initial urban flash flood wave, lasting approximately 27 hours through the following afternoon.
                             </p>
                         </div>
 
-                        <!-- False Security Window -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-blue-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">Nov 23, 2025 • 02:00</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1 flex items-center gap-1.5">
-                                Catchment Lag Window & False End Summary
-                                <span class="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.2 rounded font-mono">Critical Insight</span>
+                            <h4 class="text-sm font-bold text-slate-900 mt-1 flex items-center gap-1.5 flex-wrap">
+                                <span class="data-lang" data-en="Catchment Lag Window & False End Summary" data-th="ช่วงเวลาหน่วงน้ำและการเข้าใจผิดว่าสถานการณ์จบแล้ว">Catchment Lag Window & False End Summary</span>
+                                <span class="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.2 rounded font-mono data-lang" data-en="Critical Insight" data-th="ข้อมูลสำคัญ">Critical Insight</span>
                             </h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="Heavy downpours reignited far upstream in the mid-to-upper basin zones around Sadao District. However, because of the 9-hour local pause in the city and the natural physical travel time (lag window) required for upstream runoff to arrive downstream, river levels inside the city briefly dropped below banks. This caused a dangerous public misunderstanding that the event had entirely resolved." 
+                               data-th="ฝนตกหนักเริ่มกลับมาตกอีกครั้งในพื้นที่ตอนกลางและตอนบนของลุ่มน้ำรอบอำเภอสะเดา อย่างไรก็ตาม เนื่องจากฝนในตัวเมืองหยุดตกไป 9 ชั่วโมง ประกอบกับเวลาที่มวลน้ำจากตอนบนต้องใช้เดินทางลงมาตอนล่าง (Lag Time) ทำให้ระดับน้ำในคลองเขตเมืองลดลงต่ำกว่าตลิ่งชั่วคราว สิ่งนี้ทำให้ประชาชนเกิดความเข้าใจผิดที่เป็นอันตรายว่าสถานการณ์คลี่คลายลงแล้ว">
                                 Heavy downpours reignited far upstream in the mid-to-upper basin zones around Sadao District. However, because of the 9-hour local pause in the city and the natural physical travel time (lag window) required for upstream runoff to arrive downstream, river levels inside the city briefly dropped below banks. This caused a dangerous public misunderstanding that the event had entirely resolved.
                             </p>
                         </div>
 
-                        <!-- Wave 2 Launch -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-red-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-white bg-red-600 px-2 py-0.5 rounded-md">Nov 23, 2025 • 23:00</span>
-                            <h4 class="text-sm font-bold text-red-900 mt-1">🚨 Wave 2 Hydrograph Peak Surge</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-red-900 mt-1 data-lang" data-en="🚨 Wave 2 Hydrograph Peak Surge" data-th="🚨 วิกฤตน้ำหลากสูงสุดระลอก 2">🚨 Wave 2 Hydrograph Peak Surge</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="The upstream volume arrived in full force. By 20:00, the main river monitoring indicator at Station X.44 breached its critical bank limits again. By 23:00, the town line officially transitioned into a secondary, more extreme flood state lasting over 3 days." 
+                               data-th="มวลน้ำหลากจากตอนบนหลั่งไหลเข้ามาเต็มพิกัด เมื่อเวลา 20:00 น. สถานีตรวจวัดน้ำหลักที่ สถานี X.44 ระดับน้ำเอ่อล้นตลิ่งวิกฤตอีกครั้ง และเมื่อถึงเวลา 23:00 น. เขตเมืองได้เข้าสู่สภาวะน้ำท่วมระลอกสองที่รุนแรงกว่าเดิมอย่างเป็นทางการ โดยกินเวลายาวนานกว่า 3 วัน">
                                 The upstream volume arrived in full force. By 20:00, the main river monitoring indicator at **Station X.44** breached its critical bank limits again. By 23:00, the town line officially transitioned into a secondary, more extreme flood state lasting over 3 days.
                             </p>
                         </div>
 
-                        <!-- Extreme Basin Overload -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-red-700 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded-md">Nov 24, 2025</span>
-                            <h4 class="text-sm font-bold text-slate-900 mt-1">Basin-Wide Tributary Overload</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-slate-900 mt-1 data-lang" data-en="Basin-Wide Tributary Overload" data-th="น้ำล้นทะลักทุกลำน้ำสาขาทั่วทั้งลุ่มน้ำ">Basin-Wide Tributary Overload</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="Compounding the incoming upstream surge, an 18-hour continuous rainfall system locked across the entire Khlong U-Tapao river basin. Operating on 100% saturated ground, all regional tributaries hit maximum runoff discharge at the exact same time, creating massive channel overflow across municipal sectors." 
+                               data-th="ซ้ำร้ายกว่านั้น ฝนตกต่อเนื่องยาวนานกว่า 18 ชั่วโมงได้ปกคลุมทั่วทั้งลุ่มน้ำคลองอู่ตะเภา บนสภาพพื้นดินที่อิ่มน้ำแล้ว 100% ลำน้ำสาขาทั้งหมดในภูมิภาคจึงมีปริมาณน้ำท่าสูงสุดพร้อมๆ กัน ส่งผลให้เกิดน้ำล้นตลิ่งขนาดใหญ่ทะลักเข้าท่วมพื้นที่เทศบาลนครอย่างรุนแรง">
                                 Compounding the incoming upstream surge, an 18-hour continuous rainfall system locked across the entire Khlong U-Tapao river basin. Operating on 100% saturated ground, all regional tributaries hit maximum runoff discharge at the exact same time, creating massive channel overflow across municipal sectors.
                             </p>
                         </div>
 
-                        <!-- Recedence and Drainage -->
                         <div class="relative pl-6">
                             <span class="absolute -left-[11px] top-1 bg-emerald-500 rounded-full w-5 h-5 border-4 border-white shadow-sm"></span>
                             <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">Nov 25 (08:00) - Nov 27 (09:00)</span>
-                            <h4 class="text-sm font-bold text-emerald-900 mt-1">System Stabilization & Outflow</h4>
-                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                            <h4 class="text-sm font-bold text-emerald-900 mt-1 data-lang" data-en="System Stabilization & Outflow" data-th="ระบบเริ่มทรงตัวและการระบายน้ำออก">System Stabilization & Outflow</h4>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed data-lang" 
+                               data-en="The storm cells finally cleared on the morning of Nov 25. Channel flows began a steady recession path over the subsequent 48 hours, fully restoring normal channel capacity parameters by 09:00 on Nov 27 as floodwater emptied out into Songkhla Lake." 
+                               data-th="กลุ่มพายุสลายตัวไปในที่สุดในช่วงเช้าของวันที่ 25 พฤศจิกายน การไหลของน้ำในทางน้ำเริ่มลดลงอย่างต่อเนื่องในอีก 48 ชั่วโมงต่อมา และกลับคืนสู่สภาวะปกติได้ภายในเวลา 09:00 น. ของวันที่ 27 พฤศจิกายน เนื่องจากมวลน้ำท่วมไหลระบายออกสู่ทะเลสาบสงขลาจนหมด">
                                 The storm cells finally cleared on the morning of Nov 25. Channel flows began a steady recession path over the subsequent 48 hours, fully restoring normal channel capacity parameters by 09:00 on Nov 27 as floodwater emptied out into Songkhla Lake.
                             </p>
                         </div>
 
                     </div>
                 </div>
+
+                <!-- กล่องที่ 1: งบประมาณหลักและมูลค่าความเสียหาย -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3 data-lang" data-en="Financial Summary & Independent Budgets" data-th="สรุปงบประมาณการเยียวยาและมูลค่าความเสียหาย (เงินแยกก้อน)">
+                        <i data-lucide="badge-dollar-sign" class="text-indigo-600 w-5 h-5"></i> Financial Summary & Independent Budgets
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Economic Losses -->
+                        <div class="p-4 bg-slate-900 text-white rounded-xl shadow-inner border border-slate-800 flex flex-col justify-between">
+                            <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider data-lang" data-en="Estimated Economic Losses" data-th="มูลค่าความเสียหายทางเศรษฐกิจ (ประมาณการ)">Estimated Economic Losses</span>
+                            <div class="mt-4">
+                                <span class="text-xl font-black text-amber-400 block border-b border-slate-800 pb-1">15,708,000,000 <span class="text-xs font-medium text-white">THB</span></span>
+                                <span class="text-lg font-bold text-slate-300 block mt-1">$462,000,000 <span class="text-xs font-normal text-slate-400">USD</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Total Compensation Approved -->
+                        <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex flex-col justify-between">
+                            <span class="block text-xs font-semibold text-emerald-700 uppercase tracking-wider data-lang" data-en="Total Cabinet Compensation Approved" data-th="เงินเยียวยารวมที่อนุมัติ (มติ ครม. ครัวเรือนละ 9,000)">Total Cabinet Compensation Approved</span>
+                            <div class="mt-4">
+                                <span class="text-xl font-black text-emerald-800 block border-b border-emerald-200 pb-1">5,783,796,000 <span class="text-xs font-medium text-emerald-600">THB</span></span>
+                                <span class="text-lg font-bold text-slate-600 block mt-1">≈ $170,111,647 <span class="text-xs font-normal text-slate-500">USD</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Relief Fund -->
+                        <div class="p-4 bg-blue-50 border border-blue-100 rounded-xl flex flex-col justify-between">
+                            <span class="block text-xs font-semibold text-blue-700 uppercase tracking-wider data-lang" data-en="Total Spent Emergency Relief Fund" data-th="เงินทดรองราชการกรณีฉุกเฉิน (รวมเบิกจ่าย)">Total Spent Emergency Relief Fund</span>
+                            <div class="mt-4">
+                                <span class="text-xl font-black text-blue-800 block border-b border-blue-200 pb-1">1,392,628,938 <span class="text-xs font-medium text-blue-600">THB</span></span>
+                                <span class="text-lg font-bold text-slate-600 block mt-1">≈ $40,959,675 <span class="text-xs font-normal text-slate-500">USD</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- กล่องที่ 2: รายละเอียดการเบิกจ่ายเงินทดรองราชการฉุกเฉิน 5 ด้าน -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2 data-lang" data-en="Emergency Relief Fund Expenditure Breakdown" data-th="รายละเอียดการใช้จ่ายเงินทดรองราชการเพื่อช่วยเหลือผู้ประสบภัย 5 ด้าน">
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-slate-400"></i> Emergency Relief Fund Expenditure Breakdown
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-lg">
+                            <span class="text-xs font-bold text-slate-700 block data-lang" data-en="1. Life Sustaining Support" data-th="1. ด้านการดำรงชีพ (ถุงยังชีพ/อาหาร/ที่พัก)">1. Life Sustaining Support</span>
+                            <span class="text-base font-extrabold text-slate-900 block mt-1">1,353,192,728 <span class="text-xs font-normal text-slate-500">THB</span></span>
+                            <span class="text-xs text-slate-500 block">≈ $39,799,786 <span class="text-[10px] font-mono">USD</span></span>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-lg">
+                            <span class="text-xs font-bold text-slate-700 block data-lang" data-en="2. Operational & Operations Response" data-th="2. ด้านการปฏิบัติงานช่วยเหลือ (น้ำมัน/ยานพาหนะ)">2. Operational & Operations Response</span>
+                            <span class="text-base font-extrabold text-slate-900 block mt-1">22,691,847 <span class="text-xs font-normal text-slate-500">THB</span></span>
+                            <span class="text-xs text-slate-500 block">≈ $667,407 <span class="text-[10px] font-mono">USD</span></span>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-lg">
+                            <span class="text-xs font-bold text-slate-700 block data-lang" data-en="3. Public Infrastructure Disaster Relief" data-th="3. ด้านบรรเทาสาธารณภัย (ซ่อมแซมทาง)">3. Public Infrastructure Disaster Relief</span>
+                            <span class="text-base font-extrabold text-slate-900 block mt-1">15,047,543 <span class="text-xs font-normal text-slate-500">THB</span></span>
+                            <span class="text-xs text-slate-500 block">≈ $442,575 <span class="text-[10px] font-mono">USD</span></span>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-lg">
+                            <span class="text-xs font-bold text-slate-700 block data-lang" data-en="4. Frontline Agricultural Relief" data-th="4. ด้านการเกษตรฉุกเฉิน (บรรเทาเบื้องต้น)">4. Frontline Agricultural Relief</span>
+                            <span class="text-base font-extrabold text-slate-900 block mt-1">1,396,818 <span class="text-xs font-normal text-slate-500">THB</span></span>
+                            <span class="text-xs text-slate-500 block">≈ $41,083 <span class="text-[10px] font-mono">USD</span></span>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 border border-slate-200/60 rounded-lg">
+                            <span class="text-xs font-bold text-slate-700 block data-lang" data-en="5. Medical & Public Healthcare" data-th="5. ด้านการแพทย์และสาธารณสุข (เคมีภัณฑ์)">5. Medical & Public Healthcare</span>
+                            <span class="text-base font-extrabold text-slate-900 block mt-1">300,000 <span class="text-xs font-normal text-slate-500">THB</span></span>
+                            <span class="text-xs text-slate-500 block">≈ $8,824 <span class="text-[10px] font-mono">USD</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- กล่องที่ 3 และ 4: เงินค่าปลงศพ และ กล่องรวมทรัพย์สิน -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- เงินค่าปลงศพ (แยกก้อนอิสระ) -->
+                    <div class="p-5 bg-orange-50/60 border border-orange-100 rounded-xl flex flex-col justify-between shadow-sm">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-orange-700 uppercase tracking-wide block border-b border-orange-100 pb-1.5 data-lang" data-en="Casualty Remediation Grants" data-th="ส่วนเงินเยียวยาผู้เสียชีวิต (แยกก้อนอิสระ)">Casualty Remediation Grants</span>
+                            
+                            <div>
+                                <span class="block text-xs font-medium text-slate-500 data-lang" data-en="Cabinet-Approved Funeral Grants (144 Cases)" data-th="เงินค่าปลงศพตามมติ ครม. (เข้าหลักเกณฑ์ 144 ราย)">Cabinet-Approved Funeral Grants (144 Cases)</span>
+                                <span class="text-lg font-black text-slate-800 block mt-0.5">248,000,000 THB</span>
+                                <span class="text-xs text-slate-500 block">≈ $7,294,118 USD</span>
+                            </div>
+
+                            <div class="pt-2 border-t border-orange-200/40">
+                                <span class="block text-xs font-medium text-slate-500 data-lang" data-en="Rajaprachanukroh Foundation Assistance" data-th="เงินสงเคราะห์มูลนิธิราชประชานุเคราะห์ฯ (16 ราย)">Rajaprachanukroh Foundation Assistance</span>
+                                <span class="text-base font-bold text-slate-800 block">160,000 THB</span>
+                                <span class="text-xs text-slate-500 block">≈ $4,706 USD</span>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-orange-700/80 font-medium pt-3 mt-4 border-t border-orange-100 flex items-center justify-between">
+                            <span class="data-lang" data-en="Hat Yai Area: 99 Fatalities Accounted" data-th="เฉพาะพื้นที่ อ.หาดใหญ่ เสียชีวิตรวม 99 ราย">Hat Yai Area: 99 Fatalities Accounted</span>
+                            <i data-lucide="heart" class="text-orange-500 w-4 h-4"></i>
+                        </div>
+                    </div>
+
+                    <!-- ส่วนของทรัพย์สินและสิ่งสาธารณประโยชน์ (มัดรวม ครัวเรือน+ศึกษา+เส้นทาง) -->
+                    <div class="p-5 bg-indigo-50/60 border border-indigo-100 rounded-xl flex flex-col justify-between shadow-sm">
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold text-indigo-700 uppercase tracking-wide block border-b border-indigo-100 pb-1.5 data-lang" data-en="Property & Infrastructure Damage Funds" data-th="ส่วนของทรัพย์สินและโครงสร้างพื้นฐาน (รวมทุกหมวด)">Property & Infrastructure Damage Funds</span>
+                            
+                            <div>
+                                <span class="block text-xs font-medium text-slate-500 data-lang" data-en="1. Residential Repair Grants (87,585 Houses)" data-th="1. งบช่วยเหลือซ่อมแซมบ้านเรือนประจำ (จ่ายแล้ว 87,585 หลัง)">1. Residential Repair Grants (87,585 Houses)</span>
+                                <span class="text-base font-black text-indigo-950 block">1,260,741,132 THB</span>
+                                <span class="text-xs text-slate-500 block">≈ $37,080,622 USD</span>
+                            </div>
+
+                            <div>
+                                <span class="block text-xs font-medium text-slate-500 data-lang" data-en="2. Educational Rehabilitation Budget (544 Schools)" data-th="2. งบฟื้นฟูสถานศึกษาและโรงเรียนที่เสียหาย (544 แห่ง)">2. Educational Rehabilitation Budget (544 Schools)</span>
+                                <span class="text-base font-black text-indigo-950 block">463,375,762 THB</span>
+                                <span class="text-xs text-slate-500 block">≈ $13,628,699 USD</span>
+                            </div>
+
+                            <div>
+                                <span class="block text-xs font-medium text-slate-500 data-lang" data-en="3. Public Roads & Highways Rehabilitation" data-th="3. งบซ่อมแซมถนนสายทางคมนาคม (กรมทางหลวง + ชนบท)">3. Public Roads & Highways Rehabilitation</span>
+                                <span class="text-base font-black text-indigo-950 block">463,920,000 THB</span>
+                                <span class="text-xs text-slate-500 block">≈ $13,644,706 USD</span>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-slate-400 font-mono border-t border-indigo-100 pt-2 mt-3 flex items-center justify-between">
+                            <span class="data-lang" data-en="*Hat Yai District schools account for 177,058,628 THB" data-th="*เฉพาะสถานศึกษาใน อ.หาดใหญ่ เสียหาย 177,058,628 บาท">*Hat Yai District schools account for 177,058,628 THB</span>
+                            <i data-lucide="building" class="text-indigo-400 w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
+            <!-- RIGHT COLUMN: Physical Impact Indicators & Metadata -->
             <section class="space-y-6">
                  
+                <!-- กล่องที่ 6: สรุปผลกระทบต่อประชากรและกายภาพ -->
                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-                    <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Impact Assessment Indicators</h3>
+                    <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase data-lang" data-en="Impact Assessment Indicators" data-th="ตัวชี้วัดความเสียหายเชิงกายภาพ">Impact Assessment Indicators</h3>
                      
-                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                    <!-- Households -->
+                    <div class="flex items-center gap-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
                         <div class="p-3 bg-blue-100 text-blue-700 rounded-lg">
                             <i data-lucide="home" class="w-6 h-6"></i>
                         </div>
                         <div class="flex-1">
-                            <span class="block text-xs font-medium text-slate-500">Affected Infrastructure</span>
-                            <span class="text-xl font-bold text-slate-900">122,125 <span class="text-xs font-semibold text-slate-500">Households</span></span>
+                            <span class="block text-xs font-medium text-slate-500 data-lang" data-en="Affected Households" data-th="ครัวเรือนที่ได้รับผลกระทบ">Affected Households</span>
+                            <span class="text-xl font-bold text-slate-900">592,707 <span class="text-xs font-semibold text-slate-500 data-lang" data-en="Households" data-th="ครัวเรือน">Households</span></span>
                         </div>
                     </div>
 
+                    <!-- Population -->
+                    <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                        <div class="p-3 bg-slate-200 text-slate-700 rounded-lg">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-xs font-medium text-slate-500 data-lang" data-en="Affected Population" data-th="ประชากรที่ได้รับผลกระทบ">Affected Population</span>
+                            <span class="text-xl font-bold text-slate-900">1,422,410 <span class="text-xs font-semibold text-slate-500 data-lang" data-en="People (49,956 Evacuated)" data-th="คน (อพยพ 49,956 คน)">People</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Casualties -->
                     <div class="flex items-center gap-4 p-3 bg-red-50 rounded-lg border border-red-100">
                         <div class="p-3 bg-red-100 text-red-700 rounded-lg">
                             <i data-lucide="heart-off" class="w-6 h-6"></i>
                         </div>
                         <div class="flex-1">
-                            <span class="block text-xs font-medium text-red-600">Casualties</span>
-                            <span class="text-xl font-bold text-red-700">132 <span class="text-xs font-semibold text-red-500">Fatalities</span></span>
+                            <span class="block text-xs font-medium text-red-600 data-lang" data-en="Fatalities & Injured" data-th="ผู้เสียชีวิตและบาดเจ็บ">Fatalities & Injured</span>
+                            <span class="text-xl font-bold text-red-700">150 / 4 <span class="text-xs font-semibold text-red-500 data-lang" data-en="Fatalities / Injured" data-th="เสียชีวิต / บาดเจ็บ">Fatalities / Injured</span></span>
                         </div>
                     </div>
 
+                    <!-- Agricultural Sector Loss -->
                     <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 space-y-2.5">
                         <div class="flex items-center gap-3 text-slate-900 font-bold text-sm border-b border-slate-200 pb-1.5">
                             <i data-lucide="sprout" class="w-4 h-4 text-emerald-600"></i>
-                            <span>Agricultural Sector Loss</span>
+                            <span class="data-lang" data-en="Approved Agricultural Sector Loss" data-th="ความเสียหายภาคการเกษตร (กระทรวงเกษตรฯ)">ความเสียหายภาคการเกษตร (กระทรวงเกษตรฯ)</span>
                         </div>
                          
+                        <!-- พืช -->
                         <div class="text-xs space-y-0.5 pl-1">
-                            <span class="font-bold text-slate-700 block">Crop Sector (16 Districts)</span>
-                            <p class="text-slate-600">Farmers: <span class="font-semibold text-slate-900">8,923</span> | Damaged Area: <span class="font-semibold text-slate-900">33,429.21 Rai</span></p>
-                            <p class="text-slate-500 font-medium">Total Cost: <span class="text-slate-900 font-bold">61,996,121.10 THB</span></p>
+                            <span class="font-bold text-slate-700 block data-lang" data-en="Crop Sector (16 Districts)" data-th="ด้านพืช (16 อำเภอ)">ด้านพืช (16 อำเภอ)</span>
+                            <p class="text-slate-500 font-medium">
+                                <span class="data-lang" data-en="Damaged Area: 33,429.21 Rai" data-th="พื้นที่เสียหาย: 33,429.21 ไร่">พื้นที่เสียหาย: 33,429.21 ไร่</span>
+                            </p>
+                            <span class="text-slate-900 font-extrabold block">61,996,121 THB</span>
+                            <span class="text-[10px] text-slate-500 block">≈ $1,823,415 USD</span>
                         </div>
 
+                        <!-- ประมง -->
                         <div class="text-xs space-y-0.5 border-t border-slate-200/60 pt-1.5 pl-1">
-                            <span class="font-bold text-slate-700 block">Fisheries Sector (16 Districts)</span>
-                            <p class="text-slate-600">Farmers Affected: <span class="font-semibold text-slate-900">2,042</span></p>
-                            <p class="text-slate-500 font-medium">Total Cost: <span class="text-slate-900 font-bold">41,163,078.77 THB</span></p>
+                            <span class="font-bold text-slate-700 block data-lang" data-en="Fisheries Sector (16 Districts)" data-th="ด้านประมง (16 อำเภอ)">ด้านประมง (16 อำเภอ)</span>
+                            <p class="text-slate-500 font-medium">
+                                <span class="data-lang" data-en="Affected Farmers: 2,042 Cases" data-th="เกษตรกรได้รับผลกระทบ: 2,042 ราย">เกษตรกรได้รับผลกระทบ: 2,042 ราย</span>
+                            </p>
+                            <span class="text-slate-900 font-extrabold block">41,163,079 THB</span>
+                            <span class="text-[10px] text-slate-500 block">≈ $1,210,679 USD</span>
                         </div>
 
+                        <!-- ปศุสัตว์ -->
                         <div class="text-xs space-y-0.5 border-t border-slate-200/60 pt-1.5 pl-1">
-                            <span class="font-bold text-slate-700 block">Livestock Sector (14 Districts)</span>
-                            <p class="text-slate-600">Farmers: <span class="font-semibold text-slate-900">1,724</span> | Animal Deaths: <span class="font-semibold text-red-600">109,358 heads</span></p>
-                            <p class="text-slate-500 font-medium">Total Cost: <span class="text-slate-900 font-bold">114,269,578.00 THB</span></p>
+                            <span class="font-bold text-slate-700 block data-lang" data-en="Livestock Sector (14 Districts)" data-th="ด้านปศุสัตว์ (14 อำเภอ)">ด้านปศุสัตว์ (14 อำเภอ)</span>
+                            <p class="text-slate-500 font-medium">
+                                <span class="data-lang" data-en="Animal Deaths: 109,358 Heads" data-th="สัตว์ตาย/สูญหาย: 109,358 ตัว">สัตว์ตาย/สูญหาย: 109,358 ตัว</span>
+                            </p>
+                            <span class="text-slate-900 font-extrabold block">114,269,578 THB</span>
+                            <span class="text-[10px] text-slate-500 block">≈ $3,360,870 USD</span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 pt-1">
-                        <div class="bg-slate-900 text-white p-3 rounded-lg">
-                            <span class="block text-[10px] uppercase tracking-wide text-slate-400 font-medium">Economic Losses</span>
-                            <span class="text-base font-bold text-amber-400">$1,000M <span class="text-[10px] text-white block font-normal">USD</span></span>
+                    <!-- ข้อมูลความเสียหายทางกายภาพอื่นๆ -->
+                    <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 text-xs space-y-1.5">
+                        <span class="font-bold text-slate-800 block border-b border-slate-200 pb-1 data-lang" data-en="Additional Infrastructure Damage" data-th="ข้อมูลความเสียหายกายภาพเพิ่มเติม">ข้อมูลความเสียหายกายภาพเพิ่มเติม</span>
+                        <div class="grid grid-cols-2 gap-2 text-slate-600">
+                            <div>• <span class="data-lang" data-en="Damaged Houses: 122,125" data-th="บ้านเรือนเสียหาย: 122,125 หลัง">บ้านเรือนเสียหาย: 122,125 หลัง</span></div>
+                            <div>• <span class="data-lang" data-en="Damaged Vehicles: ~28,000" data-th="รถยนต์เสียหาย: ~28,000 คัน">รถยนต์เสียหาย: ~28,000 คัน</span></div>
+                            <div>• <span class="data-lang" data-en="Damaged Roads: 779 Lines" data-th="ถนนเสียหาย: 779 สาย">ถนนเสียหาย: 779 สาย</span></div>
+                            <div>• <span class="data-lang" data-en="Bridges: 76 Places" data-th="สะพานเสียหาย: 76 แห่ง">สะพานเสียหาย: 76 แห่ง</span></div>
                         </div>
-                        <div class="bg-blue-900 text-white p-3 rounded-lg">
-                            <span class="block text-[10px] uppercase tracking-wide text-blue-200 font-medium">Compensation</span>
-                            <span class="text-base font-bold text-emerald-400">$50M <span class="text-[10px] text-white block font-normal">USD Provided</span></span>
+                        <div class="text-[11px] text-blue-700 font-medium pt-1 border-t border-slate-200/60">
+                            ✨ <span class="data-lang" data-en="Flood Waste Removed: ~250,000 Tons" data-th="จัดเก็บขยะตกค้างเขตเมือง: ~250,000 ตัน">จัดเก็บขยะตกค้างเขตเมือง: ~250,000 ตัน</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- กล่อง MADE BY พร้อมเพิ่มรูปภาพโลโก้จริงจากวิกิมีเดีย -->
                 <div class="bg-white p-5 border border-slate-200 rounded-xl space-y-4 shadow-sm">
-                    <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase">Made By</h3>
-                     
+                    <h3 class="text-xs font-bold tracking-wider text-slate-400 uppercase data-lang" data-en="Made By" data-th="จัดทำโดย">Made By</h3>
                     <div class="space-y-3">
                         <div>
-                            <span class="text-xs font-bold text-blue-600 tracking-wide uppercase block">Platform Initiative</span>
+                            <span class="text-xs font-bold text-blue-600 tracking-wide uppercase block data-lang" data-en="Platform Initiative" data-th="โครงการแพลตฟอร์ม">Platform Initiative</span>
                             <h4 class="text-base font-bold text-slate-900">Radar4Flood Platform</h4>
                         </div>
-
                         <div class="flex items-start gap-2 pt-1">
                             <i data-lucide="user" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
                             <div class="text-xs text-slate-700 font-medium">
-                                <span class="block font-bold text-slate-900">Assoc.Prof. Dr. Punpim Puttaraksa Mapiam</span>
-                                Principal Investigator / Project Leader
+                                <span class="block font-bold text-slate-900 data-lang" data-en="Assoc.Prof. Dr. Punpim Puttaraksa Mapiam" data-th="รศ.ดร.พูนพิม พุทธรักษา มาเปี่ยม">Assoc.Prof. Dr. Punpim Puttaraksa Mapiam</span>
+                                <span class="data-lang" data-en="Principal Investigator / Project Leader" data-th="หัวหน้าโครงการวิจัย">Principal Investigator / Project Leader</span>
                             </div>
                         </div>
-
-                        <div class="flex items-start gap-2">
+                        <div class="flex items-start gap-2 border-b border-slate-100 pb-3">
                             <i data-lucide="landmark" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
-                            <p class="text-xs text-slate-600">
+                            <p class="text-xs text-slate-600 data-lang" data-en="Faculty of Engineering,<br>Kasetsart University" data-th="คณะวิศวกรรมศาสตร์,<br>มหาวิทยาลัยเกษตรศาสตร์">
                                 Faculty of Engineering,<br>Kasetsart University
                             </p>
                         </div>
-
+                        
                         <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100 text-[11px] text-slate-500 leading-relaxed">
-                            <span class="font-bold text-slate-700 block mb-0.5">Research Grant Sponsor:</span>
-                            Funded by Agricultural Research and Development Agency (Public Organization) (ARDA)
+                            <span class="font-bold text-slate-700 block mb-0.5 data-lang" data-en="Research Grant Sponsor:" data-th="ผู้สนับสนุนทุนวิจัย:">Research Grant Sponsor:</span>
+                            <span class="data-lang" data-en="Funded by Agricultural Research and Development Agency (Public Organization) (ARDA)" data-th="ทุนสนับสนุนจาก สำนักงานพัฒนาการวิจัยการเกษตร (องค์การมหาชน) (สวก.)">Funded by Agricultural Research and Development Agency (Public Organization) (ARDA)</span>
                         </div>
                     </div>
 
-                    <div class="pt-3 border-t border-slate-100 flex items-center justify-around gap-4">
-                        <div class="h-10 w-1/2 bg-slate-50 rounded border border-slate-200 flex items-center justify-center p-1 text-center" title="Kasetsart University">
-                            <span class="text-[9px] font-bold text-slate-400 tracking-tight uppercase">KU Logo</span>
+                    <!-- ส่วนแสดงผลโลโก้จริงจาก URL ของผู้ใช้งาน -->
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-center gap-6 bg-slate-50/50 p-2 rounded-lg">
+                        <div class="w-20 h-20 flex items-center justify-center p-1" title="Kasetsart University">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/KU_SubLogo.png" alt="KU Logo" class="max-w-full max-h-full object-contain filter drop-shadow-sm">
                         </div>
-                        <div class="h-10 w-1/2 bg-slate-50 rounded border border-slate-200 flex items-center justify-center p-1 text-center" title="ARDA Thailand">
-                            <span class="text-[9px] font-bold text-slate-400 tracking-tight uppercase">ARDA Logo</span>
+                        <div class="w-20 h-20 flex items-center justify-center p-1" title="ARDA Thailand">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Emblem_of_The_Agricultural_Research_Development_Agency.svg/1280px-Emblem_of_The_Agricultural_Research_Development_Agency.svg.png" alt="ARDA Logo" class="max-w-full max-h-full object-contain filter drop-shadow-sm">
                         </div>
                     </div>
+                </div>
+
+                <!-- กล่องขอบคุณข้อมูลแหล่งที่มาและข้อมูลอัปเดตล่าสุด -->
+                <div class="bg-slate-100 p-4 border border-slate-200 rounded-xl space-y-2 text-center shadow-inner">
+                    <p class="text-xs text-slate-600 font-semibold tracking-wide data-lang" 
+                       data-en="🙏 Special thanks for data provided by Songkhla Provincial Command Center of Disaster Prevention and Mitigation." 
+                       data-th="🙏 ขอขอบพระคุณข้อมูลจาก กองอำนวยการป้องกันและบรรเทาสาธารณภัยจังหวัดสงขลา">
+                       🙏 ขอขอบพระคุณข้อมูลจาก กองอำนวยการป้องกันและบรรเทาสาธารณภัยจังหวัดสงขลา[cite: 1]
+                    </p>
+                    <p class="text-[11px] text-slate-400 font-mono data-lang" 
+                       data-en="This database was last officially updated on May 6, 2026." 
+                       data-th="ข้อมูลดังกล่าวอัปเดตล่าสุดเมื่อวันที่ 6 พฤษภาคม 2569">
+                       ข้อมูลดังกล่าวอัปเดตล่าสุดเมื่อวันที่ 6 พฤษภาคม 2569[cite: 1]
+                    </p>
                 </div>
 
             </section>
@@ -275,7 +467,51 @@
     </main>
 
     <script>
+        // Initialize Lucide icons
         lucide.createIcons();
+
+        // Language toggle mechanism
+        let currentLang = 'en';
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            
+            // Update Toggle Button Text
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            
+            // Toggle HTML lang attribute
+            document.documentElement.lang = currentLang;
+
+            // Swap out content text
+            translatableElements.forEach(el => {
+                const translation = el.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    if (el.innerHTML.includes('<i') || el.innerHTML.includes('<span')) {
+                        const icon = el.querySelector('i');
+                        const dot = el.querySelector('.bg-amber-500, .bg-red-500');
+                        
+                        if(icon) {
+                            el.innerHTML = '';
+                            el.appendChild(icon);
+                            el.append(' ' + translation);
+                        } else if(dot) {
+                            const innerSpan = document.createElement('span');
+                            innerSpan.className = dot.className;
+                            el.innerHTML = '';
+                            el.appendChild(innerSpan);
+                            el.append(' ' + translation);
+                        } else {
+                            el.innerHTML = translation;
+                        }
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
