@@ -10,39 +10,54 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         #map-hourly, #map-accumulated { z-index: 1; }
+        /* Style range inputs smoothly when track is transparent */
+        input[type="range"]::-webkit-slider-runnable-track { background: transparent; }
+        input[type="range"]::-moz-range-track { background: transparent; }
     </style>
 </head>
-<!-- FIX: Replaced mandatory h-screen overflow-hidden with desktop-only screen locks so mobile can roll and scroll touch fields naturally -->
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen md:h-screen md:max-h-screen md:overflow-hidden flex flex-col md:flex-row">
 
     <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
         <div>
-            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
-                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 data-lang" data-en="HatYai Flood 2025" data-th="น้ำท่วมหาดใหญ่ 2025">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="Event Analysis Dashboard" data-th="แดชบอร์ดวิเคราะห์สถานการณ์">Event Analysis Dashboard</p>
                 </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
             </div>
 
             <nav class="space-y-1">
                 <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i><span>1. Homepage</span>
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="1. Homepage" data-th="1. หน้าแรก">1. Homepage</span>
                 </a>
                 <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
-                    <i data-lucide="play-circle" class="w-5 h-5 text-blue-600"></i><span>2. Animation Radar Rainfall</span>
+                    <i data-lucide="play-circle" class="w-5 h-5 text-blue-600"></i>
+                    <span class="data-lang" data-en="2. Animation Radar Rainfall" data-th="2. แอนิเมชันเรดาร์น้ำฝน">2. Animation Radar Rainfall</span>
                 </a>
                 <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i><span>3. Rainfall Stations</span>
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="3. Rainfall Stations" data-th="3. สถานีวัดน้ำฝน">3. Rainfall Stations</span>
                 </a>
                 <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i><span>4. Water Level Situations</span>
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="4. Water Level Situations" data-th="4. สถานการณ์ระดับน้ำ">4. Water Level Situations</span>
                 </a>
                 <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i><span>5. District Accumulation</span>
+                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายอำเภอ">5. District Accumulation</span>
                 </a>
                 <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
-                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i><span>6. Flood Mapping</span>
+                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="6. Flood Mapping" data-th="6. แผนที่พื้นที่น้ำท่วม">6. Flood Mapping</span>
                 </a>
             </nav>
         </div>
@@ -51,18 +66,21 @@
         </div>
     </aside>
 
-    <!-- FIX: Configured flexible height boundaries that transition seamlessly between touch screen stacks and unified grid maps -->
     <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4 h-full md:max-h-full md:overflow-hidden">
         
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
             <div>
-                <h2 class="text-xl font-bold tracking-tight text-slate-900">Interactive Spatial Radar Matrix</h2>
-                <p class="text-xs text-slate-500">Dual display system running optimized data grid arrays from Singhanakhon Radar.</p>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900 data-lang" data-en="Interactive Spatial Radar Matrix" data-th="ระบบแสดงผลข้อมูลเรดาร์เชิงพื้นที่">Interactive Spatial Radar Matrix</h2>
+                <p class="text-xs text-slate-500 data-lang" data-en="Dual display system running optimized data grid arrays from Singhanakhon Radar." data-th="ระบบแสดงผลคู่ขนาน ประมวลผลจากโครงข่ายกริดสถานีเรดาร์สิงหนคร">Dual display system running optimized data grid arrays from Singhanakhon Radar.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <div class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
                     <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                    <span>ACCUMULATED TIME: <span id="accum-hours-counter" class="font-mono text-sm ml-0.5">0</span> HOURS</span>
+                    <span>
+                        <span class="data-lang" data-en="ACCUMULATED TIME:" data-th="เวลาสะสม:">ACCUMULATED TIME:</span> 
+                        <span id="accum-hours-counter" class="font-mono text-sm ml-0.5">0</span> 
+                        <span class="data-lang" data-en="HOURS" data-th="ชั่วโมง">HOURS</span>
+                    </span>
                 </div>
                 <div class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-700 shadow-sm" id="live-indicator">
                     FRAME: Loading...
@@ -75,14 +93,14 @@
                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto">
                     <div class="flex items-center gap-2">
                         <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
-                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap">Target Matrix Frame:</label>
+                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap data-lang" data-en="Target Matrix Frame:" data-th="เลือกช่วงเวลาบรรจุข้อมูล:">Target Matrix Frame:</label>
                     </div>
                     <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm w-full sm:w-auto sm:max-w-xs"></select>
                 </div>
 
                 <div class="flex items-center gap-2 text-slate-600 font-sans text-xs">
                     <i data-lucide="gauge" class="w-4 h-4 text-slate-400"></i>
-                    <span>Speed:</span>
+                    <span class="data-lang" data-en="Speed:" data-th="ความเร็วสเต็ป:">Speed:</span>
                     <select id="speed-selector" class="bg-white border border-slate-200 rounded px-2 py-0.5 text-slate-700 outline-none text-xs">
                         <option value="1000">1.0s / step</option>
                         <option value="400" selected>0.4s / step</option>
@@ -91,33 +109,39 @@
                 </div>
             </div>
 
+            <!-- Modified Slider Track Container to Support Flood Block Highlights Layer -->
             <div class="flex items-center gap-4">
-                <span class="text-xs font-mono font-bold text-slate-400">START</span>
-                <input type="range" id="timeline-slider" min="0" max="0" value="0" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
-                <span class="text-xs font-mono font-bold text-slate-400">END</span>
+                <span class="text-xs font-mono font-bold text-slate-400 data-lang" data-en="START" data-th="เริ่มต้น">START</span>
+                <div class="relative flex-1 h-6 flex items-center">
+                    <!-- Overlay Highlights Track Base -->
+                    <div id="slider-track-highlights" class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-200 rounded-lg pointer-events-none overflow-hidden">
+                        <!-- Dynamic Periods will load programmatically here -->
+                    </div>
+                    <input type="range" id="timeline-slider" min="0" max="0" value="0" class="absolute inset-0 w-full h-full bg-transparent appearance-none cursor-pointer accent-blue-600 z-10">
+                </div>
+                <span class="text-xs font-mono font-bold text-slate-400 data-lang" data-en="END" data-th="สิ้นสุด">END</span>
             </div>
 
             <div class="flex items-center justify-center gap-2">
                 <button id="btn-first" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-left" class="w-4 h-4"></i></button>
                 <button id="btn-prev" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-back" class="w-4 h-4"></i></button>
-                <button id="btn-play" class="flex items-center gap-2 px-5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition min-w-[110px] justify-center">
-                    <i data-lucide="play" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text">Play Loop</span>
+                <button id="btn-play" class="flex items-center gap-2 px-5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow transition min-w-[130px] justify-center">
+                    <i data-lucide="play" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">Play Loop</span>
                 </button>
                 <button id="btn-next" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="skip-forward" class="w-4 h-4"></i></button>
                 <button id="btn-last" class="p-1.5 rounded bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 shadow-sm transition"><i data-lucide="chevrons-right" class="w-4 h-4"></i></button>
             </div>
         </div>
 
-        <!-- FIX: Set explicit fallback min-height targets (h-[400px] md:h-full) so map layouts do not collapse into 0px elements on smartphones -->
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 md:overflow-hidden md:min-h-0 pb-2">
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
-                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="1. Hourly Intensity Grid (mm/hr)" data-th="1. ความเข้มน้ำฝนรายชั่วโมง (มม./ชม.)">
                     1. Hourly Intensity Grid (mm/hr)
                 </div>
                 <div id="map-hourly" class="w-full flex-1 relative min-h-0"></div>
                 
                 <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-72">
-                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Rainfall Intensity (mm/hr)</span>
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider data-lang" data-en="Rainfall Intensity (mm/hr)" data-th="ความเข้มของฝน (มม./ชม.)">Rainfall Intensity (mm/hr)</span>
                     <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
                         <div class="flex-1" style="background-color: #5293F8;"></div>
                         <div class="flex-1" style="background-color: #2C51F2;"></div>
@@ -142,13 +166,13 @@
             </div>
 
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
-                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0">
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="2. Accumulated Total Spatial Map (mm)" data-th="2. แผนที่แสดงปริมาณฝนสะสมเชิงพื้นที่ (มม.)">
                     2. Accumulated Total Spatial Map (mm)
                 </div>
                 <div id="map-accumulated" class="w-full flex-1 relative min-h-0"></div>
                 
                 <div class="absolute bottom-4 left-4 right-4 md:right-auto z-20 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-2 rounded-lg shadow-md flex flex-col gap-1 md:w-80">
-                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider">Total Accumulated (mm)</span>
+                    <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider data-lang" data-en="Total Accumulated (mm)" data-th="ปริมาณฝนสะสมรวมทั้งหมด (มม.)">Total Accumulated (mm)</span>
                     <div class="w-full h-3 rounded flex border border-slate-300 overflow-hidden">
                         <div class="flex-1" style="background-color: #00008F;" title="101-200"></div>
                         <div class="flex-1" style="background-color: #0000F5;" title="201-300"></div>
@@ -188,7 +212,6 @@
         mapH.on('move', () => mapA.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
         mapA.on('move', () => mapH.setView(mapH.getCenter(), mapH.getZoom(), { animate: false }));
 
-        // FIX: Added map invalidateSize listeners to automatically re-center layouts when moving between portrait and landscape viewports
         const resizeObserver = new ResizeObserver(() => {
             mapH.invalidateSize();
             mapA.invalidateSize();
@@ -244,6 +267,8 @@
             return 'rgba(102, 0, 0, 0.6)';                      
         }
 
+        let currentLang = 'en';
+
         function createSequence(start, end) {
             let res = [];
             let curr = new Date(start);
@@ -256,9 +281,11 @@
                 const h = String(curr.getHours()).padStart(2, '0');
                 
                 const idString = `${y}${m}${d}${h}0000`;
-                const labelString = curr.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', hour12: false }) + ":00 ICT";
                 
-                res.push({ index: idx++, id: idString, label: labelString });
+                const labelEN = curr.toLocaleString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', hour12: false }) + ":00 ICT";
+                const labelTH = curr.toLocaleString('th-TH', { month: 'short', day: '2-digit', hour: '2-digit', hour12: false }) + " น. ICT";
+                
+                res.push({ index: idx++, id: idString, labelEN: labelEN, labelTH: labelTH, rawDate: new Date(curr) });
                 curr.setHours(curr.getHours() + 1);
             }
             return res;
@@ -330,13 +357,64 @@
             }
         });
 
+        // Function to programmatically match frames and display flooding windows on the track bar background
+        function paintFloodTimelineHighlights() {
+            const container = document.getElementById('slider-track-highlights');
+            if (!container || frameSequence.length === 0) return;
+
+            const totalIntervals = frameSequence.length - 1;
+
+            const period1Start = new Date("2025-11-22T13:00:00");
+            const period1End = new Date("2025-11-23T16:00:00");
+            const period2Start = new Date("2025-11-23T23:00:00");
+            const period2End = new Date("2025-11-27T08:00:00");
+
+            let p1IdxStart = -1, p1IdxEnd = -1;
+            let p2IdxStart = -1, p2IdxEnd = -1;
+
+            frameSequence.forEach((f, idx) => {
+                if (f.rawDate >= period1Start && f.rawDate <= period1End) {
+                    if (p1IdxStart === -1) p1IdxStart = idx;
+                    p1IdxEnd = idx;
+                }
+                if (f.rawDate >= period2Start && f.rawDate <= period2End) {
+                    if (p2IdxStart === -1) p2IdxStart = idx;
+                    p2IdxEnd = idx;
+                }
+            });
+
+            if (p1IdxStart !== -1 && p1IdxEnd !== -1) {
+                const left = (p1IdxStart / totalIntervals) * 100;
+                const width = ((p1IdxEnd - p1IdxStart) / totalIntervals) * 100;
+                const marker1 = document.createElement('div');
+                marker1.className = "absolute top-0 h-full bg-red-500/40 border-x border-red-600/30";
+                marker1.style.left = `${left}%`;
+                marker1.style.width = `${width}%`;
+                marker1.title = "Flood Period 1: Nov 22 13:00 - Nov 23 16:00";
+                container.appendChild(marker1);
+            }
+
+            if (p2IdxStart !== -1 && p2IdxEnd !== -1) {
+                const left = (p2IdxStart / totalIntervals) * 100;
+                const width = ((p2IdxEnd - p2IdxStart) / totalIntervals) * 100;
+                const marker2 = document.createElement('div');
+                marker2.className = "absolute top-0 h-full bg-red-600/50 border-x border-red-700/40";
+                marker2.style.left = `${left}%`;
+                marker2.style.width = `${width}%`;
+                marker2.title = "Flood Period 2: Nov 23 23:00 - Nov 27 08:00";
+                container.appendChild(marker2);
+            }
+        }
+
         function loadAndRenderFrame(frameIndex) {
             const frame = frameSequence[frameIndex];
             currentFrameIndex = frameIndex;
 
             slider.value = frameIndex;
             selector.value = frameIndex;
-            indicator.innerText = `FRAME: ${frameIndex + 1} / ${frameSequence.length}`;
+            
+            const frameWord = currentLang === 'en' ? 'FRAME' : 'เฟรม';
+            indicator.innerText = `${frameWord}: ${frameIndex + 1} / ${frameSequence.length}`;
             document.getElementById('accum-hours-counter').innerText = frameIndex; 
 
             if (loadedMatrixCache[frame.id]) {
@@ -385,9 +463,14 @@
                     const hVal = currentDataPayload.hourly_matrix[r][c];
                     const aVal = currentDataPayload.accum_matrix[r][c];
                     
-                    const contentString = isAccum 
-                        ? `<div class="p-1 font-mono text-xs text-amber-900 font-bold">Accumulated: ${aVal.toFixed(1)} mm</div>`
-                        : `<div class="p-1 font-mono text-xs text-blue-900 font-bold">Hourly: ${hVal.toFixed(1)} mm/hr</div>`;
+                    let contentString = "";
+                    if (isAccum) {
+                        const wordAccum = currentLang === 'en' ? 'Accumulated' : 'ปริมาณฝนสะสม';
+                        contentString = `<div class="p-1 font-mono text-xs text-amber-900 font-bold">${wordAccum}: ${aVal.toFixed(1)} mm</div>`;
+                    } else {
+                        const wordHourly = currentLang === 'en' ? 'Hourly' : 'ความเข้มรายชั่วโมง';
+                        contentString = `<div class="p-1 font-mono text-xs text-blue-900 font-bold">${wordHourly}: ${hVal.toFixed(1)} mm/hr</div>`;
+                    }
                     
                     targetPopup.setLatLng(e.latlng).setContent(contentString).openOn(activeMap);
                     return;
@@ -412,15 +495,28 @@
         const btnPlay = document.getElementById('btn-play');
         const indicator = document.getElementById('live-indicator');
 
+        function rebuildDropdownOptions() {
+            selector.innerHTML = '';
+            frameSequence.forEach(f => {
+                const opt = document.createElement('option'); 
+                opt.value = f.index; 
+                opt.innerText = currentLang === 'en' ? f.labelEN : f.labelTH;
+                selector.appendChild(opt);
+            });
+            selector.value = currentFrameIndex;
+        }
+
         frameSequence.forEach(f => {
-            const opt = document.createElement('option'); opt.value = f.index; opt.innerText = f.label;
+            const opt = document.createElement('option'); opt.value = f.index; opt.innerText = f.labelEN;
             selector.appendChild(opt);
         });
         slider.max = frameSequence.length - 1;
 
         function startAnimation() {
             isPlaying = true; btnPlay.classList.replace('bg-blue-600', 'bg-slate-700');
-            document.getElementById('play-text').innerText = "Pause Loop";
+            
+            const pauseLabel = currentLang === 'en' ? 'Pause Loop' : 'หยุดลูป';
+            document.getElementById('play-text').innerText = pauseLabel;
             document.getElementById('play-icon').setAttribute('data-lucide', 'pause');
             lucide.createIcons();
             playbackTimer = setInterval(() => {
@@ -430,7 +526,9 @@
 
         function stopAnimation() {
             isPlaying = false; btnPlay.classList.replace('bg-slate-700', 'bg-blue-600');
-            document.getElementById('play-text').innerText = "Play Loop";
+            
+            const playLabel = currentLang === 'en' ? 'Play Loop' : 'เล่นวนลูป';
+            document.getElementById('play-text').innerText = playLabel;
             document.getElementById('play-icon').setAttribute('data-lucide', 'play');
             lucide.createIcons(); clearInterval(playbackTimer);
         }
@@ -444,6 +542,49 @@
         selector.addEventListener('change', (e) => { stopAnimation(); loadAndRenderFrame(parseInt(e.target.value)); });
         speedSelector.addEventListener('change', (e) => { playSpeedMs = parseInt(e.target.value); if(isPlaying) { stopAnimation(); startAnimation(); }});
 
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            document.documentElement.lang = currentLang;
+
+            translatableElements.forEach(el => {
+                const translation = el.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    if (el.innerHTML.includes('<i') || el.innerHTML.includes('<span')) {
+                        const icon = el.querySelector('i');
+                        if(icon) {
+                            el.innerHTML = '';
+                            el.appendChild(icon);
+                            el.append(' ' + translation);
+                        } else {
+                            const innerCounter = el.querySelector('#accum-hours-counter');
+                            if(!innerCounter) {
+                                el.innerHTML = translation;
+                            }
+                        }
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+
+            if(currentLang === 'en') {
+                document.getElementById('btn-play').innerHTML = `<i data-lucide="${isPlaying ? 'pause':'play'}" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">${isPlaying ? 'Pause Loop':'Play Loop'}</span>`;
+            } else {
+                document.getElementById('btn-play').innerHTML = `<i data-lucide="${isPlaying ? 'pause':'play'}" class="w-3.5 h-3.5" id="play-icon"></i><span id="play-text" class="data-lang" data-en="Play Loop" data-th="เล่นวนลูป">${isPlaying ? 'หยุดลูป':'เล่นวนลูป'}</span>`;
+            }
+
+            rebuildDropdownOptions();
+            loadAndRenderFrame(currentFrameIndex);
+            lucide.createIcons();
+        });
+
+        // Initialize markers and load initial frame cleanly
+        paintFloodTimelineHighlights();
         lucide.createIcons();
         loadAndRenderFrame(0);
     </script>
