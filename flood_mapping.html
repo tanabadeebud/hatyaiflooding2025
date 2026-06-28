@@ -13,41 +13,49 @@
         #map { z-index: 1; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row select-none">
 
-    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
         <div>
-            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
-                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 data-lang" data-en="HatYai Flood 2025" data-th="น้ำท่วมหาดใหญ่ 2025">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="Event Analysis Dashboard" data-th="แดชบอร์ดวิเคราะห์สถานการณ์">Event Analysis Dashboard</p>
                 </div>
             </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
+            </div>
+
             <nav class="space-y-1">
                 <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
-                    <span>1. Homepage</span>
+                    <span class="data-lang" data-en="1. Homepage" data-th="1. หน้าแรก">1. Homepage</span>
                 </a>
                 <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
-                    <span>2. Animation Radar Rainfall</span>
+                    <span class="data-lang" data-en="2. Animation Radar Rainfall" data-th="2. แอนิเมชันเรดาร์น้ำฝน">2. Animation Radar Rainfall</span>
                 </a>
                 <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
-                    <span>3. Rainfall Stations</span>
+                    <span class="data-lang" data-en="3. Rainfall Stations" data-th="3. สถานีวัดน้ำฝน">3. Rainfall Stations</span>
                 </a>
                 <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
-                    <span>4. Water Level Situations</span>
+                    <span class="data-lang" data-en="4. Water Level Situations" data-th="4. สถานการณ์ระดับน้ำ">4. Water Level Situations</span>
                 </a>
                 <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span>5. District Accumulation</span>
+                    <span class="data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายพื้นที่">5. District Accumulation</span>
                 </a>
                 <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
                     <i data-lucide="map" class="w-5 h-5 text-blue-600"></i>
-                    <span>6. Flood Mapping</span>
+                    <span class="data-lang" data-en="6. Flood Mapping" data-th="6. แผนที่พื้นที่น้ำท่วม">6. Flood Mapping</span>
                 </a>
             </nav>
         </div>
@@ -59,17 +67,13 @@
     <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Satellite-Derived Flood Mapping Dashboard</h2>
-                <p class="text-sm text-slate-500">ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Satellite-Derived Flood Mapping Dashboard" data-th="แดชบอร์ดข้อมูลพื้นที่น้ำท่วมจากดาวเทียม">Satellite-Derived Flood Mapping Dashboard</h2>
+                <p class="text-sm text-slate-500 data-lang" data-en="Daily satellite observation extents matched against physical hydrological flood marks within Hat Yai district." data-th="ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่">ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่</p>
             </div>
             
-            <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner">
-                <button onclick="toggleFloodMode('daily')" id="btn-mode-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm">
-                    ขอบเขตรายวัน (Daily Imagery)
-                </button>
-                <button onclick="toggleFloodMode('maximum')" id="btn-mode-max" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900">
-                    พื้นที่ท่วมสูงสุด (Maximum Flood Extent)
-                </button>
+            <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner shrink-0">
+                <button onclick="toggleFloodMode('daily')" id="btn-mode-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily Imagery" data-th="ขอบเขตรายวัน (Daily Imagery)">ขอบเขตรายวัน (Daily Imagery)</button>
+                <button onclick="toggleFloodMode('maximum')" id="btn-mode-max" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Maximum Flood Extent" data-th="พื้นที่ท่วมสูงสุด (Maximum Flood Extent)">พื้นที่ท่วมสูงสุด (Maximum Flood Extent)</button>
             </div>
         </header>
 
@@ -77,7 +81,7 @@
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">จุดสํารวจคราบน้ำ (Flood Marks)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Flood Marks" data-th="จุดสำรวจคราบน้ำ (Flood Marks)">จุดสำรวจคราบน้ำ (Flood Marks)</span>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="toggle-flood-marks" checked onchange="toggleFloodMarksLayer()" class="sr-only peer">
@@ -88,7 +92,7 @@
             <div id="date-stepper-container" class="lg:col-span-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2 shrink-0">
                     <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">เลือกวันที่สำรวจ (Observation Date)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Observation Date" data-th="เลือกวันที่สำรวจ (Observation Date)">เลือกวันที่สำรวจ (Observation Date)</span>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
                     <button onclick="adjustDateStep(-1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
@@ -106,10 +110,10 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[550px]">
                 <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i data-lucide="map" class="w-3.5 h-3.5"></i> Satellite Inundation GIS Viewer</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Satellite Inundation GIS Viewer" data-th="แผนที่แสดงพื้นที่น้ำท่วมจากดาวเทียม GIS"><i data-lucide="map" class="w-3.5 h-3.5"></i> Satellite Inundation GIS Viewer</span>
                     <div class="flex items-center gap-4 tracking-normal font-medium text-[11px] text-slate-600">
-                        <span class="flex items-center gap-1.5"><span class="w-4 h-3 bg-blue-500/40 rounded border border-blue-600 block"></span> ขอบเขตน้ำท่วม</span>
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-red-500 rounded-full block"></span> จุด Flood Mark</span>
+                        <span class="flex items-center gap-1.5"><span class="w-4 h-3 bg-blue-500/40 rounded border border-blue-600 block"></span> <span class="data-lang" data-en="Inundation Extent" data-th="ขอบเขตน้ำท่วม">ขอบเขตน้ำท่วม</span></span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-red-500 rounded-full block"></span> <span class="data-lang" data-en="Flood Mark Point" data-th="จุด Flood Mark">จุด Flood Mark</span></span>
                     </div>
                 </div>
                 <div id="map" class="w-full flex-1 bg-slate-100"></div>
@@ -119,7 +123,7 @@
                 <div class="bg-white p-4 border border-slate-200 rounded-xl shadow-sm flex flex-col min-h-[220px]">
                     <div class="mb-2">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Inundation Trend Analysis</h4>
-                        <h3 class="text-base font-black text-slate-900 leading-tight">แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)</h3>
+                        <h3 class="text-base font-black text-slate-900 leading-tight data-lang" data-en="Overall Inundated Extent Trend (sq.km.)" data-th="แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)">แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)</h3>
                     </div>
                     <div class="relative flex-1">
                         <canvas id="flood-trend-canvas"></canvas>
@@ -128,16 +132,16 @@
 
                 <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[290px]">
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
-                        <span class="flex items-center gap-2"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Subdistrict Flood Ranking</span>
+                        <span class="flex items-center gap-2 data-lang" data-en="Subdistrict Flood Ranking" data-th="อันดับตำบลที่ได้รับผลกระทบน้ำท่วม"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Subdistrict Flood Ranking</span>
                         <span id="flood-badge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase">DAILY EXTENT</span>
                     </div>
                     <div class="overflow-y-auto flex-1 max-h-[320px]">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
-                                    <th class="px-4 py-3 text-center w-12">Rank</th>
-                                    <th class="px-4 py-3">ตำบล (Sub-District) [รอปรับปรุง]</th>
-                                    <th class="px-4 py-3 text-right w-36">พื้นที่น้ำท่วม (ไร่)</th>
+                                    <th class="px-4 py-3 text-center w-12 data-lang" data-en="Rank" data-th="อันดับ">Rank</th>
+                                    <th class="px-4 py-3 data-lang" data-en="Sub-District" data-th="ตำบล (Sub-District)">ตำบล (Sub-District)</th>
+                                    <th class="px-4 py-3 text-right w-48 data-lang" data-en="Inundated Area" data-th="พื้นที่น้ำท่วม">พื้นที่น้ำท่วม</th>
                                 </tr>
                             </thead>
                             <tbody id="flood-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
@@ -150,43 +154,246 @@
     </main>
 
     <script>
-        // Updated Timeline: ขยายให้เริ่มตั้งแต่ 22 พ.ย. 2025 ตามโครงสร้างข้อมูลจริงที่คุณทดสอบ
         const floodTimeline = [
-            { "id": "20251122", "label": "22 พ.ย. 2025", "total_sqkm": 12.64,  "file": "data/flood_mapping/flood_20251122.geojson" },
-            { "id": "20251124", "label": "24 พ.ย. 2025", "total_sqkm": 163.24, "file": "data/flood_mapping/flood_20251124.geojson" },
-            { "id": "20251125", "label": "25 พ.ย. 2025", "total_sqkm": 229.95, "file": "data/flood_mapping/flood_20251125.geojson" },
-            { "id": "20251126", "label": "26 พ.ย. 2025", "total_sqkm": 228.16, "file": "data/flood_mapping/flood_20251126.geojson" },
-            { "id": "20251127", "label": "27 พ.ย. 2025", "total_sqkm": 27.74, "file": "data/flood_mapping/flood_20251127.geojson" },
-            { "id": "20251129", "label": "29 พ.ย. 2025", "total_sqkm": 26.31, "file": "data/flood_mapping/flood_20251129.geojson" },
-            { "id": "20251130", "label": "30 พ.ย. 2025", "total_sqkm": 16.53, "file": "data/flood_mapping/flood_20251130.geojson" },
-            { "id": "20251202", "label": "2 ธ.ค. 2025",  "total_sqkm": 12.62,  "file": "data/flood_mapping/flood_20251202.geojson" }
+            { "id": "20251122", "label_th": "22 พ.ย. 2025", "label_en": "22 Nov 2025", "total_sqkm": 12.642, "file": "data/flood_mapping/flood_20251122.geojson" },
+            { "id": "20251124", "label_th": "24 พ.ย. 2025", "label_en": "24 Nov 2025", "total_sqkm": 163.238, "file": "data/flood_mapping/flood_20251124.geojson" },
+            { "id": "20251125", "label_th": "25 พ.ย. 2025", "label_en": "25 Nov 2025", "total_sqkm": 229.950, "file": "data/flood_mapping/flood_20251125.geojson" },
+            { "id": "20251126", "label_th": "26 พ.ย. 2025", "label_en": "26 Nov 2025", "total_sqkm": 228.158, "file": "data/flood_mapping/flood_20251126.geojson" },
+            { "id": "20251127", "label_th": "27 พ.ย. 2025", "label_en": "27 Nov 2025", "total_sqkm": 27.741, "file": "data/flood_mapping/flood_20251127.geojson" },
+            { "id": "20251129", "label_th": "29 พ.ย. 2025", "label_en": "29 Nov 2025", "total_sqkm": 26.310, "file": "data/flood_mapping/flood_20251129.geojson" },
+            { "id": "20251130", "label_th": "30 พ.ย. 2025", "label_en": "30 Nov 2025", "total_sqkm": 16.534, "file": "data/flood_mapping/flood_20251130.geojson" },
+            { "id": "20251202", "label_th": "2 ธ.ค. 2025",   "label_en": "02 Dec 2025", "total_sqkm": 12.624, "file": "data/flood_mapping/flood_20251202.geojson" }
         ];
 
-        const subdistrictFloodDB = {
-            "default": [
-                { "name": "ต.หาดใหญ่", "area_rai": 1250 },
-                { "name": "ต.ควนลัง", "area_rai": 980 },
-                { "name": "ต.คอหงส์", "area_rai": 740 },
-                { "name": "ต.บ้านพรุ", "area_rai": 420 }
+        const subdistrictFloodDailyDB = {
+            "0": [
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 2.963 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 2.832 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 2.633 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 1.056 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 0.769 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 0.725 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 0.399 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 0.269 },
+                { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 0.238 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 0.18 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 0.176 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Camp Klam", "area_sqkm": 0.174 },
+                { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 0.117 },
+                { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 0.098 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 0.013 }
             ],
-            "maximum": [
-                { "name": "ต.หาดใหญ่", "area_rai": 1890 },
-                { "name": "ต.ควนลัง", "area_rai": 1420 },
-                { "name": "ต.คอหงส์", "area_rai": 1150 },
-                { "name": "ต.บ้านพรุ", "area_rai": 680 }
+            "1": [
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 26.038 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 19.782 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 14.13 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 11.679 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 9.973 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 8.36 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 6.854 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 6.592 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 6.07 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 5.861 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 5.77 },
+                { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 5.616 },
+                { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 5.113 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 4.87 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 4.33 },
+                { "name_th": "ต.คอหงส์", "name_en": "Kho Hong", "area_sqkm": 4.165 },
+                { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 3.429 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 2.476 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 2.298 },
+                { "name_th": "ต.สะเดา", "name_en": "Sadao", "area_sqkm": 2.238 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 2.125 },
+                { "name_th": "ต.คลองหอยโข่ง", "name_en": "Khlong Hoi Khong", "area_sqkm": 1.978 },
+                { "name_th": "ต.ทุ่งหมอ", "name_en": "Thung Mo", "area_sqkm": 0.865 },
+                { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 0.749 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.677 },
+                { "name_th": "ต.พิจิตร", "name_en": "Phichit", "area_sqkm": 0.498 },
+                { "name_th": "ต.สำนักขาม", "name_en": "Samnak Kham", "area_sqkm": 0.219 },
+                { "name_th": "ต.สำนักแต้ว", "name_en": "Samnak Taeo", "area_sqkm": 0.208 },
+                { "name_th": "ต.นาหม่อม", "name_en": "Na Mom", "area_sqkm": 0.144 },
+                { "name_th": "ต.เขามีเกียรติ", "name_en": "Khao Mi Kiat", "area_sqkm": 0.112 },
+                { "name_th": "ต.ปาดังเบซาร์", "name_en": "Padang Besar", "area_sqkm": 0.015 },
+                { "name_th": "ต.ทุ่งใหญ่", "name_en": "Thung Yai", "area_sqkm": 0.004 }
+            ],
+            "2": [
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 40.293 },
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 26.842 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 18.905 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 17.63 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 15.338 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 13.597 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 13.076 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 11.85 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 9.902 },
+                { "name_th": "ต.สะเดา", "name_en": "Sadao", "area_sqkm": 9.257 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 8.572 },
+                { "name_th": "ต.คอหงส์", "name_en": "Kho Hong", "area_sqkm": 6.724 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 6.001 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 5.176 },
+                { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 4.063 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 3.654 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 3.383 },
+                { "name_th": "ต.สำนักขาม", "name_en": "Samnak Kham", "area_sqkm": 3.073 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 2.192 },
+                { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 2.123 },
+                { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 1.904 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 1.867 },
+                { "name_th": "ต.สำนักแต้ว", "name_en": "Samnak Taeo", "area_sqkm": 1.539 },
+                { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 1.305 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.626 },
+                { "name_th": "ต.คลองหอยโข่ง", "name_en": "Khlong Hoi Khong", "area_sqkm": 0.61 },
+                { "name_th": "ต.ทุ่งหมอ", "name_en": "Thung Mo", "area_sqkm": 0.442 },
+                { "name_th": "ต.ทุ่งใหญ่", "name_en": "Thung Yai", "area_sqkm": 0.006 }
+            ],
+            "3": [
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 43.839 },
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 22.769 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 20.758 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 18.014 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 17.531 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 17.065 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 15.931 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 12.822 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 8.877 },
+                { "name_th": "ต.คอหงส์", "name_en": "Kho Hong", "area_sqkm": 7.729 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 7.526 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 5.187 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 4.886 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 4.715 },
+                { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 3.667 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 3.644 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 2.878 },
+                { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 2.44 },
+                { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 2.238 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 1.885 },
+                { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 1.18 },
+                { "name_th": "ต.ทุ่งหมอ", "name_en": "Thung Mo", "area_sqkm": 0.647 },
+                { "name_th": "ต.คลองหอยโข่ง", "name_en": "Khlong Hoi Khong", "area_sqkm": 0.629 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.507 },
+                { "name_th": "ต.นาหม่อม", "name_en": "Na Mom", "area_sqkm": 0.503 },
+                { "name_th": "ต.พิจิตร", "name_en": "Phichit", "area_sqkm": 0.268 },
+                { "name_th": "ต.ปาดังเบซาร์", "name_en": "Padang Besar", "area_sqkm": 0.021 },
+                { "name_th": "ต.เขามีเกียรติ", "name_en": "Khao Mi Kiat", "area_sqkm": 0.002 }
+            ],
+            "4": [
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 14.079 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 2.753 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 2.588 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 2.213 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 1.238 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 1.15 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 0.924 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 0.638 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 0.441 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.432 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 0.425 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 0.23 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 0.198 },
+                { "name_th": "ต.พิจิตร", "name_en": "Phichit", "area_sqkm": 0.131 },
+                { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 0.101 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 0.085 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 0.027 },
+                { "name_th": "ต.เขามีเกียรติ", "name_en": "Khao Mi Kiat", "area_sqkm": 0.024 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 0.022 },
+                { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 0.015 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 0.015 },
+                { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 0.012 }
+            ],
+            "5": [
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 13.684 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 2.77 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 2.761 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 2.588 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 1.011 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 0.906 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 0.754 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.364 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 0.306 },
+                { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 0.303 },
+                { "name_th": "ต.พิจิตร", "name_en": "Phichit", "area_sqkm": 0.176 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 0.15 },
+                { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 0.096 },
+                { "name_th": "ต.คอหงส์", "name_en": "Kho Hong", "area_sqkm": 0.09 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 0.081 },
+                { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 0.061 },
+                { "name_th": "ต.นาหม่อม", "name_en": "Na Mom", "area_sqkm": 0.053 },
+                { "name_th": "ต.เขามีเกียรติ", "name_en": "Khao Mi Kiat", "area_sqkm": 0.05 },
+                { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 0.022 },
+                { "name_th": "ต.คลองหอยโข่ง", "name_en": "Khlong Hoi Khong", "area_sqkm": 0.022 },
+                { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 0.018 },
+                { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 0.017 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 0.014 },
+                { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 0.013 }
+            ],
+            "6": [
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 10.218 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 1.906 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 1.62 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 1.344 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 0.441 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 0.385 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 0.249 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 0.226 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.113 },
+                { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 0.021 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 0.011 }
+            ],
+            "7": [
+                { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 8.484 },
+                { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 1.638 },
+                { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 0.924 },
+                { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 0.871 },
+                { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 0.247 },
+                { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.163 },
+                { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 0.142 },
+                { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 0.071 },
+                { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 0.047 },
+                { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 0.022 },
+                { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 0.015 }
             ]
         };
 
-        const floodMarksDB = [
-            { "station": "FM-01 หน้าตลาดกิมหยง", "depth_m": 0.85, "lat": 6.993, "lon": 100.471 },
-            { "station": "FM-02 มหาวิทยาลัยสงขลานครินทร์", "depth_m": 0.45, "lat": 6.998, "lon": 100.498 },
-            { "station": "FM-03 แยกควนลัง", "depth_m": 1.20, "lat": 6.965, "lon": 100.435 },
-            { "station": "FM-04 หน้าที่ว่าการอำเภอหาดใหญ่", "depth_m": 0.60, "lat": 7.002, "lon": 100.476 }
+        const subdistrictFloodMaxDB = [
+            { "name_th": "ต.ควนลัง", "name_en": "Khuan Lang", "area_sqkm": 43.839 },
+            { "name_th": "ต.คูเต่า", "name_en": "Khu Tao", "area_sqkm": 26.842 },
+            { "name_th": "ต.ท่าช้าง", "name_en": "Tha Chang", "area_sqkm": 20.758 },
+            { "name_th": "ต.คลองแห", "name_en": "Khlong Hae", "area_sqkm": 18.905 },
+            { "name_th": "ต.ทุ่งลาน", "name_en": "Thung Lan", "area_sqkm": 17.531 },
+            { "name_th": "ต.บ้านพรุ", "name_en": "Ban Phru", "area_sqkm": 17.065 },
+            { "name_th": "ต.หาดใหญ่", "name_en": "Hat Yai", "area_sqkm": 15.931 },
+            { "name_th": "ต.ทุ่งตำเสา", "name_en": "Thung Tam Sao", "area_sqkm": 12.822 },
+            { "name_th": "ต.แม่ทอม", "name_en": "Mae Thom", "area_sqkm": 9.902 },
+            { "name_th": "ต.สะเดา", "name_en": "Sadao", "area_sqkm": 9.257 },
+            { "name_th": "ต.บ้านหาร", "name_en": "Ban Han", "area_sqkm": 8.877 },
+            { "name_th": "ต.คอหงส์", "name_en": "Kho Hong", "area_sqkm": 7.729 },
+            { "name_th": "ต.น้ำน้อย", "name_en": "Nam Noi", "area_sqkm": 6.001 },
+            { "name_th": "ต.ปริก", "name_en": "Prik", "area_sqkm": 5.616 },
+            { "name_th": "ต.บางกล่ำ", "name_en": "Bang Klam", "area_sqkm": 5.187 },
+            { "name_th": "ต.ท่าโพธิ์", "name_en": "Tha Pho", "area_sqkm": 5.113 },
+            { "name_th": "ต.โคกม่วง", "name_en": "Khok Muang", "area_sqkm": 4.886 },
+            { "name_th": "ต.พังลา", "name_en": "Phang La", "area_sqkm": 4.33 },
+            { "name_th": "ต.พะตง", "name_en": "Phatong", "area_sqkm": 3.667 },
+            { "name_th": "ต.คลองอู่ตะเภา", "name_en": "Khlong U-Taphao", "area_sqkm": 3.644 },
+            { "name_th": "ต.สำนักขาม", "name_en": "Samnak Kham", "area_sqkm": 3.073 },
+            { "name_th": "ต.คลองหลา", "name_en": "Khlong Lha", "area_sqkm": 2.878 },
+            { "name_th": "ต.ฉลุง", "name_en": "Chilung", "area_sqkm": 2.44 },
+            { "name_th": "ต.คลองหอยโข่ง", "name_en": "Khlong Hoi Khong", "area_sqkm": 1.978 },
+            { "name_th": "ต.สำนักแต้ว", "name_en": "Samnak Taeo", "area_sqkm": 1.539 },
+            { "name_th": "ต.ทุ่งหมอ", "name_en": "Thung Mo", "area_sqkm": 0.865 },
+            { "name_th": "ต.บางเหรียง", "name_en": "Bang Riang", "area_sqkm": 0.677 },
+            { "name_th": "ต.นาหม่อม", "name_en": "Na Mom", "area_sqkm": 0.503 },
+            { "name_th": "ต.พิจิตร", "name_en": "Phichit", "area_sqkm": 0.498 },
+            { "name_th": "ต.เขามีเกียรติ", "name_en": "Khao Mi Kiat", "area_sqkm": 0.112 },
+            { "name_th": "ต.ปาดังเบซาร์", "name_en": "Padang Besar", "area_sqkm": 0.021 },
+            { "name_th": "ต.ทุ่งใหญ่", "name_en": "Thung Yai", "area_sqkm": 0.006 }
         ];
 
         let map, floodGeoJsonLayer, floodMarksLayerGroup, trendChartInstance = null;
         let currentFloodMode = 'daily'; 
-        let currentDateStepIndex = 2; // เริ่มต้นโฟกัสที่จุดยอดน้ำสูงสุด (28 พ.ย. 2025)
+        let currentDateStepIndex = 2; 
+        let currentLang = 'en';
 
         function initFloodDashboard() {
             map = L.map('map').setView([6.98, 100.46], 11);
@@ -207,13 +414,12 @@
             floodTimeline.forEach((item, index) => {
                 const opt = document.createElement('option');
                 opt.value = index;
-                opt.innerText = item.label;
+                opt.innerText = currentLang === 'en' ? item.label_en : item.label_th;
                 if (index === currentDateStepIndex) opt.selected = true;
                 dropdown.appendChild(opt);
             });
         }
 
-        // FIX FIX FIX: เพิ่มการ return ตัวแปรให้กับระบบ Promise ดึงข้อมูล
         function renderFloodGISLayers() {
             if (floodGeoJsonLayer) { map.removeLayer(floodGeoJsonLayer); }
 
@@ -224,7 +430,7 @@
             fetch(currentPath + '?t=' + Date.now())
                 .then(res => { 
                     if (res.ok) {
-                        return res.json(); // บรรทัดแก้ไข: ตรวจสอบและส่งผลลัพธ์ออกไปแปลง
+                        return res.json();
                     } else {
                         throw new Error("File missing on server paths");
                     }
@@ -237,7 +443,7 @@
                     }
                 })
                 .catch(err => { 
-                    console.warn("CORS/Fetch notification - ใช้กลไกวงกลมจำลองชั่วคราว:", err);
+                    console.warn("Using vector fallback geometry matrix:", err);
                     drawFallbackFloodCircle(); 
                 });
 
@@ -252,7 +458,6 @@
                 }
             }).addTo(map);
             
-            // ปรับกล้องแผนที่ให้ซูมเข้าหากึ่งกลางของขอบเขตเวกเตอร์ดาวเทียมจริงอัตโนมัติ
             try {
                 map.fitBounds(floodGeoJsonLayer.getBounds(), { padding: [20, 20] });
             } catch(e) {}
@@ -266,45 +471,96 @@
             }).addTo(map);
         }
 
+        // คัดกรองและแบ่งเฉดสีตามเกณฑ์ระดับความลึกของน้ำท่วม (เมตร) แบบ Dynamic
+        function getFloodMarkColor(depth) {
+            if (depth <= 1.5) return '#eab308'; // Yellow
+            if (depth <= 3.0) return '#f97316'; // Orange
+            if (depth <= 4.5) return '#ef4444'; // Red
+            return '#a855f7';                  // Purple
+        }
+
         function renderFloodMarks() {
             floodMarksLayerGroup.clearLayers();
             const checkbox = document.getElementById('toggle-flood-marks');
             if (!checkbox.checked) return;
 
-            floodMarksDB.forEach(mark => {
-                const marker = L.circleMarker([mark.lat, mark.lon], {
-                    radius: 7, fillColor: '#ef4444', color: '#ffffff', weight: 1.5, opacity: 1, fillOpacity: 0.9
+            // เรียกดึงและโหลดพิกัด 1,597 จุดแบบ Dynamic จากไฟล์ GeoJSON ภายนอกตามเงื่อนไขสากล
+            fetch('data/flood_mapping/flood_marks.geojson?t=' + Date.now())
+                .then(res => {
+                    if (!res.ok) throw new Error("GeoJSON file missing");
+                    return res.json();
+                })
+                .then(geoJsonData => {
+                    const marksLayer = L.geoJSON(geoJsonData, {
+                        pointToLayer: function (feature, latlng) {
+                            const depth = feature.properties.depth;
+                            const markerColor = getFloodMarkColor(depth);
+
+                            return L.circleMarker(latlng, {
+                                radius: 6,
+                                fillColor: markerColor,
+                                color: '#ffffff',
+                                weight: 1.2,
+                                opacity: 1,
+                                fillOpacity: 0.85
+                            });
+                        },
+                        onEachFeature: function (feature, layer) {
+                            const placeName = feature.properties.name;
+                            const depth = feature.properties.depth;
+                            const markerColor = getFloodMarkColor(depth);
+
+                            const peakLabel = currentLang === 'en' ? 'Max Flood Depth:' : 'ระดับน้ำสูงสุด:';
+                            const meterUnit = currentLang === 'en' ? 'meters' : 'เมตร';
+                            const communityLabel = currentLang === 'en' ? 'Location:' : 'ชุมชน/สถานที่:';
+
+                            layer.bindPopup(`
+                                <div class="text-xs font-sans">
+                                    <b class="text-slate-900 text-sm">${placeName}</b><br>
+                                    <div class="pt-1 mt-1 border-t border-slate-100 font-medium space-y-0.5">
+                                        <div><span class="text-slate-500">${communityLabel}</span> <span class="font-bold text-slate-700">${placeName}</span></div>
+                                        <div>${peakLabel} <span class="font-black px-1.5 py-0.5 rounded text-white" style="background-color: ${markerColor}">${depth.toFixed(2)} ${meterUnit}</span></div>
+                                    </div>
+                                </div>
+                            `);
+                        }
+                    });
+                    floodMarksLayerGroup.addLayer(marksLayer);
+                })
+                .catch(err => {
+                    console.error("Error drawing flood marks GeoJSON:", err);
                 });
-                marker.bindPopup(`
-                    <div class="text-xs font-sans">
-                        <b class="text-slate-900">${mark.station}</b><br>
-                        <div class="pt-1 mt-1 border-t border-slate-100 font-medium">
-                            ระดับน้ำสูงสุด: <span class="text-red-600 font-bold">${mark.depth_m.toFixed(2)} เมตร</span>
-                        </div>
-                    </div>
-                `);
-                floodMarksLayerGroup.addLayer(marker);
-            });
         }
 
         function updateTableStats() {
             const badge = document.getElementById('flood-badge');
             badge.innerText = currentFloodMode === 'maximum' ? "MAX FLOOD EXTENT" : "DAILY EXTENT";
 
-            const tableData = currentFloodMode === 'maximum' ? subdistrictFloodDB.maximum : subdistrictFloodDB.default;
+            const tableData = currentFloodMode === 'maximum' ? subdistrictFloodMaxDB : (subdistrictFloodDailyDB[currentDateStepIndex] || []);
             const tbody = document.getElementById('flood-table-body');
             tbody.innerHTML = "";
 
+            const labelSqkm = currentLang === 'en' ? 'sq.km.' : 'ตร.กม.';
+            const labelRai = currentLang === 'en' ? 'Rai' : 'ไร่';
+
             tableData.forEach((item, idx) => {
+                const displayName = currentLang === 'en' ? item.name_en : item.name_th;
+                const areaRai = item.area_sqkm * 625; 
+                
                 const row = document.createElement('tr');
-                row.className = "hover:bg-slate-50 transition-colors";
+                row.className = "hover:bg-slate-50 transition-colors border-b";
                 row.innerHTML = `
                     <td class="px-4 py-3 text-center font-mono text-xs font-bold text-slate-400">${idx + 1}</td>
-                    <td class="px-4 py-3 font-bold text-slate-900">${item.name}</td>
+                    <td class="px-4 py-3 font-bold text-slate-900">${displayName}</td>
                     <td class="px-4 py-3 text-right">
-                        <span class="inline-block px-2.5 py-1 text-xs font-bold rounded-lg font-mono text-blue-700 bg-blue-50">
-                            ${item.area_rai.toLocaleString()} ไร่
-                        </span>
+                        <div class="flex flex-col items-end gap-0.5">
+                            <span class="text-xs font-bold font-mono text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
+                                ${item.area_sqkm.toFixed(3)} ${labelSqkm}
+                            </span>
+                            <span class="text-[11px] font-medium font-mono text-slate-500">
+                                ${Math.round(areaRai).toLocaleString()} ${labelRai}
+                            </span>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -315,12 +571,14 @@
             const ctx = document.getElementById('flood-trend-canvas').getContext('2d');
             if (trendChartInstance) trendChartInstance.destroy();
 
+            const chartLabel = currentLang === 'en' ? 'Inundated Area (sq.km.)' : 'พื้นที่น้ำท่วม (ตร.กม.)';
+
             trendChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: floodTimeline.map(t => t.label.split(" ")[0]),
+                    labels: floodTimeline.map(t => currentLang === 'en' ? t.label_en.split(" ")[0] + " " + t.label_en.split(" ")[1] : t.label_th.split(" ")[0] + " " + t.label_th.split(" ")[1]),
                     datasets: [{
-                        label: 'พื้นที่น้ำท่วม (ตร.กม.)',
+                        label: chartLabel,
                         data: floodTimeline.map(t => t.total_sqkm),
                         borderColor: '#2563eb',
                         backgroundColor: 'rgba(37, 99, 235, 0.1)',
@@ -335,7 +593,7 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
-                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                        x: { grid: { display: false }, ticks: { font: { size: 9 } } }
                     }
                 }
             });
@@ -376,6 +634,37 @@
         window.toggleFloodMarksLayer = function() {
             renderFloodMarks();
         };
+
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            document.documentElement.lang = currentLang;
+
+            translatableElements.forEach(el => {
+                const translation = el.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    if (el.innerHTML.includes('<i')) {
+                        const icon = el.querySelector('i');
+                        if (icon) {
+                            el.innerHTML = '';
+                            el.appendChild(icon);
+                            el.append(' ' + translation);
+                        }
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+
+            buildDropdownUI();
+            renderFloodGISLayers();
+            renderTrendLineChart();
+            lucide.createIcons();
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             initFloodDashboard();
