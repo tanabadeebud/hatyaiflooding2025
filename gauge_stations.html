@@ -81,14 +81,14 @@
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
                 <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Rainfall Stations Telemetry Map" data-th="แผนที่ข้อมูลโทรมาตรสถานีวัดน้ำฝน">Rainfall Stations Telemetry Map</h2>
-                <p class="text-sm text-slate-500 data-lang" data-en="Spatial visualization of ground gauges paired with regional multi-agency logs." data-th="การแสดงข้อมูลเชิงพื้นที่ของสถานีวัดน้ำฝนภาคสนาม ร่วมกับบันทึกข้อมูลจากหลากหน่วยงาน">Spatial visualization of ground gauges paired with regional multi-agency logs.</p>
+                <p class="text-sm text-slate-500 data-lang" data-en="Automated Rain Gauge Data from Related Agencies" data-th="การแสดงข้อมูลฝนจากสถานีวัดน้ำฝนแบบอัตโนมัติ จากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง">Automated Rain Gauge Data from Related Agencies</p>
             </div>
             <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner shrink-0">
-                <button onclick="switchTimeScale('daily')" id="btn-scale-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily" data-th="รายวัน (Daily)">
-                    รายวัน (Daily)
+                <button onclick="switchTimeScale('daily')" id="btn-scale-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily" data-th="รายวัน">
+                    Daily
                 </button>
-                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Total Event" data-th="ภาพรวมเหตุการณ์ (Total Event)">
-                    ภาพรวมเหตุการณ์ (Total Event)
+                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Total Event" data-th="ภาพรวมเหตุการณ์">
+                    Total Event
                 </button>
             </div>
         </header>
@@ -122,8 +122,8 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1 min-h-[600px]">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[500px] xl:h-auto min-h-[450px]">
                 <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex flex-col lg:flex-row lg:items-center justify-between gap-2">
-                    <span class="flex items-center gap-2 data-lang" data-en="Spatial Distribution Frame" data-th="กรอบการกระจายตัวเชิงพื้นที่">
-                        <i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Distribution Frame
+                    <span class="flex items-center gap-2 data-lang" data-en="Rainfall Monitoring Station Map" data-th="แผนที่ตำแหน่งสถานีวัดน้ำฝน">
+                        <i data-lucide="map" class="w-3.5 h-3.5"></i> Rainfall Monitoring Station Map
                     </span>
                     <div id="legend-threshold-labels" class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
                     </div>
@@ -136,7 +136,7 @@
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
                         <span class="flex items-center gap-2">
                             <i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> 
-                            <span class="data-lang" data-en="Gauges Registry" data-th="ทะเบียนสถานีตรวจวัด">Gauges Registry</span> 
+                            <span class="data-lang" data-en="Station List" data-th="รายชื่อสถานี">Station List</span> 
                             (<span id="sort-badge" class="data-lang" data-en="Max Sorted" data-th="เรียงตามปริมาณฝนสูงสุด">Max Sorted</span>)
                         </span>
                         <span id="counter-badge" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold">0 Gauge(s) found</span>
@@ -148,15 +148,15 @@
                             <span class="data-lang" data-en="Data Provider Acknowledgement" data-th="กิตติกรรมประกาศผู้สนับสนุนข้อมูล">Data Provider Acknowledgement</span>
                         </div>
                         <p class="mb-2 font-medium data-lang" 
-                           data-en="Ground observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological frameworks:"
-                           data-th="บันทึกการตรวจวัดภาคสนามและชุดข้อมูลอนุกรมเวลาโทรมาตรที่แสดงในระบบติดตามนี้ ได้รับความอนุเคราะห์ทางวิชาการและบำรุงรักษาโดยหน่วยงานด้านอุทกวิทยาที่เกี่ยวข้องในภูมิภาค:">
-                            Ground observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological frameworks:
+                           data-en="Rainfall data is gratefully acknowledged from our partner agencies:"
+                           data-th="ข้อมูลปริมาณฝนที่แสดงในระบบนี้ ได้รับความอนุเคราะห์ข้อมูลจากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง ได้แก่:">
+                            Rainfall data is gratefully acknowledged from our partner agencies:
                         </p>
                         <ul class="space-y-1 font-semibold text-slate-700 font-mono text-[10px]">
                             <li class="flex items-center gap-1.5">• Thai Meteorological Department (TMD) / กรมอุตุนิยมวิทยา</li>
                             <li class="flex items-center gap-1.5">• Royal Irrigation Department (RID) / กรมชลประทาน</li>
                             <li class="flex items-center gap-1.5">• Department of Water Resources (DWR) / กรมทรัพยากรน้ำ</li>
-                            <li class="flex items-center gap-1.5">• Hydro-Informatics Institute (HII) / สถาบันสารสนเทศทรัพยากรน้ำ</li>
+                            <li class="flex items-center gap-1.5">• Hydro-Informatics Institute (HII) / สถาบันสารสนเทศทรัพยากรน้ำ (องค์การมหาชน)</li>
                         </ul>
                     </div>
                 </div>
@@ -525,11 +525,11 @@
             }
 
             const titleText = currentLang === 'en' 
-                ? `Rainfall Cumulative Mass Curve & Hyetograph — Station: ${name}`
-                : `เส้นโค้งมวลฝนสะสมและไฮเอโตราฟ — สถานี: ${name}`;
+                ? `Rainfall Cumulative Mass Curve — Station: ${name}`
+                : `ปริมาณฝนสะสม — สถานี: ${name}`;
             const subtitleText = currentLang === 'en'
-                ? `Target Station Identity Reference Code: ${code}`
-                : `รหัสอ้างอิงอัตลักษณ์สถานีตรวจวัดหลัก: ${code}`;
+                ? `Station Code: ${code}`
+                : `รหัสสถานี: ${code}`;
 
             document.getElementById('modal-station-title').innerText = titleText;
             document.getElementById('modal-station-subtitle').innerText = subtitleText;
@@ -546,10 +546,10 @@
 
             const peakIntensity = Math.max(...telemetry.hourly_values, 10);
 
-            const labelCurve = currentLang === 'en' ? `Cumulative Depth (Total: ${runningSum.toFixed(1)} mm)` : `ปริมาณฝนสะสม (รวม: ${runningSum.toFixed(1)} มม.)`;
-            const labelIntensity = currentLang === 'en' ? 'Hourly Rainfall Intensity (mm/h)' : 'ความเข้มน้ำฝนรายชั่วโมง (มม./ชม.)';
-            const leftAxisTitle = currentLang === 'en' ? 'Accumulated Rainfall Depth (mm)' : 'ความลึกน้ำฝนสะสม (มม.)';
-            const rightAxisTitle = currentLang === 'en' ? 'Hourly Intensity (mm/h)' : 'ความเข้มรายชั่วโมง (มม./ชม.)';
+            const labelCurve = currentLang === 'en' ? `Cumulative Rainfall (Total: ${runningSum.toFixed(1)} mm)` : `ปริมาณฝนสะสม (รวม: ${runningSum.toFixed(1)} มม.)`;
+            const labelIntensity = currentLang === 'en' ? 'Hourly Rainfall Intensity (mm/h)' : 'ความเข้มฝนรายชั่วโมง (มม./ชม.)';
+            const leftAxisTitle = currentLang === 'en' ? 'Accumulated Rainfall  (mm)' : 'ปริมาณฝนสะสม (มม.)';
+            const rightAxisTitle = currentLang === 'en' ? 'Hourly Rainfall Intensity (mm/h)' : 'ความเข้มฝนรายชั่วโมง (มม./ชม.)';
 
             popupChartInstance = new Chart(ctx, {
                 data: {
