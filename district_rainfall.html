@@ -75,8 +75,8 @@
     <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Spatial Accumulated Rainfall Dashboard" data-th="แดชบอร์ดข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่">Spatial Accumulated Rainfall Dashboard</h2>
-                <p class="text-sm text-slate-500 data-lang" data-en="Grid-based spatial rainfall accumulation mapped across district and sub-district administrative limits within the U-Tapao basin context." data-th="ข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่จำแนกตามขอบเขตการปกครองรายอำเภอและรายตำบลในลุ่มน้ำอู่ตะเภา">ข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่จำแนกตามขอบเขตการปกครองรายอำเภอและรายตำบลในลุ่มน้ำอู่ตะเภา</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Spatial Accumulated Rainfall Dashboard" data-th="ข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่">Spatial Accumulated Rainfall Dashboard</h2>
+                <p class="text-sm text-slate-500 data-lang" data-en="Grid-based spatial rainfall accumulation mapped across district and sub-district administrative border within the Khlong U-Tapao basin." data-th="ข้อมูลปริมาณน้ำฝนสะสมเชิงพื้นที่จำแนกตามขอบเขตการปกครองรายอำเภอและรายตำบลในลุ่มน้ำคลองอู่ตะเภา">Grid-based spatial rainfall accumulation mapped across district and sub-district administrative border within the Khlong U-Tapao basin</p>
             </div>
             
             <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner shrink-0">
@@ -90,7 +90,7 @@
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between lg:justify-start gap-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Spatial Layer" data-th="ขอบเขตพื้นที่ (Spatial Layer)">ขอบเขตพื้นที่ (Spatial Layer)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Spatial Layer" data-th="ขอบเขตพื้นที่ (Spatial Layer)">Spatial Layer</span>
                 </div>
                 <div class="inline-flex p-0.5 bg-slate-100 rounded-lg border border-slate-200">
                     <button onclick="switchSpatialLayer('district')" id="btn-layer-district" class="px-3 py-1.5 text-xs font-bold rounded-md bg-white text-slate-900 shadow-sm transition-all data-lang" data-en="District" data-th="ระดับอำเภอ">ระดับอำเภอ</button>
@@ -101,7 +101,7 @@
             <div id="time-stepping-container" class="lg:col-span-2 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2 shrink-0">
                     <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Time Selection" data-th="เลือกเวลา (Time Selection)">เลือกเวลา (Time Selection)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Select Data Period" data-th="เลือกช่วงเวลา">Select Data Period</span>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
                     <button onclick="adjustTimeStep(-1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
@@ -119,9 +119,9 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[520px]">
                 <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <span class="flex items-center gap-2 data-lang" data-en="Spatial Rainfall GIS Layer" data-th="แผนที่ข้อมูลน้ำฝนเชิงพื้นที่ GIS"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Rainfall GIS Layer</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Spatial Rainfall Situation Map" data-th="แผนที่สถานการณ์ฝนเชิงพื้นที่"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Rainfall Situation Map</span>
                     <div id="map-legend-labels" class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
-                        <span id="legend-grey" class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span id="legend-grey" class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ตรวจวัดไม่ได้</span>
                         <span id="legend-green" class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 5 มม.</span>
                         <span id="legend-yellow" class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 5 - 25 มม.</span>
                         <span id="legend-red" class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 25 - 50 มม.</span>
@@ -137,15 +137,15 @@
                         <canvas id="rainfall-pie-canvas"></canvas>
                     </div>
                     <div class="space-y-1.5 text-center sm:text-left">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Spatial Distribution</h4>
-                        <h3 class="text-base font-black text-slate-900 leading-tight data-lang" data-en="Rainfall Intensity Shares" data-th="สัดส่วนพื้นที่ความเข้มฝน">สัดส่วนพื้นที่ความเข้มฝน</h3>
-                        <p class="text-xs text-slate-500 font-medium data-lang" data-en="Proportional geographic area representation filtered across discrete precipitation category limits at the selected timestep." data-th="สัดส่วนจำนวนพื้นที่ที่ตรวจพบความเข้มฝนในแต่ละเกณฑ์ความรุนแรง ณ เวลาที่เลือก">สัดส่วนจำนวนพื้นที่ที่ตรวจพบความเข้มฝนในแต่ละเกณฑ์ความรุนแรง ณ เวลาที่เลือก</p>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Spatial Rainfall Distribution</h4>
+                        <h3 class="text-base font-black text-slate-900 leading-tight data-lang" data-en="Status Overview" data-th="สรุปสถานการณ์ในพื้นที่">Status Overview</h3>
+                        <p class="text-xs text-slate-500 font-medium data-lang" data-en="Spatial Rainfall Intensity Distribution" data-th="สัดส่วนพื้นที่แยกตามระดับความรุนแรงฝน (ณ เวลาที่เลือก)">Spatial Rainfall Intensity Distribution</p>
                     </div>
                 </div>
 
                 <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[350px]">
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
-                        <span class="flex items-center gap-2 data-lang" data-en="Area Accumulation Ranking" data-th="อันดับพื้นที่ปริมาณฝนสะสม"><i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Area Accumulation Ranking</span>
+                        <span class="flex items-center gap-2 data-lang" data-en="Spatial Accumulated Rainfall (Descending)" data-th="ปริมาณฝนสะสมเชิงพื้นที่ (เรียงจาก มาก -> น้อย)"><i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i> Spatial Accumulated Rainfall (Descending)</span>
                         <span id="timeframe-badge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase">HOURLY</span>
                     </div>
                     <div class="overflow-y-auto flex-1 max-h-[400px]">
@@ -153,8 +153,8 @@
                             <thead>
                                 <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
                                     <th class="px-4 py-3 text-center w-12 data-lang" data-en="Rank" data-th="อันดับ">Rank</th>
-                                    <th id="table-header-spatial-title" class="px-4 py-3">ตำบล (Sub-District)</th>
-                                    <th class="px-4 py-3 text-right w-36 data-lang" data-en="Rainfall" data-th="ปริมาณฝน">ปริมาณฝน (Rainfall)</th>
+                                    <th id="table-header-spatial-title" class="px-4 py-3">District</th>
+                                    <th class="px-4 py-3 text-right w-36 data-lang" data-en="Rainfall" data-th="ปริมาณฝน">Rainfall</th>
                                 </tr>
                             </thead>
                             <tbody id="district-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
