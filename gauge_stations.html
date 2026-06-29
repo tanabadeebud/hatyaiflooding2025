@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         #map { z-index: 1; }
-        /* Sync styling for standard native Leaflet Layer Manager Control */
         .leaflet-control-layers {
             font-family: ui-sans-serif, system-ui, sans-serif !important;
             font-size: 11px !important;
@@ -29,40 +28,47 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
 
-    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm">
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30">
         <div>
-            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
                 <i data-lucide="droplet" class="text-blue-600 w-8 h-8"></i>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-slate-900">HatYai Flood 2025</h1>
-                    <p class="text-xs text-slate-500 font-medium">Event Analysis Dashboard</p>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 data-lang" data-en="HatYai Flood 2025" data-th="น้ำท่วมหาดใหญ่ 2025">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="Event Analysis Dashboard" data-th="แดชบอร์ดวิเคราะห์สถานการณ์">Event Analysis Dashboard</p>
                 </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
             </div>
 
             <nav class="space-y-1">
                 <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
-                    <span>1. Homepage</span>
+                    <span class="data-lang" data-en="1. Homepage" data-th="1. หน้าแรก">1. Homepage</span>
                 </a>
                 <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
-                    <span>2. Animation Radar Rainfall</span>
+                    <span class="data-lang" data-en="2. Animation Radar Rainfall" data-th="2. แอนิเมชันเรดาร์น้ำฝน">2. Animation Radar Rainfall</span>
                 </a>
                 <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
                     <i data-lucide="cloud-rain" class="w-5 h-6 text-blue-600"></i>
-                    <span>3. Rainfall Stations</span>
+                    <span class="data-lang" data-en="3. Rainfall Stations" data-th="3. สถานีวัดน้ำฝน">3. Rainfall Stations</span>
                 </a>
                 <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
-                    <span>4. Water Level Situations</span>
+                    <span class="data-lang" data-en="4. Water Level Situations" data-th="4. สถานการณ์ระดับน้ำ">4. Water Level Situations</span>
                 </a>
                 <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
-                    <span>5. District Accumulation</span>
+                    <span class="data-lang" data-en="5. District Accumulation" data-th="5. ปริมาณฝนสะสมรายอำเภอ">5. District Accumulation</span>
                 </a>
                 <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
                     <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
-                    <span>6. Flood Mapping</span>
+                    <span class="data-lang" data-en="6. Flood Mapping" data-th="6. แผนที่พื้นที่น้ำท่วม">6. Flood Mapping</span>
                 </a>
             </nav>
         </div>
@@ -74,14 +80,14 @@
     <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900">Rainfall Stations Telemetry Map</h2>
-                <p class="text-sm text-slate-500">Spatial visualization of ground gauges paired with regional multi-agency logs.</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Rainfall Stations Telemetry Map" data-th="แผนที่ข้อมูลโทรมาตรสถานีวัดน้ำฝน">Rainfall Stations Telemetry Map</h2>
+                <p class="text-sm text-slate-500 data-lang" data-en="Spatial visualization of ground gauges paired with regional multi-agency logs." data-th="การแสดงข้อมูลเชิงพื้นที่ของสถานีวัดน้ำฝนภาคสนาม ร่วมกับบันทึกข้อมูลจากหลากหน่วยงาน">Spatial visualization of ground gauges paired with regional multi-agency logs.</p>
             </div>
             <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner shrink-0">
-                <button onclick="switchTimeScale('daily')" id="btn-scale-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm">
+                <button onclick="switchTimeScale('daily')" id="btn-scale-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily" data-th="รายวัน (Daily)">
                     รายวัน (Daily)
                 </button>
-                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900">
+                <button onclick="switchTimeScale('event')" id="btn-scale-event" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Total Event" data-th="ภาพรวมเหตุการณ์ (Total Event)">
                     ภาพรวมเหตุการณ์ (Total Event)
                 </button>
             </div>
@@ -90,11 +96,11 @@
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center gap-4">
             <div class="flex-1 w-full relative">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
-                <input type="text" id="search-input" placeholder="Search by code, name, district, or province..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-slate-50/50">
+                <input type="text" id="search-input" placeholder="Search by code, name, district, or province..." data-placeholder-en="Search by code, name, district, or province..." data-placeholder-th="ค้นหาด้วยรหัส, ชื่อสถานี, อำเภอ หรือจังหวัด..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-slate-50/50">
             </div>
 
             <div id="date-stepper-panel" class="flex items-center gap-2 shrink-0 bg-slate-100/80 p-1 border border-slate-200 rounded-lg w-full md:w-auto justify-between md:justify-start">
-                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider pl-2 hidden lg:inline">Date:</span>
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider pl-2 hidden lg:inline data-lang" data-en="Date:" data-th="วันที่:">Date:</span>
                 <button onclick="adjustDateIndex(-1)" class="p-1.5 bg-white border rounded-md shadow-sm text-slate-700 hover:bg-slate-100 transition">
                     <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 </button>
@@ -108,7 +114,7 @@
             <div class="w-full md:w-64 flex items-center gap-2">
                 <i data-lucide="filter" class="w-4 h-4 text-slate-500 shrink-0"></i>
                 <select id="agency-filter" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-500 shadow-sm">
-                    <option value="ALL">All Agencies (Show All)</option>
+                    <option value="ALL" class="data-lang" data-en="All Agencies (Show All)" data-th="ทุกหน่วยงาน (แสดงทั้งหมด)">All Agencies (Show All)</option>
                 </select>
             </div>
         </div>
@@ -116,7 +122,9 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1 min-h-[600px]">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[500px] xl:h-auto min-h-[450px]">
                 <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex flex-col lg:flex-row lg:items-center justify-between gap-2">
-                    <span class="flex items-center gap-2"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Distribution Frame</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Spatial Distribution Frame" data-th="กรอบการกระจายตัวเชิงพื้นที่">
+                        <i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Distribution Frame
+                    </span>
                     <div id="legend-threshold-labels" class="flex flex-wrap items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
                     </div>
                 </div>
@@ -126,23 +134,29 @@
             <div class="xl:col-span-2 flex flex-col h-[500px] xl:h-[650px]">
                 <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full">
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
-                        <span class="flex items-center gap-2"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Gauges Registry (<span id="sort-badge">Max Sorted</span>)</span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> 
+                            <span class="data-lang" data-en="Gauges Registry" data-th="ทะเบียนสถานีตรวจวัด">Gauges Registry</span> 
+                            (<span id="sort-badge" class="data-lang" data-en="Max Sorted" data-th="เรียงตามปริมาณฝนสูงสุด">Max Sorted</span>)
+                        </span>
                         <span id="counter-badge" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold">0 Gauge(s) found</span>
                     </div>
                     <div id="stations-list-container" class="p-4 overflow-y-auto divide-y divide-slate-100 flex-1 space-y-3"></div>
                     <div class="mt-auto p-3.5 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 leading-relaxed shrink-0">
                         <div class="flex items-center gap-1.5 font-bold text-slate-700 uppercase tracking-wide mb-1.5">
                             <i data-lucide="award" class="w-3.5 h-3.5 text-blue-600"></i>
-                            <span>Data Provider Acknowledgement</span>
+                            <span class="data-lang" data-en="Data Provider Acknowledgement" data-th="กิตติกรรมประกาศผู้สนับสนุนข้อมูล">Data Provider Acknowledgement</span>
                         </div>
-                        <p class="mb-2 font-medium">
+                        <p class="mb-2 font-medium data-lang" 
+                           data-en="Ground observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological frameworks:"
+                           data-th="บันทึกการตรวจวัดภาคสนามและชุดข้อมูลอนุกรมเวลาโทรมาตรที่แสดงในระบบติดตามนี้ ได้รับความอนุเคราะห์ทางวิชาการและบำรุงรักษาโดยหน่วยงานด้านอุทกวิทยาที่เกี่ยวข้องในภูมิภาค:">
                             Ground observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological frameworks:
                         </p>
                         <ul class="space-y-1 font-semibold text-slate-700 font-mono text-[10px]">
-                            <li class="flex items-center gap-1.5">• Thai Meteorological Department (TMD)</li>
-                            <li class="flex items-center gap-1.5">• Royal Irrigation Department (RID)</li>
-                            <li class="flex items-center gap-1.5">• Department of Water Resources (DWR)</li>
-                            <li class="flex items-center gap-1.5">• Hydro-Informatics Institute (HII)</li>
+                            <li class="flex items-center gap-1.5">• Thai Meteorological Department (TMD) / กรมอุตุนิยมวิทยา</li>
+                            <li class="flex items-center gap-1.5">• Royal Irrigation Department (RID) / กรมชลประทาน</li>
+                            <li class="flex items-center gap-1.5">• Department of Water Resources (DWR) / กรมทรัพยากรน้ำ</li>
+                            <li class="flex items-center gap-1.5">• Hydro-Informatics Institute (HII) / สถาบันสารสนเทศทรัพยากรน้ำ</li>
                         </ul>
                     </div>
                 </div>
@@ -168,7 +182,6 @@
     </div>
 
     <script>
-        // EMBEDDED METADATA PROFILES
         const stationsData = [
             { "Index": 1, "Station Code": "TA200303", "Station Name": "คลองอู่ตะเภาตอนบนทุ่งลาน", "Latitude": 6.8565, "Longitude": 100.4642, "Agency": "DWR", "province": "สงขลา", "district": "คลองหอยโข่ง", "sub_district": "ทุ่งลาน" },
             { "Index": 2, "Station Code": "TA200304", "Station Name": "คลองอู่ตะเภาตอนล่าง", "Latitude": 7.0021, "Longitude": 100.4559, "Agency": "DWR", "province": "สงขลา", "district": "หาดใหญ่", "sub_district": "หาดใหญ่" },
@@ -207,9 +220,9 @@
         let map, markerLayerGroup, popupChartInstance = null;
         
         let currentTimeScale = 'daily'; 
-        let currentDateIndex = 4;       
+        let currentDateIndex = 4;        
+        let currentLang = 'en';
 
-        // Native Layer Control Registry Storage Objects
         let nativeLayerControl = null;
         let loadedBoundaryLayers = { basin: null, district: null, subdistrict: null };
 
@@ -232,21 +245,41 @@
         function updateLegendUI(scale) {
             const container = document.getElementById('legend-threshold-labels');
             if (scale === 'daily') {
-                container.innerHTML = `
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 10 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 10 - 35 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 35 - 90 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 90 มม.</span>
-                `;
+                if (currentLang === 'en') {
+                    container.innerHTML = `
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> No Rain / Low</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 10 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 10 - 35 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 35 - 90 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 90 mm</span>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 10 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 10 - 35 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 35 - 90 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 90 มม.</span>
+                    `;
+                }
             } else {
-                container.innerHTML = `
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 50 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 50 - 150 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 150 - 300 มม.</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 300 มม.</span>
-                `;
+                if (currentLang === 'en') {
+                    container.innerHTML = `
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> No Rain / Low</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 50 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 50 - 150 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 150 - 300 mm</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 300 mm</span>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 50 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 50 - 150 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 150 - 300 มม.</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-purple-600 rounded block"></span> > 300 มม.</span>
+                    `;
+                }
             }
         }
 
@@ -264,7 +297,7 @@
                 switchTimeScale('daily'); 
             } catch (err) {
                 console.error("Data pipeline load crash:", err);
-                alert("Option 2 Alert: ไม่พบไฟล์ในโฟลเดอร์ data/ กรุณาเปิดหน้าเว็บผ่าน Web Server ท้องถิ่น");
+                alert("ไม่พบไฟล์ในโฟลเดอร์ data/ กรุณาเปิดหน้าเว็บผ่าน Web Server ท้องถิ่น");
             }
         }
 
@@ -276,7 +309,6 @@
 
             markerLayerGroup = L.layerGroup().addTo(map);
 
-            // Initialize standard Leaflet layer overlay control widget
             nativeLayerControl = L.control.layers(null, null, { position: 'topright', collapsed: false }).addTo(map);
 
             const boundaryConfigs = [
@@ -300,7 +332,6 @@
                         let geoLayer = L.geoJSON(geoJsonData, { style: layerStyle });
                         loadedBoundaryLayers[b.key] = geoLayer;
                         
-                        // Register item cleanly into Leaflet layer box control interface
                         nativeLayerControl.addOverlay(geoLayer, b.name);
 
                         if (b.active) {
@@ -314,11 +345,15 @@
 
         function convertStringToRadarFormat(dateStr) {
             if (!dateStr) return '';
-            // Translates raw '2025-11-19' into a clean readable radar matching 'Nov 19, 2025' format
             const parts = dateStr.split('-');
             if (parts.length !== 3) return dateStr;
             const d = new Date(parts[0], parts[1] - 1, parts[2]);
-            return d.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+            
+            if(currentLang === 'en') {
+                return d.toLocaleString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+            } else {
+                return d.toLocaleString('th-TH', { month: 'short', day: '2-digit', year: 'numeric' });
+            }
         }
 
         function buildDateDropdownControl() {
@@ -376,10 +411,12 @@
             const listContainer = document.getElementById('stations-list-container');
             listContainer.innerHTML = "";
 
-            document.getElementById('counter-badge').innerText = `${sortedArray.length} Gauge(s) found`;
+            const foundWord = currentLang === 'en' ? 'Gauge(s) found' : 'พบสถานีวัดน้ำฝน';
+            document.getElementById('counter-badge').innerText = `${sortedArray.length} ${foundWord}`;
 
             if(sortedArray.length === 0) {
-                listContainer.innerHTML = `<div class="text-center py-8 text-xs font-medium text-slate-400">No telemetry records match parameters.</div>`;
+                const noRecordWord = currentLang === 'en' ? 'No telemetry records match parameters.' : 'ไม่พบข้อมูลสถานีโทรมาตรที่ตรงกับเงื่อนไข';
+                listContainer.innerHTML = `<div class="text-center py-8 text-xs font-medium text-slate-400">${noRecordWord}</div>`;
                 return;
             }
 
@@ -393,7 +430,13 @@
                     radius: 7, fillColor: thresholdColor, color: '#ffffff', weight: 1.5, opacity: 1, fillOpacity: 0.85
                 });
                 
-                const typeLabel = currentTimeScale === 'event' ? 'Whole Event Rainfall' : 'Daily Rainfall';
+                let typeLabel = "";
+                if(currentLang === 'en') {
+                    typeLabel = currentTimeScale === 'event' ? 'Whole Event Rainfall' : 'Daily Rainfall';
+                } else {
+                    typeLabel = currentTimeScale === 'event' ? 'ฝนสะสมรวมทั้งเหตุการณ์' : 'ปริมาณฝนรายวัน';
+                }
+
                 marker.bindPopup(`
                     <div class="text-xs font-sans">
                         <b>[${stn.Agency}] ${stn["Station Name"]}</b><br>
@@ -407,7 +450,9 @@
                 let locDetails = [];
                 if (stn.sub_district && stn.sub_district !== "-") locDetails.push(stn.sub_district);
                 if (stn.district && stn.district !== "-") locDetails.push(stn.district);
-                const locationString = locDetails.length > 0 ? locDetails.join(', ') : "Location unmapped";
+                const locationString = locDetails.length > 0 ? locDetails.join(', ') : (currentLang === 'en' ? "Location unmapped" : "ไม่ทราบพิกัดแน่ชัด");
+
+                const graphBtnText = currentLang === 'en' ? 'Graph' : 'กราฟ';
 
                 const card = document.createElement('div');
                 card.className = "bg-white p-3 border border-slate-200/80 rounded-lg shadow-sm hover:border-blue-400 transition flex items-center justify-between gap-4 cursor-pointer";
@@ -426,8 +471,8 @@
                         <span class="text-xs font-black px-2 py-0.5 rounded font-mono" style="background-color:${thresholdColor}15; color:${thresholdColor === '#e2e8f0' ? '#475569' : thresholdColor}">
                             ${stn.active_rainfall.toFixed(1)} mm
                         </span>
-                        <button onclick="triggerGraphModal('${stn["Station Code"]}', '${stn["Station Name"]}')" class="flex items-center gap-0.5 px-2 py-1 bg-slate-990 hover:bg-blue-600 text-white rounded text-[10px] font-semibold transition shadow-sm">
-                            <i data-lucide="bar-chart-3" class="w-3 h-3"></i> Graph
+                        <button onclick="triggerGraphModal('${stn["Station Code"]}', '${stn["Station Name"]}')" class="flex items-center gap-0.5 px-2 py-1 bg-slate-900 hover:bg-blue-600 text-white rounded text-[10px] font-semibold transition shadow-sm">
+                            <i data-lucide="bar-chart-3" class="w-3 h-3"></i> ${graphBtnText}
                         </button>
                     </div>
                 `;
@@ -456,12 +501,16 @@
                 btnDaily.className = "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm";
                 btnEvent.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
                 dateStepperPanel.style.display = "flex"; 
-                sortBadge.innerText = "Daily Max Sorted";
+                sortBadge.innerText = currentLang === 'en' ? "Daily Max Sorted" : "เรียงตามฝนรายวันสูงสุด";
+                sortBadge.setAttribute('data-en', 'Daily Max Sorted');
+                sortBadge.setAttribute('data-th', 'เรียงตามฝนรายวันสูงสุด');
             } else {
                 btnDaily.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900";
                 btnEvent.className = "px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm";
                 dateStepperPanel.style.display = "none"; 
-                sortBadge.innerText = "Event Total Max Sorted";
+                sortBadge.innerText = currentLang === 'en' ? "Event Total Max Sorted" : "เรียงตามฝนสะสมรวมสูงสุด";
+                sortBadge.setAttribute('data-en', 'Event Total Max Sorted');
+                sortBadge.setAttribute('data-th', 'เรียงตามฝนสะสมรวมสูงสุด');
             }
 
             updateLegendUI(scaleKey);
@@ -475,8 +524,15 @@
                 return;
             }
 
-            document.getElementById('modal-station-title').innerText = `Rainfall Cumulative Mass Curve & Hyetograph — Station: ${name}`;
-            document.getElementById('modal-station-subtitle').innerText = `Target Station Identity Reference Code: ${code}`;
+            const titleText = currentLang === 'en' 
+                ? `Rainfall Cumulative Mass Curve & Hyetograph — Station: ${name}`
+                : `เส้นโค้งมวลฝนสะสมและไฮเอโตราฟ — สถานี: ${name}`;
+            const subtitleText = currentLang === 'en'
+                ? `Target Station Identity Reference Code: ${code}`
+                : `รหัสอ้างอิงอัตลักษณ์สถานีตรวจวัดหลัก: ${code}`;
+
+            document.getElementById('modal-station-title').innerText = titleText;
+            document.getElementById('modal-station-subtitle').innerText = subtitleText;
             document.getElementById('graph-modal-overlay').classList.remove('hidden');
 
             let runningSum = 0;
@@ -490,13 +546,18 @@
 
             const peakIntensity = Math.max(...telemetry.hourly_values, 10);
 
+            const labelCurve = currentLang === 'en' ? `Cumulative Depth (Total: ${runningSum.toFixed(1)} mm)` : `ปริมาณฝนสะสม (รวม: ${runningSum.toFixed(1)} มม.)`;
+            const labelIntensity = currentLang === 'en' ? 'Hourly Rainfall Intensity (mm/h)' : 'ความเข้มน้ำฝนรายชั่วโมง (มม./ชม.)';
+            const leftAxisTitle = currentLang === 'en' ? 'Accumulated Rainfall Depth (mm)' : 'ความลึกน้ำฝนสะสม (มม.)';
+            const rightAxisTitle = currentLang === 'en' ? 'Hourly Intensity (mm/h)' : 'ความเข้มรายชั่วโมง (มม./ชม.)';
+
             popupChartInstance = new Chart(ctx, {
                 data: {
                     labels: telemetry.hourly_timestamps,
                     datasets: [
                         {
                             type: 'line',
-                            label: `Cumulative Depth (Total: ${runningSum.toFixed(1)} mm)`,
+                            label: labelCurve,
                             data: cumulativeSeries,
                             borderColor: '#0f172a',
                             borderWidth: 2.5,
@@ -507,7 +568,7 @@
                         },
                         {
                             type: 'bar',
-                            label: 'Hourly Rainfall Intensity (mm/h)',
+                            label: labelIntensity,
                             data: telemetry.hourly_values,
                             backgroundColor: 'rgba(29, 78, 216, 0.4)',
                             borderColor: '#1d4ed8',
@@ -529,13 +590,13 @@
                         x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 45, font: { size: 9 } } },
                         yLeft: {
                             type: 'linear', position: 'left',
-                            title: { display: true, text: 'Accumulated Rainfall Depth (mm)', font: { weight: 'bold' } },
+                            title: { display: true, text: leftAxisTitle, font: { weight: 'bold' } },
                             grid: { color: '#f1f5f9' }
                         },
                         yRight: {
                             type: 'linear', position: 'right',
                             reverse: true, 
-                            title: { display: true, text: 'Hourly Intensity (mm/h)', font: { weight: 'bold' } },
+                            title: { display: true, text: rightAxisTitle, font: { weight: 'bold' } },
                             grid: { display: false },
                             min: 0,
                             max: peakIntensity * 3.0 
@@ -562,6 +623,47 @@
             currentDateIndex = parseInt(val);
             executeCombinedFilters();
         };
+
+        // Language Switcher Toggle Implementation
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+        const searchInput = document.getElementById('search-input');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            document.documentElement.lang = currentLang;
+
+            // Update Placeholder
+            if (currentLang === 'en') {
+                searchInput.placeholder = searchInput.getAttribute('data-placeholder-en');
+            } else {
+                searchInput.placeholder = searchInput.getAttribute('data-placeholder-th');
+            }
+
+            translatableElements.forEach(el => {
+                const translation = el.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    if (el.innerHTML.includes('<i') || el.innerHTML.includes('<span')) {
+                        const icon = el.querySelector('i');
+                        if(icon) {
+                            el.innerHTML = '';
+                            el.appendChild(icon);
+                            el.append(' ' + translation);
+                        }
+                    } else {
+                        el.innerHTML = translation;
+                    }
+                }
+            });
+
+            // Refresh specific items
+            buildDateDropdownControl();
+            updateLegendUI(currentTimeScale);
+            executeCombinedFilters();
+            lucide.createIcons();
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             generateAgencyDropdownFilters();
