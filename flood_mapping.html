@@ -67,13 +67,13 @@
     <main class="flex-1 flex flex-col min-w-0 p-6 md:p-8 space-y-6">
         <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Satellite-Derived Flood Mapping Dashboard" data-th="แดชบอร์ดข้อมูลพื้นที่น้ำท่วมจากดาวเทียม">Satellite-Derived Flood Mapping Dashboard</h2>
-                <p class="text-sm text-slate-500 data-lang" data-en="Daily satellite observation extents matched against physical hydrological flood marks within Hat Yai district." data-th="ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่">ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจระลึกน้ำท่วม (Flood Marks) ในพื้นที่อำเภอหาดใหญ่</p>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Satellite Flood Extent" data-th="ข้อมูลพื้นที่น้ำท่วมจากภาพถ่ายดาวเทียม">Satellite Flood Extent</h2>
+                <p class="text-sm text-slate-500 data-lang" data-en="Daily Satellite Flood Inundation Boundaries and Ground-Based Depth Survey Data winthin Hat Yai District." data-th="ข้อมูลขอบเขตพื้นที่น้ำท่วมรายวันจากภาพถ่ายดาวเทียม ร่วมกับจุดสำรวจความลึกน้ำท่วมในพื้นที่อำเภอหาดใหญ่">Daily Satellite Flood Inundation Boundaries and Ground-Based Depth Survey Data winthin Hat Yai District.</p>
             </div>
             
             <div class="inline-flex p-1 bg-slate-200/80 rounded-xl self-start lg:self-center shadow-inner shrink-0">
-                <button onclick="toggleFloodMode('daily')" id="btn-mode-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily Imagery" data-th="ขอบเขตรายวัน (Daily Imagery)">ขอบเขตรายวัน (Daily Imagery)</button>
-                <button onclick="toggleFloodMode('maximum')" id="btn-mode-max" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Maximum Flood Extent" data-th="พื้นที่ท่วมสูงสุด (Maximum Flood Extent)">พื้นที่ท่วมสูงสุด (Maximum Flood Extent)</button>
+                <button onclick="toggleFloodMode('daily')" id="btn-mode-daily" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-blue-700 bg-white shadow-sm data-lang" data-en="Daily Imagery" data-th="ขอบเขตรายวัน">Daily Imagery</button>
+                <button onclick="toggleFloodMode('maximum')" id="btn-mode-max" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-600 hover:text-slate-900 data-lang" data-en="Maximum Flood Extent" data-th="พื้นที่น้ำท่วมสูงสุด">Maximum Flood Extent</button>
             </div>
         </header>
 
@@ -81,7 +81,7 @@
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2">
                     <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Flood Marks" data-th="จุดสำรวจคราบน้ำ (Flood Marks)">จุดสำรวจคราบน้ำ (Flood Marks)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Flood Marks" data-th="จุดสำรวจคราบระดับน้ำท่วม (Flood Marks)">Flood Marks</span>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="toggle-flood-marks" checked onchange="toggleFloodMarksLayer()" class="sr-only peer">
@@ -92,7 +92,7 @@
             <div id="date-stepper-container" class="lg:col-span-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2 shrink-0">
                     <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Observation Date" data-th="เลือกวันที่สำรวจ (Observation Date)">เลือกวันที่สำรวจ (Observation Date)</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider data-lang" data-en="Select Date" data-th="เลือกวันที่">Select Date</span>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
                     <button onclick="adjustDateStep(-1)" class="p-2 bg-slate-50 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-lg transition shadow-sm">
@@ -110,7 +110,7 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[550px]">
                 <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex items-center justify-between">
-                    <span class="flex items-center gap-2 data-lang" data-en="Satellite Inundation GIS Viewer" data-th="แผนที่แสดงพื้นที่น้ำท่วมจากดาวเทียม GIS"><i data-lucide="map" class="w-3.5 h-3.5"></i> Satellite Inundation GIS Viewer</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Satellite Flood Inundation Map" data-th="แผนที่ขอบเขตพื้นที่น้ำท่วมจากภาพถ่ายดาวเทียม"><i data-lucide="map" class="w-3.5 h-3.5"></i> Satellite Flood Inundation Map</span>
                     <div class="flex items-center gap-4 tracking-normal font-medium text-[11px] text-slate-600">
                         <span class="flex items-center gap-1.5"><span class="w-4 h-3 bg-blue-500/40 rounded border border-blue-600 block"></span> <span class="data-lang" data-en="Inundation Extent" data-th="ขอบเขตน้ำท่วม">ขอบเขตน้ำท่วม</span></span>
                         <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-red-500 rounded-full block"></span> <span class="data-lang" data-en="Flood Mark Point" data-th="จุด Flood Mark">จุด Flood Mark</span></span>
@@ -122,8 +122,8 @@
             <div class="xl:col-span-2 flex flex-col gap-6">
                 <div class="bg-white p-4 border border-slate-200 rounded-xl shadow-sm flex flex-col min-h-[220px]">
                     <div class="mb-2">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Inundation Trend Analysis</h4>
-                        <h3 class="text-base font-black text-slate-900 leading-tight data-lang" data-en="Overall Inundated Extent Trend (sq.km.)" data-th="แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)">แนวโน้มพื้นที่น้ำท่วมภาพรวม (ตร.กม.)</h3>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Flooding Inundation Trend Analysis</h4>
+                        <h3 class="text-base font-black text-slate-900 leading-tight data-lang" data-en="Flood Area Overview (sq. km.)" data-th="ภาพรวมขอบเขตพื้นที่น้ำท่วม (ตร.กม.)">Flood Area Overview (sq. km.)</h3>
                     </div>
                     <div class="relative flex-1">
                         <canvas id="flood-trend-canvas"></canvas>
@@ -132,7 +132,7 @@
 
                 <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-[290px]">
                     <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center">
-                        <span class="flex items-center gap-2 data-lang" data-en="Subdistrict Flood Ranking" data-th="อันดับตำบลที่ได้รับผลกระทบน้ำท่วม"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Subdistrict Flood Ranking</span>
+                        <span class="flex items-center gap-2 data-lang" data-en="Sub-district Flooding area" data-th="รายชื่อตำบลที่ได้รับผลกระทบน้ำท่วม"><i data-lucide="list-ordered" class="w-3.5 h-3.5"></i> Sub-district Flooding area</span>
                         <span id="flood-badge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase">DAILY EXTENT</span>
                     </div>
                     <div class="overflow-y-auto flex-1 max-h-[320px]">
@@ -141,7 +141,7 @@
                                 <tr class="bg-slate-50/50 border-b border-slate-200 text-[11px] font-bold text-slate-400 uppercase tracking-wider sticky top-0 bg-slate-50 z-10">
                                     <th class="px-4 py-3 text-center w-12 data-lang" data-en="Rank" data-th="อันดับ">Rank</th>
                                     <th class="px-4 py-3 data-lang" data-en="Sub-District" data-th="ตำบล (Sub-District)">ตำบล (Sub-District)</th>
-                                    <th class="px-4 py-3 text-right w-48 data-lang" data-en="Inundated Area" data-th="พื้นที่น้ำท่วม">พื้นที่น้ำท่วม</th>
+                                    <th class="px-4 py-3 text-right w-48 data-lang" data-en="Inundated Area" data-th="ขนาดพื้นที่น้ำท่วม">Inundated Area</th>
                                 </tr>
                             </thead>
                             <tbody id="flood-table-body" class="divide-y divide-slate-100 text-sm font-medium text-slate-700">
