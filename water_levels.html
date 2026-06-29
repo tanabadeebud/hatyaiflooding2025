@@ -80,9 +80,9 @@
     <main class="flex-1 flex flex-col h-screen max-h-screen min-w-0 p-6 md:p-8 space-y-6 overflow-hidden">
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-4">
             <div>
-                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Water Level Situations Dashboard" data-th="แดชบอร์ดสถานการณ์ระดับน้ำท่า">Water Level Situations Dashboard</h2>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-900 data-lang" data-en="Water Level Situation Map" data-th="แผนที่สถานการณ์ระดับน้ำ">Water Level Situation Map</h2>
                 <div class="mt-1 flex flex-wrap items-center gap-2">
-                    <p class="text-sm text-slate-500 data-lang" data-en="Water levels telemetry analysis and overbank flood risk alerts across U-Tapao basin key gauges." data-th="สถานการณ์ระดับน้ำท่าและการเฝ้าระวังน้ำล้นตลิ่งจำแนกตามรายสถานีหลักในลุ่มน้ำอู่ตะเภา">สถานการณ์ระดับน้ำท่าและการเฝ้าระวังน้ำล้นตลิ่งจำแนกตามรายสถานีหลักในลุ่มน้ำอู่ตะเภา</p>
+                    <p class="text-sm text-slate-500 data-lang" data-en="Khlong U-Tapao Basin Water Level Situation" data-th="สถานการณ์ระดับน้ำในลุ่มน้ำคลองอู่ตะเภา">Khlong U-Tapao Basin Water Level Situation</p>
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white shadow-sm font-mono tracking-wide">
                         <i data-lucide="clock" class="w-3.5 h-3.5"></i> Nov 25, 2025 at 10:00 ICT
                     </span>
@@ -93,12 +93,12 @@
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-4">
             <div class="flex-1 w-full relative">
                 <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
-                <input type="text" id="search-input" placeholder="ค้นหาด้วยรหัสสถานี, ชื่อทางน้ำ, หรือชื่ออำเภอ..." data-placeholder-en="Search by code, river name, or district..." data-placeholder-th="ค้นหาด้วยรหัสสถานี, ชื่อทางน้ำ, หรือชื่ออำเภอ..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-slate-50/50">
+                <input type="text" id="search-input" placeholder="ค้นหาด้วยรหัสสถานี, ชื่อลำน้ำ, หรือชื่ออำเภอ..." data-placeholder-en="Search by code, river name, or district..." data-placeholder-th="ค้นหาด้วยรหัสสถานี, ชื่อลำน้ำ, หรือชื่ออำเภอ..." class="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:border-blue-500 bg-slate-50/50">
             </div>
             <div class="w-full sm:w-64 flex items-center gap-2">
                 <i data-lucide="filter" class="w-4 h-4 text-slate-400 shrink-0"></i>
                 <select id="river-filter" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 outline-none focus:border-blue-500 shadow-sm">
-                    <option value="ALL" class="data-lang" data-en="All Rivers (Show All)" data-th="ทางน้ำทั้งหมด (Show All)">ทางน้ำทั้งหมด (Show All)</option>
+                    <option value="ALL" class="data-lang" data-en="All Rivers (Show All)" data-th="ลำน้ำทั้งหมด (Show All)">ลำน้ำทั้งหมด (Show All)</option>
                 </select>
             </div>
         </div>
@@ -106,7 +106,7 @@
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-stretch flex-1 min-h-0 h-full overflow-hidden">
             <div class="xl:col-span-3 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-full min-h-0">
                 <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex items-center justify-between shrink-0">
-                    <span class="flex items-center gap-2 data-lang" data-en="Spatial Telemetry Map" data-th="แผนที่ข้อมูลโทรมาตรเชิงพื้นที่"><i data-lucide="map" class="w-3.5 h-3.5"></i> Spatial Telemetry Map</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Runoff Monitoring Station Map" data-th="แผนที่ตำแหน่งสถานีวัดน้ำท่า"><i data-lucide="map" class="w-3.5 h-3.5"></i> Runoff Monitoring Station Map</span>
                     <div id="status-legend-container" class="flex items-center gap-2 tracking-normal capitalize font-medium text-[11px]">
                     </div>
                 </div>
@@ -115,7 +115,7 @@
         
             <div class="xl:col-span-2 flex flex-col h-full min-h-0 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
                 <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 text-xs font-bold text-slate-500 tracking-wide uppercase flex justify-between items-center shrink-0">
-                    <span class="flex items-center gap-2 data-lang" data-en="Runoff Stations Registry" data-th="ทะเบียนสถานีตรวจวัดน้ำท่า"><i data-lucide="activity" class="w-3.5 h-3.5"></i> Runoff Stations Registry</span>
+                    <span class="flex items-center gap-2 data-lang" data-en="Runoff Stations List" data-th="รายชื่อสถานีวัดน้ำท่า"><i data-lucide="activity" class="w-3.5 h-3.5"></i> Runoff Stations List</span>
                     <span id="counter-badge" class="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[11px] font-bold">0 Active</span>
                 </div>
                 
@@ -127,9 +127,9 @@
                         <span class="data-lang" data-en="Data Provider Acknowledgement" data-th="กิตติกรรมประกาศผู้สนับสนุนข้อมูล">Data Provider Acknowledgement</span>
                     </div>
                     <p class="mb-1 font-medium data-lang"
-                       data-en="Ground river runoff observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological framework:"
-                       data-th="บันทึกการตรวจวัดระดับน้ำท่าและชุดข้อมูลอนุกรมเวลาโทรมาตรภาคสนามที่แสดงในระบบติดตามนี้ ได้รับความอนุเคราะห์และบำรุงรักษาโดยหน่วยงานอุทกวิทยาหลักในพื้นที่:">
-                        Ground river runoff observation logs and telemetry timeseries datasets visualized across this monitoring system are maintained and provided through the technical courtesy of the respective regional hydrological framework:
+                       data-en="Runoff data is gratefully acknowledged from our partner agencies, including:"
+                       data-th="ข้อมูลน้ำท่าที่แสดงในระบบนี้ ได้รับความอนุเคราะห์ข้อมูลจากหน่วยงานต่าง ๆ ที่เกี่ยวข้อง ได้แก่:">
+                        Runoff data is gratefully acknowledged from our partner agencies, including:
                     </p>
                     <ul class="space-y-1 font-semibold text-slate-700 font-mono text-[10px]">
                         <li class="flex items-center gap-1.5">• Royal Irrigation Department (RID) / กรมชลประทาน</li>
@@ -315,7 +315,7 @@
                     radius: 7.5, fillColor: markerColor, color: '#ffffff', weight: 1.8, opacity: 1, fillOpacity: 0.9
                 });
                 
-                const riverWord = currentLang === 'en' ? 'River' : 'ทางน้ำ';
+                const riverWord = currentLang === 'en' ? 'River' : 'ลำน้ำ';
                 const coordWord = currentLang === 'en' ? 'Location' : 'พิกัด';
                 const levelWord = currentLang === 'en' ? 'Level at Nov 25 10:00' : 'ระดับน้ำ ณ 25 พ.ย. 10:00';
                 const statusWord = currentLang === 'en' ? 'Situation' : 'สถานการณ์';
@@ -331,7 +331,7 @@
                 `);
                 markerLayerGroup.addLayer(marker);
 
-                const labelWarning = currentLang === 'en' ? 'Warning Level:' : 'ระดับเตือนภัย:';
+                const labelWarning = currentLang === 'en' ? 'Warning Level:' : 'ระดับเฝ้าระวัง:';
                 const labelOverbank = currentLang === 'en' ? 'Overbank Level:' : 'ระดับตลิ่ง:';
                 const labelHour = currentLang === 'en' ? 'Hourly Level' : 'ระดับน้ำชั่วโมงนี้';
                 const graphBtnText = currentLang === 'en' ? 'Graph' : 'ดูกราฟ';
@@ -387,14 +387,14 @@
             selectEl.innerHTML = '';
             const defaultOpt = document.createElement('option');
             defaultOpt.value = "ALL";
-            defaultOpt.innerText = currentLang === 'en' ? "All Rivers (Show All)" : "ทางน้ำทั้งหมด (Show All)";
+            defaultOpt.innerText = currentLang === 'en' ? "All Rivers (Show All)" : "ลำน้ำทั้งหมด (Show All)";
             selectEl.appendChild(defaultOpt);
 
             const rivers = [...new Set(data.map(item => item.River))].filter(Boolean).sort();
             rivers.forEach(rv => {
                 const opt = document.createElement('option');
                 opt.value = rv;
-                opt.innerText = currentLang === 'en' ? `River System: ${rv}` : `สายทางน้ำ: ${rv}`;
+                opt.innerText = currentLang === 'en' ? `River System: ${rv}` : `ลำน้ำ: ${rv}`;
                 selectEl.appendChild(opt);
             });
             selectEl.value = currentSelected || "ALL";
@@ -428,7 +428,7 @@
             
             const subtitleText = currentLang === 'en'
                 ? `River System: ${targetData.River} | Region: ${targetData.Amphoe} ${targetData.Province}`
-                : `ทางน้ำ: ${targetData.River} | พิกัด: ${targetData.Amphoe} ${targetData.Province}`;
+                : `ลำน้ำ: ${targetData.River} | พิกัด: ${targetData.Amphoe} ${targetData.Province}`;
 
             document.getElementById('modal-station-title').innerText = titleText;
             document.getElementById('modal-station-subtitle').innerText = subtitleText;
@@ -439,7 +439,7 @@
             if (activeChartInstance !== null) { activeChartInstance.destroy(); }
 
             const labelObserved = currentLang === 'en' ? 'Observed Gauge Stage (m. MSL)' : 'ระดับน้ำตรวจวัดจริง (ม. รทก.)';
-            const labelWarning = currentLang === 'en' ? 'Warning Level' : 'ระดับเตือนภัย (Warning Level)';
+            const labelWarning = currentLang === 'en' ? 'Warning Level' : 'ระดับเฝ้าระวัง (Warning Level)';
             const labelOverbank = currentLang === 'en' ? 'Overbank Crest Level' : 'ระดับตลิ่ง (Overbank Crest Level)';
             const axisLeftTitle = currentLang === 'en' ? 'Water Level (m. MSL)' : 'ระดับน้ำ (ม. รทก.)';
             const axisXTitle = currentLang === 'en' ? 'Observation Date/Time' : 'วัน/เวลา ตรวจวัด';
