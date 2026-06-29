@@ -255,7 +255,7 @@
                     `;
                 } else {
                     container.innerHTML = `
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ตรวจวัดไม่ได้</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 10 มม.</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 10 - 35 มม.</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 35 - 90 มม.</span>
@@ -273,7 +273,7 @@
                     `;
                 } else {
                     container.innerHTML = `
-                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ต่ำ</span>
+                        <span class="flex items-center gap-1"><span class="w-3 h-3 bg-slate-200 rounded block border border-slate-300"></span> ไม่มีฝน / ตรวจวัดไม่ได้</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-emerald-500 rounded block"></span> 0.2 - 50 มม.</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-amber-500 rounded block"></span> 50 - 150 มม.</span>
                         <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded block"></span> 150 - 300 มม.</span>
@@ -411,7 +411,7 @@
             const listContainer = document.getElementById('stations-list-container');
             listContainer.innerHTML = "";
 
-            const foundWord = currentLang === 'en' ? 'Gauge(s) found' : 'พบสถานีวัดน้ำฝน';
+            const foundWord = currentLang === 'en' ? 'Gauge(s) found' : 'สถานี';
             document.getElementById('counter-badge').innerText = `${sortedArray.length} ${foundWord}`;
 
             if(sortedArray.length === 0) {
