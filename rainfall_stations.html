@@ -70,8 +70,8 @@
         
         <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
             <div>
-                <h2 class="text-xl font-bold tracking-tight text-slate-900 data-lang" data-en="Interactive Spatial Radar Matrix" data-th="ระบบแสดงผลข้อมูลเรดาร์เชิงพื้นที่">Interactive Spatial Radar Matrix</h2>
-                <p class="text-xs text-slate-500 data-lang" data-en="Dual display system running optimized data grid arrays from Singhanakhon Radar." data-th="ระบบแสดงผลคู่ขนาน ประมวลผลจากโครงข่ายกริดสถานีเรดาร์สิงหนคร">Dual display system running optimized data grid arrays from Singhanakhon Radar.</p>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900 data-lang" data-en="Interactive Spatial Radar Rainfall Map" data-th="ระบบแสดงผลข้อมูลฝนเรดาร์เชิงพื้นที่">Interactive Spatial Radar Rainfall Map</h2>
+                <p class="text-xs text-slate-500 data-lang" data-en="Radar Rainfall Display System from the Singhanakhon Radar Station, Department of Royal Rainmaking and Agricultural Aviation" data-th="ระบบแสดงผลข้อมูลฝนเรดาร์จากสถานีเรดาร์สิงหนคร กรมฝนหลวงและการบินเกษตร">Radar Rainfall Display System from the Singhanakhon Radar Station, Department of Royal Rainmaking and Agricultural Aviation</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <div class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5">
@@ -93,7 +93,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full lg:w-auto">
                     <div class="flex items-center gap-2">
                         <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
-                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap data-lang" data-en="Target Matrix Frame:" data-th="เลือกช่วงเวลาบรรจุข้อมูล:">Target Matrix Frame:</label>
+                        <label for="datetime-selector" class="text-xs font-bold text-slate-600 uppercase whitespace-nowrap data-lang" data-en="Data Period Selection:" data-th="เลือกช่วงเวลาของข้อมูล:">Data Period Selection:</label>
                     </div>
                     <select id="datetime-selector" class="bg-white border border-slate-200 rounded px-2.5 py-1 text-xs font-medium text-slate-700 outline-none shadow-sm w-full sm:w-auto sm:max-w-xs"></select>
                 </div>
@@ -135,8 +135,8 @@
 
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 flex-1 md:overflow-hidden md:min-h-0 pb-2">
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
-                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="1. Hourly Intensity Grid (mm/hr)" data-th="1. ความเข้มน้ำฝนรายชั่วโมง (มม./ชม.)">
-                    1. Hourly Intensity Grid (mm/hr)
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="1. Hourly Radar Rainfall (mm/hr)" data-th="1. ปริมาณฝนเรดาร์รายชั่วโมง (มม./ชม.)">
+                    1. Hourly Radar Rainfall (mm/hr)
                 </div>
                 <div id="map-hourly" class="w-full flex-1 relative min-h-0"></div>
                 
@@ -166,8 +166,8 @@
             </div>
 
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[380px] md:h-full md:min-h-0">
-                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="2. Accumulated Total Spatial Map (mm)" data-th="2. แผนที่แสดงปริมาณฝนสะสมเชิงพื้นที่ (มม.)">
-                    2. Accumulated Total Spatial Map (mm)
+                <div class="bg-slate-900 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider shrink-0 data-lang" data-en="2. Accumulated Radar Rainfall (mm)" data-th="2. ปริมาณฝนเรดาร์สะสม (มม.)">
+                    2. Accumulated Radar Rainfall (mm)
                 </div>
                 <div id="map-accumulated" class="w-full flex-1 relative min-h-0"></div>
                 
