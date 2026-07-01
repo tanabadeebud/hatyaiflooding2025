@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HatYai Flood 2025 - Daily Accumulated Radar Rainfall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .radar-map-grid { z-index: 1; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col md:flex-row">
+
+    <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col justify-between p-4 shrink-0 shadow-sm z-30 md:sticky md:top-0 md:h-screen">
+        <div>
+            <div class="flex items-center gap-3 px-2 py-4 border-b border-slate-100 mb-4">
+                <!-- Official Radar4Flood Logo integration -->
+                <img src="Radar4flood_Icon_PNG.png" alt="Radar4Flood Logo" class="w-10 h-10 object-contain shrink-0">
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-slate-900 data-lang" data-en="HatYai Flood 2025" data-th="น้ำท่วมหาดใหญ่ 2025">HatYai Flood 2025</h1>
+                    <p class="text-xs text-slate-500 font-medium data-lang" data-en="Event Analysis Dashboard" data-th="แดชบอร์ดวิเคราะห์สถานการณ์">Event Analysis Dashboard</p>
+                </div>
+            </div>
+
+            <div class="px-2 mb-4">
+                <button id="langToggle" class="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 px-3 rounded-lg border border-slate-200 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="langText">TH / ภาษาไทย</span>
+                </button>
+            </div>
+
+            <nav class="space-y-1">
+                <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="1. Homepage" data-th="1. หน้าแรก">1. Homepage</span>
+                </a>
+                <a href="rainfall_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="play-circle" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="2. Animation Radar Rainfall" data-th="2. แอนิเมชันเรดาร์น้ำฝน">2. Animation Radar Rainfall</span>
+                </a>
+                <a href="daily_radar.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-700 font-semibold shadow-sm transition-all">
+                    <i data-lucide="calendar-days" class="w-5 h-5 text-blue-600"></i>
+                    <span class="data-lang" data-en="3. Daily Accumulated Radar" data-th="3. ฝนสะสมรายวันเรดาร์">3. Daily Accumulated Radar</span>
+                </a>
+                <a href="gauge_stations.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="cloud-rain" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="4. Rainfall Stations" data-th="4. สถานีวัดน้ำฝน">4. Rainfall Stations</span>
+                </a>
+                <a href="water_levels.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="waves" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="5. Water Level Situations" data-th="5. สถานการณ์ระดับน้ำ">5. Water Level Situations</span>
+                </a>
+                <a href="district_rainfall.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="6. District Accumulation" data-th="6. ปริมาณฝนสะสมรายอำเภอ">6. District Accumulation</span>
+                </a>
+                <a href="flood_mapping.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all">
+                    <i data-lucide="map" class="w-5 h-5 text-slate-400"></i>
+                    <span class="data-lang" data-en="7. Flood Mapping" data-th="7. แผนที่พื้นที่น้ำท่วม">7. Flood Mapping</span>
+                </a>
+            </nav>
+        </div>
+        <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-400 font-medium hidden md:block">
+            <p>Local HTML Project v1.0</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 p-4 md:p-6 space-y-4">
+        <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-2 border-b border-slate-200 gap-4 shrink-0">
+            <div>
+                <h2 class="text-xl font-bold tracking-tight text-slate-900 data-lang" data-en="Daily Accumulated Radar Rainfall Map" data-th="แผนที่แสดงข้อมูลฝนเรดาร์สะสมรายวัน">Daily Accumulated Radar Rainfall Map</h2>
+                <p class="text-xs text-slate-500 data-lang" data-en="Accumulated Radar Rainfall in daily scale during flooding event in 2025" data-th="ปริมาณฝนเรดาร์สะสมรายวันในช่วงเหตุการณ์น้ำท่วม พ.ศ. 2568">Accumulated Radar Rainfall in daily scale during flooding event in 2025</p>
+            </div>
+            
+            <div class="bg-white border border-slate-200 px-3 py-2 rounded-lg shadow-sm flex flex-col gap-1 w-full sm:w-80">
+                <span class="text-[9px] font-bold uppercase text-slate-500 tracking-wider data-lang" data-en="Daily Accumulated (mm)" data-th="ปริมาณฝนสะสมรายวัน (มม.)">Daily Accumulated (mm)</span>
+                <div class="w-full h-2.5 rounded flex border border-slate-300 overflow-hidden">
+                    <div class="flex-1" style="background-color: #00008F;"></div>
+                    <div class="flex-1" style="background-color: #0000F5;"></div>
+                    <div class="flex-1" style="background-color: #0092FF;"></div>
+                    <div class="flex-1" style="background-color: #00C2FF;"></div>
+                    <div class="flex-1" style="background-color: #29FFD6;"></div>
+                    <div class="flex-1" style="background-color: #5CFFAB;"></div>
+                    <div class="flex-1" style="background-color: #8FFF7F;"></div>
+                    <div class="flex-1" style="background-color: #21FF33;"></div>
+                    <div class="flex-1" style="background-color: #FFD600;"></div>
+                    <div class="flex-1" style="background-color: #FF7000;"></div>
+                    <div class="flex-1" style="background-color: #FF3D00;"></div>
+                    <div class="flex-1" style="background-color: #FF0000;"></div>
+                </div>
+                <div class="flex justify-between text-[8px] font-mono font-bold text-slate-500 px-0.5">
+                    <span>5</span><span>20</span><span>40</span><span>60</span><span>90</span><span>120</span><span>150+</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
+            <div id="grid-container" class="contents"></div>
+        </div>
+    </main>
+
+    <script>
+        const INITIAL_CENTER = [6.82, 100.45];
+        const MAP_ZOOM = 10; // Zoomed in 1 step from 10
+        let currentLang = 'en';
+
+        // Set up the dates from Nov 20 to Nov 28
+        const dailyConfig = [
+            { dateStr: "20251120", dateEN: "20 Nov 2025", dateTH: "20 พ.ย. 2568", targetDate: "2025-11-20" },
+            { dateStr: "20251121", dateEN: "21 Nov 2025", dateTH: "21 พ.ย. 2568", targetDate: "2025-11-21" },
+            { dateStr: "20251122", dateEN: "22 Nov 2025", dateTH: "22 พ.ย. 2568", targetDate: "2025-11-22" },
+            { dateStr: "20251123", dateEN: "23 Nov 2025", dateTH: "23 พ.ย. 2568", targetDate: "2025-11-23" },
+            { dateStr: "20251124", dateEN: "24 Nov 2025", dateTH: "24 พ.ย. 2568", targetDate: "2025-11-24" },
+            { dateStr: "20251125", dateEN: "25 Nov 2025", dateTH: "25 พ.ย. 2568", targetDate: "2025-11-25" },
+            { dateStr: "20251126", dateEN: "26 Nov 2025", dateTH: "26 พ.ย. 2568", targetDate: "2025-11-26" },
+            { dateStr: "20251127", dateEN: "27 Nov 2025", dateTH: "27 พ.ย. 2568", targetDate: "2025-11-27" },
+            { dateStr: "20251128", dateEN: "28 Nov 2025", dateTH: "28 พ.ย. 2568", targetDate: "2025-11-28" }
+        ];
+
+        const mapInstances = {};
+        const aggregatedDataPayloads = {};
+        const baseTiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+        const attribution = '&copy; OpenStreetMap contributors &copy; CARTO';
+
+        const gridContainer = document.getElementById('grid-container');
+        dailyConfig.forEach(day => {
+            const card = document.createElement('div');
+            // Height expanded to h-[580px] to frame the full basin profile cleanly
+            card.className = "bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col relative h-[600px]";
+            card.innerHTML = `
+                <div class="bg-slate-900 text-white px-3 py-2 text-xs font-bold uppercase tracking-wider shrink-0 flex justify-between items-center">
+                    <span class="day-title" data-en="${day.dateEN}" data-th="${day.dateTH}">${day.dateEN}</span>
+                </div>
+                <div id="map-${day.dateStr}" class="radar-map-grid w-full flex-1 relative"></div>
+            `;
+            gridContainer.appendChild(card);
+        });
+
+        function getDailyAccumColor(val) {
+            if (val <= 5)   return 'transparent';
+            if (val <= 15)  return 'rgba(0, 0, 143, 0.6)';
+            if (val <= 30)  return 'rgba(0, 0, 245, 0.6)';
+            if (val <= 50)  return 'rgba(0, 92, 255, 0.6)';
+            if (val <= 70)  return 'rgba(0, 194, 255, 0.6)';
+            if (val <= 90)  return 'rgba(41, 255, 214, 0.6)';
+            if (val <= 110) return 'rgba(92, 255, 171, 0.6)';
+            if (val <= 130) return 'rgba(143, 255, 127, 0.6)';
+            if (val <= 150) return 'rgba(214, 255, 51, 0.6)';
+            if (val <= 180) return 'rgba(255, 214, 0, 0.6)';
+            if (val <= 200) return 'rgba(255, 112, 0, 0.6)';
+            return 'rgba(255, 0, 0, 0.6)';
+        }
+
+        L.PixelPerfectRadarLayer = L.Layer.extend({
+            initialize: function (data) { this.data = data; },
+            onAdd: function (map) {
+                this._map = map;
+                this._canvas = L.DomUtil.create('canvas', 'leaflet-layer pixel-radar-layer');
+                this._canvas.style.pointerEvents = 'none';
+                map.getPanes().overlayPane.appendChild(this._canvas);
+                map.on('moveend viewreset zoomanim', this._render, this);
+                this._render();
+            },
+            onRemove: function (map) {
+                map.getPanes().overlayPane.removeChild(this._canvas);
+                map.off('moveend viewreset zoomanim', this._render, this);
+            },
+            _render: function () {
+                if (!this._map || !this.data) return;
+                const mapSize = this._map.getSize();
+                this._canvas.width = mapSize.x; this._canvas.height = mapSize.y;
+
+                const topLeft = this._map.containerPointToLayerPoint([0, 0]);
+                L.DomUtil.setPosition(this._canvas, topLeft);
+
+                const ctx = this._canvas.getContext('2d');
+                ctx.clearRect(0, 0, mapSize.x, mapSize.y);
+
+                const b = this.data.bounds;
+                const rows = this.data.rows; const cols = this.data.cols;
+                const matrix = this.data.calculated_daily_matrix;
+
+                const pNW = this._map.latLngToContainerPoint([b[1][0], b[0][1]]);
+                const pSE = this._map.latLngToContainerPoint([b[0][0], b[1][1]]);
+
+                const cellW = (pSE.x - pNW.x) / cols;
+                const cellH = (pSE.y - pNW.y) / rows;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const val = matrix[r][c];
+                        if (val <= 5) continue;
+                        ctx.fillStyle = getDailyAccumColor(val);
+                        ctx.fillRect(Math.floor(pNW.x + (c * cellW)), Math.floor(pNW.y + (r * cellH)), Math.ceil(cellW) + 0.5, Math.ceil(cellH) + 0.5);
+                    }
+                }
+            }
+        });
+
+        function generateHourlyList(startIso, endIso) {
+            const list = [];
+            let current = new Date(startIso);
+            const end = new Date(endIso);
+            while (current <= end) {
+                const y = current.getFullYear();
+                const m = String(current.getMonth() + 1).padStart(2, '0');
+                const d = String(current.getDate()).padStart(2, '0');
+                const h = String(current.getHours()).padStart(2, '0');
+                list.push(`${y}${m}${d}${h}0000`);
+                current.setHours(current.getHours() + 1);
+            }
+            return list;
+        }
+
+        let isSyncing = false;
+        const sharedPopup = L.popup({ closeButton: false, autoPan: false });
+
+        dailyConfig.forEach(day => {
+            // Lock map settings to prevent dragging, zooming, and scrolling interactions
+            const map = L.map(`map-${day.dateStr}`, { 
+                minZoom: MAP_ZOOM, 
+                maxZoom: MAP_ZOOM,
+                zoomControl: false,
+                dragging: false,
+                scrollWheelZoom: false,
+                doubleClickZoom: false,
+                touchZoom: false,
+                boxZoom: false,
+                keyboard: false
+            }).setView(INITIAL_CENTER, MAP_ZOOM);
+            
+            L.tileLayer(baseTiles, { attribution }).addTo(map);
+            mapInstances[day.dateStr] = map;
+
+            map.on('move', () => {
+                if (isSyncing) return;
+                isSyncing = true;
+                const center = map.getCenter(); const zoom = map.getZoom();
+                dailyConfig.forEach(d => {
+                    if (d.dateStr !== day.dateStr) mapInstances[d.dateStr].setView(center, zoom, { animate: false });
+                });
+                isSyncing = false;
+            });
+
+            map.on('mousemove', (e) => {
+                const payload = aggregatedDataPayloads[day.dateStr];
+                if (!payload) return;
+                const b = payload.bounds; const lat = e.latlng.lat; const lng = e.latlng.lng;
+
+                if (lat >= b[0][0] && lat <= b[1][0] && lng >= b[0][1] && lng <= b[1][1]) {
+                    const c = Math.floor(((lng - b[0][1]) / (b[1][1] - b[0][1])) * payload.cols);
+                    const r = Math.floor(((b[1][0] - lat) / (b[1][0] - b[0][0])) * payload.rows);
+
+                    if (r >= 0 && r < payload.rows && c >= 0 && c < payload.cols) {
+                        const val = payload.calculated_daily_matrix[r][c];
+                        const label = currentLang === 'en' ? 'Accumulated' : 'ปริมาณฝนสะสม';
+                        sharedPopup.setLatLng(e.latlng).setContent(`<div class="p-1 font-mono text-xs text-blue-950 font-bold">${label}: ${val.toFixed(1)} mm</div>`).openOn(map);
+                        return;
+                    }
+                }
+                map.closePopup(sharedPopup);
+            });
+            map.on('mouseout', () => map.closePopup(sharedPopup));
+
+            // Setup operational timing window paths
+            const targetDateObj = new Date(day.targetDate + "T00:00:00");
+            const prevDateObj = new Date(targetDateObj);
+            prevDateObj.setDate(prevDateObj.getDate() - 1);
+
+            const yPrev = prevDateObj.getFullYear();
+            const mPrev = String(prevDateObj.getMonth() + 1).padStart(2, '0');
+            const dPrev = String(prevDateObj.getDate()).padStart(2, '0');
+
+            const primaryStartStr = `${yPrev}-${mPrev}-${dPrev}T08:00:00`;
+            const primaryEndStr = `${day.targetDate}T07:00:00`;
+
+            function processAccumulationPipeline(hourStringList) {
+                const fetchPromises = hourStringList.map(id => 
+                    fetch(`data_json/data_${id}.json`)
+                        .then(res => res.json())
+                        .catch(() => null)
+                );
+
+                Promise.all(fetchPromises).then(results => {
+                    const validFiles = results.filter(f => f !== null);
+                    if (validFiles.length === 0) return;
+
+                    const base = validFiles[0];
+                    const rows = base.rows;
+                    const cols = base.cols;
+                    const sumMatrix = Array.from({ length: rows }, () => new Array(cols).fill(0));
+
+                    validFiles.forEach(fileObj => {
+                        const matrix = fileObj.hourly_matrix || fileObj.accum_matrix;
+                        if (!matrix) return;
+                        for (let r = 0; r < rows; r++) {
+                            for (let c = 0; c < cols; c++) {
+                                sumMatrix[r][c] += (matrix[r][c] || 0);
+                            }
+                        }
+                    });
+
+                    const dailyData = {
+                        bounds: base.bounds,
+                        rows: rows,
+                        cols: cols,
+                        calculated_daily_matrix: sumMatrix
+                    };
+
+                    aggregatedDataPayloads[day.dateStr] = dailyData;
+                    new L.PixelPerfectRadarLayer(dailyData).addTo(map);
+                });
+            }
+
+            // Primary Attempt: Run standard meteorological accumulation (19th 08:00 -> 20th 07:00)
+            const primaryHours = generateHourlyList(primaryStartStr, primaryEndStr);
+            
+            // Check if the very first file needed exists
+            fetch(`data_json/data_${primaryHours[0]}.json`)
+                .then(res => {
+                    if (res.ok) {
+                        processAccumulationPipeline(primaryHours);
+                    } else {
+                        // Fallback Attempt: If missing the previous day's start file, use current-day standard hours
+                        const fallbackHours = generateHourlyList(`${day.targetDate}T07:00:00`, `${day.targetDate}T23:00:00`);
+                        processAccumulationPipeline(fallbackHours);
+                    }
+                })
+                .catch(() => {
+                    const fallbackHours = generateHourlyList(`${day.targetDate}T07:00:00`, `${day.targetDate}T23:00:00`);
+                    processAccumulationPipeline(fallbackHours);
+                });
+        });
+
+        // Basin Boundary Layer Setup
+        fetch('data/basin_boundary.geojson')
+            .then(res => res.json())
+            .then(geoJsonData => {
+                const boundaryStyle = { color: "#1e293b", weight: 2.0, fillColor: "transparent", fillOpacity: 0 };
+                dailyConfig.forEach((day, index) => {
+                    const targetMap = mapInstances[day.dateStr];
+                    L.geoJSON(geoJsonData, { style: boundaryStyle }).addTo(targetMap);
+                    // Removed dynamic fitBounds to prioritize fixed locked center layout positions
+                });
+            });
+
+        const resizeObserver = new ResizeObserver(() => {
+            dailyConfig.forEach(day => mapInstances[day.dateStr].invalidateSize());
+        });
+        dailyConfig.forEach(day => resizeObserver.observe(document.getElementById(`map-${day.dateStr}`)));
+
+        const langToggleBtn = document.getElementById('langToggle');
+        const langText = document.getElementById('langText');
+        const translatableElements = document.querySelectorAll('.data-lang');
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            langText.innerText = currentLang === 'en' ? 'TH / ภาษาไทย' : 'EN / English';
+            document.documentElement.lang = currentLang;
+            translatableElements.forEach(el => {
+                const trans = el.getAttribute(`data-${currentLang}`);
+                if (trans) el.innerHTML = trans;
+            });
+            document.querySelectorAll('.day-title').forEach(el => {
+                const trans = el.getAttribute(`data-${currentLang}`);
+                if (trans) el.innerText = trans;
+            });
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
